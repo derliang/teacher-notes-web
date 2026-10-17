@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect x="24" y="24" width="464" height="464" rx="72" fill="#b8312f"/>
+  <rect x="52" y="52" width="408" height="408" rx="52" fill="none" stroke="#fbf3df" stroke-opacity=".65" stroke-width="10"/>
+  <text x="256" y="350" text-anchor="middle" font-family="Noto Serif TC, Source Han Serif TC, Songti TC, serif" font-weight="700" font-size="300" fill="#fbf3df">記</text>
+</svg>
