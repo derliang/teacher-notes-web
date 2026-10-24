@@ -33,6 +33,12 @@
   --warn: #a8670f;
   --warn-soft: rgba(196, 128, 30, 0.13);
   --shadow: 0 1px 2px rgba(80, 60, 20, 0.08), 0 4px 14px rgba(80, 60, 20, 0.06);
+  --fill: #b8312f;
+  --on-fill: #fbf3df;
+  --scrim: rgba(30, 20, 10, 0.42);
+  --fab-shadow: 0 4px 14px rgba(120, 30, 20, 0.35);
+  --weekend: #b8312f;
+  --weekend-bg: rgba(184, 49, 47, 0.06);
   --serif: 'Noto Serif TC', 'Source Han Serif TC', 'Songti TC', serif;
   --sans: 'Noto Sans TC', 'Source Han Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   --head-h: 56px;
@@ -42,41 +48,57 @@
   --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .35 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   color-scheme: light;
 }
+/* 深色模式（墨色）：深墨底、宣紙白字、朱砂強調、淡金線；2026-10 重新配色，讓文字與卡片層次更清楚 */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --paper: #1a1917;
-    --card: #24221f;
-    --card-2: #2c2925;
-    --ink: #e8d6a6;
-    --ink-2: #b4a582;
-    --ink-3: #85795f;
-    --red: #d8574d;
-    --red-soft: rgba(216, 87, 77, 0.16);
-    --gold: #b89a55;
-    --line: rgba(184, 154, 85, 0.4);
-    --line-soft: rgba(184, 154, 85, 0.18);
-    --ok: #8fb47f;
-    --warn: #e0a54e;
-    --warn-soft: rgba(224, 165, 78, 0.16);
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.25);
+    --paper: #15171a;
+    --card: #1e2125;
+    --card-2: #272b30;
+    --ink: #ece3cf;
+    --ink-2: #b6ac96;
+    --ink-3: #847d6e;
+    --red: #e8735e;
+    --red-soft: rgba(232, 115, 94, 0.15);
+    --fill: #b84a3c;
+    --on-fill: #fbefe0;
+    --gold: #c9a961;
+    --line: rgba(201, 169, 97, 0.32);
+    --line-soft: rgba(201, 169, 97, 0.14);
+    --ok: #8cbf86;
+    --warn: #e7ae58;
+    --warn-soft: rgba(231, 174, 88, 0.15);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 6px 18px rgba(0, 0, 0, 0.3);
+    --scrim: rgba(0, 0, 0, 0.62);
+    --fab-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
+    --weekend: #e8735e;
+    --weekend-bg: rgba(232, 115, 94, 0.08);
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .85 0 0 0 0 .7 0 0 0 .035 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --paper: #1a1917;
-  --card: #24221f;
-  --card-2: #2c2925;
-  --ink: #e8d6a6;
-  --ink-2: #b4a582;
-  --ink-3: #85795f;
-  --red: #d8574d;
-  --red-soft: rgba(216, 87, 77, 0.16);
-  --gold: #b89a55;
-  --line: rgba(184, 154, 85, 0.4);
-  --line-soft: rgba(184, 154, 85, 0.18);
-  --ok: #8fb47f;
-  --warn: #e0a54e;
-  --warn-soft: rgba(224, 165, 78, 0.16);
+  --paper: #15171a;
+  --card: #1e2125;
+  --card-2: #272b30;
+  --ink: #ece3cf;
+  --ink-2: #b6ac96;
+  --ink-3: #847d6e;
+  --red: #e8735e;
+  --red-soft: rgba(232, 115, 94, 0.15);
+  --fill: #b84a3c;
+  --on-fill: #fbefe0;
+  --gold: #c9a961;
+  --line: rgba(201, 169, 97, 0.32);
+  --line-soft: rgba(201, 169, 97, 0.14);
+  --ok: #8cbf86;
+  --warn: #e7ae58;
+  --warn-soft: rgba(231, 174, 88, 0.15);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 6px 18px rgba(0, 0, 0, 0.3);
+  --scrim: rgba(0, 0, 0, 0.62);
+  --fab-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --weekend: #e8735e;
+  --weekend-bg: rgba(232, 115, 94, 0.08);
+  --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .85 0 0 0 0 .7 0 0 0 .035 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   color-scheme: dark;
 }
 
@@ -135,7 +157,7 @@ a.btn { text-decoration: none; color: inherit; }
 .tabs {
   position: fixed; inset: auto 0 0 0; z-index: 20;
   height: calc(var(--tab-h) + var(--safe-bottom)); padding-bottom: var(--safe-bottom);
-  display: grid; grid-template-columns: repeat(5, 1fr);
+  display: grid; grid-template-columns: repeat(6, 1fr);
   background: var(--card) var(--texture); border-top: 1px solid var(--line);
 }
 .tabs button {
@@ -155,13 +177,13 @@ a.btn { text-decoration: none; color: inherit; }
 svg.i { width: 20px; height: 20px; flex: none; vertical-align: -4px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
 .seal-logo {
-  width: 30px; height: 30px; border-radius: 6px; background: var(--red); color: #fbf3df;
+  width: 30px; height: 30px; border-radius: 6px; background: var(--fill); color: var(--on-fill);
   display: inline-flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 19px;
   box-shadow: inset 0 0 0 2px rgba(251, 243, 223, 0.55); flex: none;
 }
 
 /* 同步狀態 */
-.sync-dot { position: absolute; right: 4px; top: 4px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--red); color: #fff; font-size: 10px; line-height: 16px; text-align: center; }
+.sync-dot { position: absolute; right: 4px; top: 4px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--fill); color: #fff; font-size: 10px; line-height: 16px; text-align: center; }
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .sync-ok { color: var(--gold); }
@@ -194,7 +216,7 @@ svg.i { width: 20px; height: 20px; flex: none; vertical-align: -4px; fill: none;
 .tag.red { border-color: var(--red); color: var(--red); }
 .badge { display: inline-block; min-width: 28px; text-align: center; padding: 1px 8px; border-radius: 12px; background: var(--red-soft); color: var(--red); font-weight: 700; font-variant-numeric: tabular-nums; }
 .progress { height: 4px; background: var(--line-soft); border-radius: 2px; overflow: hidden; margin-top: 8px; }
-.progress > i { display: block; height: 100%; background: var(--red); }
+.progress > i { display: block; height: 100%; background: var(--fill); }
 
 /* 按鈕 */
 .btn {
@@ -202,7 +224,7 @@ svg.i { width: 20px; height: 20px; flex: none; vertical-align: -4px; fill: none;
   display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;
 }
 .btn:active { background: var(--card-2); }
-.btn.primary { background: var(--red); border-color: var(--red); color: #fbf3df; }
+.btn.primary { background: var(--fill); border-color: var(--fill); color: var(--on-fill); }
 .btn.danger { color: var(--red); border-color: var(--red); }
 .btn.small { min-height: 32px; padding: 4px 10px; font-size: 14px; }
 .btn.block { width: 100%; }
@@ -211,7 +233,7 @@ svg.i { width: 20px; height: 20px; flex: none; vertical-align: -4px; fill: none;
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--card); }
 .seg button { border: 0; background: none; padding: 6px 12px; min-height: 34px; font-size: 14px; color: var(--ink-2); }
 .seg button + button { border-left: 1px solid var(--line); }
-.seg button.on { background: var(--red); color: #fbf3df; }
+.seg button.on { background: var(--fill); color: var(--on-fill); }
 .seg button svg { width: 18px; height: 18px; vertical-align: -4px; margin-right: 3px; }
 .seg.full { display: flex; }
 .seg.full button { flex: 1; }
@@ -219,8 +241,8 @@ svg.i { width: 20px; height: 20px; flex: none; vertical-align: -4px; fill: none;
 
 .fab {
   position: fixed; right: 18px; bottom: calc(var(--tab-h) + var(--safe-bottom) + 18px); z-index: 15;
-  width: 58px; height: 58px; border-radius: 50%; border: 0; background: var(--red); color: #fbf3df;
-  box-shadow: 0 4px 14px rgba(120, 30, 20, 0.35); display: flex; align-items: center; justify-content: center;
+  width: 58px; height: 58px; border-radius: 50%; border: 0; background: var(--fill); color: var(--on-fill);
+  box-shadow: var(--fab-shadow); display: flex; align-items: center; justify-content: center;
   user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
 }
 .fab svg { width: 28px; height: 28px; stroke-width: 2; }
@@ -294,7 +316,7 @@ textarea.input { resize: vertical; min-height: 84px; }
 .podium { text-align: center; font-size: 12px; color: var(--ink-3); border: 1px solid var(--line-soft); border-radius: 6px; padding: 3px; margin-bottom: 8px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { border: 1px solid var(--line); border-radius: 16px; padding: 4px 10px; background: var(--card); font-size: 14px; touch-action: none; user-select: none; -webkit-user-select: none; }
-.chip.on { background: var(--red); color: #fbf3df; border-color: var(--red); }
+.chip.on { background: var(--fill); color: var(--on-fill); border-color: var(--fill); }
 .drag-ghost { position: fixed; z-index: 100; pointer-events: none; opacity: 0.85; transform: translate(-50%, -50%) scale(1.1); }
 
 /* 待辦滑動 */
@@ -320,7 +342,7 @@ textarea.input { resize: vertical; min-height: 84px; }
 .month .dc { min-height: 54px; border: 1px solid var(--line-soft); border-radius: 6px; padding: 3px; font-size: 13px; background: var(--card); display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .month .dc.other { opacity: 0.4; }
 .month .dc.today { border-color: var(--red); }
-.month .dc.today .dn { background: var(--red); color: #fbf3df; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; }
+.month .dc.today .dn { background: var(--fill); color: var(--on-fill); border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; }
 .month .dc.sel { outline: 2px solid var(--gold); }
 .month .dots { display: flex; gap: 2px; flex-wrap: wrap; justify-content: center; }
 .month .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
@@ -335,7 +357,7 @@ textarea.input { resize: vertical; min-height: 84px; }
 .bar .val { font-variant-numeric: tabular-nums; color: var(--ink-2); min-width: 36px; text-align: right; }
 
 /* 彈出視窗 */
-.overlay { position: fixed; inset: 0; z-index: 50; background: rgba(30, 20, 10, 0.42); display: flex; align-items: flex-end; justify-content: center; animation: fade 0.15s; }
+.overlay { position: fixed; inset: 0; z-index: 50; background: var(--scrim); display: flex; align-items: flex-end; justify-content: center; animation: fade 0.15s; }
 .overlay.center { align-items: center; }
 @keyframes fade { from { opacity: 0; } }
 .sheet {
@@ -392,7 +414,7 @@ textarea.input { resize: vertical; min-height: 84px; }
 .lock { position: fixed; inset: 0; z-index: 90; background: var(--paper) var(--texture); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; }
 .pin-dots { display: flex; gap: 14px; }
 .pin-dots i { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--ink-2); }
-.pin-dots i.on { background: var(--red); border-color: var(--red); }
+.pin-dots i.on { background: var(--fill); border-color: var(--fill); }
 .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 12px; }
 .pin-pad button { height: 64px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); font-size: 24px; font-family: var(--serif); }
 .shake { animation: shake 0.3s; }
@@ -420,7 +442,7 @@ table.grid tr.sum td { font-weight: 700; color: var(--red); background: var(--ca
 .ql-stu .sno { font-size: 11px; color: var(--ink-3); }
 .ql-stu .n { font-size: 15px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ql-stu .cnt, .seat .cnt {
-  position: absolute; top: -5px; right: -4px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--red); color: #fbf3df;
+  position: absolute; top: -5px; right: -4px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--fill); color: var(--on-fill);
   font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px;
 }
 .seat.logged { border-color: var(--red); }
@@ -431,7 +453,7 @@ table.grid tr.sum td { font-weight: 700; color: var(--red); background: var(--ca
 .stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 22px; background: var(--card); flex: none; }
 .stepper .step { width: 40px; height: 40px; border: 0; border-radius: 20px; background: none; color: var(--ink-2); display: flex; align-items: center; justify-content: center; padding: 0; }
 .stepper .step svg { width: 20px; height: 20px; }
-.stepper .step.plus { color: #fbf3df; background: var(--red); }
+.stepper .step.plus { color: var(--on-fill); background: var(--fill); }
 .stepper .step:disabled { opacity: 0.3; }
 .stepper .step:active:not(:disabled) { transform: scale(0.92); }
 .stepper .count { min-width: 40px; }
@@ -479,7 +501,7 @@ table.grid tr.sum td { font-weight: 700; color: var(--red); background: var(--ca
 .welcome-opt { position: relative; display: flex; flex-direction: column; gap: 4px; text-align: left; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card) var(--texture); box-shadow: var(--shadow); cursor: pointer; }
 .welcome-opt b { font-family: var(--serif); font-size: 17px; }
 .welcome-opt span { color: var(--ink-2); font-size: 13px; }
-.welcome-opt em { position: absolute; top: 12px; right: 14px; font-style: normal; font-size: 12px; color: #fbf3df; background: var(--red); border-radius: 10px; padding: 1px 8px; }
+.welcome-opt em { position: absolute; top: 12px; right: 14px; font-style: normal; font-size: 12px; color: var(--on-fill); background: var(--fill); border-radius: 10px; padding: 1px 8px; }
 .welcome-opt.primary { border: 1.5px solid var(--red); }
 .welcome-opt:active { background-color: var(--card-2); }
 
@@ -496,7 +518,7 @@ table.grid tr.sum td { font-weight: 700; color: var(--red); background: var(--ca
 .lv-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
 .lv-done {
   flex: none; width: 28px; height: 28px; margin-top: 2px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--card);
-  display: flex; align-items: center; justify-content: center; padding: 0; color: #fbf3df;
+  display: flex; align-items: center; justify-content: center; padding: 0; color: var(--on-fill);
 }
 .lv-done.on { background: var(--ok); border-color: var(--ok); }
 .lv-done svg { width: 18px; height: 18px; }
@@ -561,7 +583,7 @@ table.grid tr.sum td { font-weight: 700; color: var(--red); background: var(--ca
 @media (hover: hover) and (pointer: fine) {
   [data-act], .btn, .seg button, .chip, .tabs button, select, .check-line, .stu { cursor: pointer; }
   .btn:hover { background-color: var(--card-2); }
-  .btn.primary:hover { filter: brightness(1.08); background-color: var(--red); }
+  .btn.primary:hover { filter: brightness(1.08); background-color: var(--fill); }
   .seg button:not(.on):hover, .tabs button:not(.on):hover, .menu-list button:hover, .icon-btn:hover, .head .title-switch:hover { background-color: var(--line-soft); }
   .stu:hover, .ql-stu:hover, .ql-item:hover, .seat:not(.empty):hover, .card.tap:hover, .month .dc:hover { border-color: var(--gold); }
   .li[data-act]:hover, .li [data-act].grow:hover { background-color: var(--line-soft); border-radius: 6px; }
@@ -643,6 +665,159 @@ table.grid tr.sum td { font-weight: 700; color: var(--red); background: var(--ca
 }
 @media (min-width: 1360px) {
   .page[data-view='today'] { columns: 3; }
+}
+/* ============ 2026-10 UI 修正（todo 第 1～29 條） ============ */
+/* 彈出視窗按鈕：刪除另放一列，「回上頁」有返回圖示 */
+.sheet .acts { flex-wrap: wrap; }
+.sheet .acts .btn { min-width: 0; padding-left: 8px; padding-right: 8px; }
+.sheet .acts.acts-del { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); justify-content: center; }
+.sheet .acts.acts-del .btn { flex: none; min-height: 34px; padding: 4px 14px; font-size: 14px; color: var(--red); border-color: transparent; background: none; }
+.sheet .acts.acts-del .btn:active { background: var(--red-soft); }
+.sheet .acts .btn.back svg { width: 16px; height: 16px; margin-left: -2px; }
+
+/* 今日總覽日期旁的週次 */
+.today-date { flex-wrap: wrap; align-items: center; row-gap: 4px; column-gap: 10px; }
+.today-date > span { line-height: 1.2; }
+.today-date .wk { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--on-fill); background: var(--fill); border-radius: 6px; padding: 3px 9px; }
+.today-date .y { font-family: var(--serif); font-size: 16px; color: var(--ink-3); }
+
+/* 自製日期選擇器 */
+.input.date-in { cursor: pointer; caret-color: transparent; font-variant-numeric: tabular-nums; }
+.input.date-in:placeholder-shown { color: var(--ink-3); }
+.dp-sheet { max-width: 420px !important; }
+.dp-head { display: flex; align-items: center; gap: 4px; margin: -4px 0 6px; }
+.dp-head b { font-size: 17px; letter-spacing: 0.04em; }
+.icon-btn.flip svg { transform: scaleX(-1); }
+.dp-grid { display: grid; grid-template-columns: 42px repeat(7, minmax(0, 1fr)); gap: 3px; }
+.dp-wk-h, .dp-wd { text-align: center; font-size: 12px; color: var(--ink-2); padding: 2px 0; font-family: var(--serif); }
+.dp-wd.we { color: var(--weekend); font-weight: 700; }
+.dp-wk { display: flex; align-items: center; justify-content: center; white-space: nowrap; font-size: 10.5px; color: var(--ink-2); background: var(--card-2); border-radius: 6px; line-height: 1.1; text-align: center; padding: 0 2px; }
+.dp-d {
+  position: relative; height: 44px; border: 1px solid var(--line-soft); border-radius: 8px; background: var(--card); color: var(--ink);
+  font: inherit; font-size: 16px; font-variant-numeric: tabular-nums; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; line-height: 1.05;
+}
+.dp-d small { font-size: 9px; letter-spacing: 0.05em; }
+.dp-d.we { color: var(--weekend); background: var(--weekend-bg); font-weight: 700; }
+.dp-d.off { background: var(--red-soft); }
+.dp-d.other { opacity: 0.38; }
+.dp-d.today { border: 2px solid var(--red); color: var(--red); font-weight: 700; }
+.dp-d.sel { background: var(--fill); border-color: var(--fill); color: var(--on-fill); font-weight: 700; }
+.dp-d:disabled { opacity: 0.2; }
+.dp-d:not(:disabled):active { transform: scale(0.94); }
+
+/* 行事曆月曆：每週前面的週次欄 */
+.month.with-wk { grid-template-columns: 32px repeat(7, minmax(0, 1fr)); }
+.month .wk { display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; line-height: 1.15; color: var(--ink-2); background: var(--card-2); border-radius: 6px; padding: 2px 0; }
+.month .wk b { font-size: 15px; color: var(--ink); font-family: var(--serif); }
+.month .wk-h { font-size: 11px; white-space: nowrap; }
+.month .wd.sat, .month .dn.sat { color: var(--weekend); }
+.month .dc.we { background: var(--weekend-bg); }
+
+/* 快速登記與請假的座號格子：手機一排 5 個，iPad、桌機一排 10 個（每排正好 1～10、11～20…） */
+.ql-grid, .ql-grid.lv-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.ql-grid .ql-stu { min-height: 56px; }
+@media (min-width: 768px) {
+  .ql-grid, .ql-grid.lv-grid { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px; }
+}
+
+/* 座位表：老師從講台看學生，講台在最下面、第 1 橫排最靠近講台；最左邊是第 1 直行 */
+.seat-wrap { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 4px 6px; align-items: stretch; }
+.seat-wrap .seats { grid-column: 2; }
+.seat-rows { grid-column: 1; grid-row: 1; display: grid; gap: 6px; }
+.seat-rows span, .seat-cols span { font-size: 11px; color: var(--ink-3); display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.1; }
+.seat-cols { grid-column: 2; display: grid; gap: 6px; }
+.seat-wrap .podium { grid-column: 2; margin: 4px 0 0; padding: 6px; font-family: var(--serif); font-size: 14px; letter-spacing: 0.4em; color: var(--ink-2); background: var(--card-2); border-color: var(--line); }
+.seat-wrap .seats, .seat-wrap .podium { max-width: none; margin-left: 0; margin-right: 0; }
+.seat-tools { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; }
+@media (min-width: 768px) {
+  .seat-wrap { max-width: 960px; margin: 0 auto; }
+}
+.seat-size { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seat-size label { display: flex; align-items: center; gap: 4px; font-size: 14px; }
+
+/* 請假：「手續完成」方框旁的說明字、逾時分頁 */
+.lv-donebox { flex: none; display: flex; flex-direction: column; align-items: center; gap: 2px; width: 40px; margin-top: 2px; }
+.lv-donebox .lv-done { margin-top: 0; }
+.lv-donebox .cap { font-size: 10px; line-height: 1.15; color: var(--ink-2); text-align: center; letter-spacing: 0.02em; }
+.lv-donebox.on .cap { color: var(--ok); font-weight: 700; }
+.seg .n { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 3px; border-radius: 9px; background: var(--red-soft); color: var(--red); font-size: 12px; font-weight: 700; line-height: 18px; }
+.seg button.on .n { background: rgba(255, 255, 255, 0.25); color: inherit; }
+
+/* 事項頁標題的下拉清單：每個事項右邊的筆形按鈕可直接改名 */
+.dropdown .drop-row { display: flex; align-items: stretch; border-bottom: 1px solid var(--line-soft); }
+.dropdown .drop-row:last-child { border-bottom: 0; }
+.dropdown .drop-row > button[data-mi] { flex: 1; min-width: 0; border-bottom: 0; }
+.dropdown .drop-edit { flex: none; width: 44px; border: 0; border-left: 1px dashed var(--line-soft); background: none; color: var(--ink-2); display: flex; align-items: center; justify-content: center; padding: 0; }
+.dropdown .drop-edit svg { width: 18px; height: 18px; }
+.dropdown .drop-edit:active { background: var(--line-soft); color: var(--red); }
+
+/* 頁首同步狀態：燈號加文字 */
+.sync-pill { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border: 1px solid var(--line); border-radius: 15px; background: var(--card); color: var(--ink-2); font-size: 13px; white-space: nowrap; }
+.sync-pill .lamp { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-3); flex: none; }
+.sync-pill.ok .lamp { background: #3fa34d; box-shadow: 0 0 0 3px rgba(63, 163, 77, 0.18); }
+.sync-pill.busy .lamp { background: var(--warn); animation: blink 1s steps(2) infinite; }
+.sync-pill.wait .lamp { background: var(--warn); }
+.sync-pill.err { color: var(--red); border-color: var(--red); }
+.sync-pill.err .lamp { background: var(--red); }
+.sync-pill.off .lamp { background: var(--ink-3); }
+
+/* 座位格子的姓名：一行完整顯示，放不下時自動縮小字級（fitSeatNames） */
+.seat { word-break: keep-all; }
+.seat .sn { display: block; max-width: 100%; white-space: nowrap; overflow: hidden; line-height: 1.2; }
+
+/* 待辦：逾時清單 */
+.section-label.overdue-label { color: var(--red); }
+.section-label.overdue-label::after { background: var(--red); opacity: 0.4; }
+.todo-overdue .swipe .fg { border-color: var(--red); border-left-width: 4px; }
+.tag.late { background: var(--fill); border-color: var(--fill); color: var(--on-fill); font-weight: 700; }
+
+/* 勾選方塊（第 36、46 條）：未勾選是白底細框的空白格子，勾選後才填朱紅並打勾 */
+input[type='checkbox'] {
+  -webkit-appearance: none; appearance: none; flex: none; margin: 0;
+  width: 20px; height: 20px; border: 1.5px solid var(--ink-3); border-radius: 4px;
+  background: #fff center / 14px 14px no-repeat; cursor: pointer; vertical-align: middle;
+  transition: background-color 0.12s, border-color 0.12s;
+}
+input[type='checkbox']:checked {
+  border-color: var(--fill); background-color: var(--fill);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3.2L13 4.8' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+input[type='checkbox']:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+input[type='checkbox']:disabled { opacity: 0.45; cursor: default; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) input[type='checkbox']:not(:checked) { background-color: #f6f1e6; border-color: #b6ac96; }
+}
+:root[data-theme='dark'] input[type='checkbox']:not(:checked) { background-color: #f6f1e6; border-color: #b6ac96; }
+
+/* 今日總覽「本週登記」：整列可點進個人明細（第 45 條） */
+.bar.bar-link { grid-template-columns: minmax(70px, 34%) 1fr auto 10px; width: 100%; padding: 6px 4px; margin: -2px 0; border: 0; border-radius: 8px; background: none; color: inherit; font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+.bar.bar-link .chev { color: var(--ink-3); font-size: 16px; line-height: 1; }
+.bar.bar-link:active { background: var(--line-soft); }
+
+/* 頁首同步狀態（第 44 條）：手機只留燈號，把空間讓給事項標題；iPad、桌機加上文字 */
+.sync-pill { width: 30px; padding: 0; justify-content: center; }
+.sync-pill > span { display: none; }
+@media (min-width: 700px) {
+  .sync-pill { width: auto; padding: 0 10px; justify-content: flex-start; }
+  .sync-pill > span { display: inline; }
+}
+
+/* 加到主畫面（第 47 條，網頁版） */
+.a2hs-steps { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: a2hs; }
+.a2hs-steps li { display: grid; grid-template-columns: 28px 1fr 44px; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line-soft); border-radius: 10px; background: var(--card-2); counter-increment: a2hs; }
+.a2hs-steps li::before { content: counter(a2hs); width: 26px; height: 26px; border-radius: 50%; background: var(--fill); color: var(--on-fill); font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.a2hs-steps .ic { width: 40px; height: 40px; border-radius: 9px; background: var(--card); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: #1a73e8; }
+.a2hs-steps .ic svg { width: 24px; height: 24px; }
+.a2hs-steps b { color: var(--ink); }
+.a2hs-hint { display: flex; align-items: center; gap: 6px; justify-content: center; margin-top: 10px; color: var(--ink-2); font-size: 13px; }
+.a2hs-hint .arrow { font-size: 20px; color: var(--red); animation: a2hs-bob 1.2s ease-in-out infinite; }
+@keyframes a2hs-bob { 50% { transform: translateY(4px); } }
+.welcome .a2hs-btn { margin-top: 4px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .dp-d:not(:disabled):hover { border-color: var(--gold); }
+  .dropdown .drop-edit:hover { background-color: var(--line-soft); color: var(--red); }
+  .sync-pill:hover { border-color: var(--gold); }
 }
 </style>
 
@@ -1788,6 +1963,19 @@ var L = (function () {
   var fmtStamp = function (ms) { return ms ? md(dateOf(ms)) + ' ' + hm(ms) : ''; };
   var diffDays = function (a, b) { return Math.round((parse(b) - parse(a)) / 86400000); };
   var weekdayLabel = function (s) { return '週' + WEEK[dow(s)]; };
+  // 開學後第幾週：開學日（學期開始日）那週為第 1 週，一週從週一算起；開學前回傳 0 以下
+  var weekNo = function (s, start) { return Math.floor(diffDays(weekStart(start), weekStart(s)) / 7) + 1; };
+  // 學期開始日：sem1、sem2 為「MM-DD」，回傳 s 那天所在學期的開始日（最近一個不晚於 s 的開始日）
+  var semesterStartOf = function (s, sem1, sem2) {
+    var y = Number(s.slice(0, 4));
+    var m = s.slice(5);
+    var a = sem1 || '08-01';
+    var b = sem2 || '02-01';
+    if (a < b) { var x = a; a = b; b = x; }
+    if (m >= a) return y + '-' + a;
+    if (m >= b) return y + '-' + b;
+    return y - 1 + '-' + a;
+  };
   // 事項標題預設已含日期（例如「10/05 勾選表」），沒有日期時才補上
   var itemTitle = function (title, date) { return /^\d{1,2}\/\d{1,2}/.test(title || '') || !date ? title : mmdd(date) + ' ' + title; };
 
@@ -2273,6 +2461,27 @@ var L = (function () {
     return h.join('');
   }
 
+  // 個人明細的純文字版（貼到 LINE 給家長）：內容與個人明細 PDF 相同，只含這位學生。meta = { name, from, to }
+  function personalText(rep, meta) {
+    var lines = [meta.name + '家長您好：', '以下是' + meta.name + '在 ' + md(meta.from) + '～' + md(meta.to) + ' 的學習紀錄：'];
+    if (rep.checkTotal) {
+      lines.push('', '【繳交與完成】' + rep.checkTotal + ' 項中完成 ' + rep.doneCount + ' 項（' + rep.checkRate + '%）');
+      if (rep.pending.length) rep.pending.forEach(function (p) { lines.push('・' + itemTitle(p.title, p.date) + '：未完成'); });
+      else lines.push('・全部完成');
+    }
+    if (rep.scores.length) {
+      lines.push('', '【成績】');
+      rep.scores.forEach(function (x) { lines.push('・' + itemTitle(x.title, x.date) + '：' + (x.absent ? '缺考' : x.score === '' ? '未登記' : x.score + ' 分（滿分 ' + x.max + '）')); });
+    }
+    if (rep.logs && rep.logs.length) {
+      lines.push('', '【在校紀錄】');
+      rep.logs.forEach(function (c) { lines.push('・' + c.label + ' ' + c.count + ' 次（' + c.dates.map(md).join('、') + '）'); });
+    }
+    if (!rep.checkTotal && !rep.scores.length && !(rep.logs && rep.logs.length)) lines.push('此期間沒有需要說明的紀錄。');
+    lines.push('', '有任何問題歡迎跟我聯絡，謝謝您！');
+    return lines.join('\n');
+  }
+
   /* 「加入 Google 日曆」連結：開啟 Google 日曆的新增活動畫面並帶入內容（整天或指定時間，預設 1 小時） */
   function gcalUrl(ev, className) {
     var d = String(ev.date || '').replace(/-/g, '');
@@ -2292,12 +2501,12 @@ var L = (function () {
 
   return {
     gcalUrl: gcalUrl,
-    pad: pad, ymd: ymd, parse: parse, today: today, addDays: addDays, dow: dow, WEEK: WEEK, weekStart: weekStart,
+    pad: pad, ymd: ymd, parse: parse, today: today, addDays: addDays, dow: dow, WEEK: WEEK, weekStart: weekStart, weekNo: weekNo, semesterStartOf: semesterStartOf,
     md: md, mmdd: mmdd, hm: hm, dateOf: dateOf, fmtStamp: fmtStamp, diffDays: diffDays, weekdayLabel: weekdayLabel, relDay: relDay, itemTitle: itemTitle,
     nextDue: nextDue, describeRepeat: describeRepeat, sortTodos: sortTodos, sortCal: sortCal, byNo: byNo,
     num: num, scoreStats: scoreStats, checkStats: checkStats, mapBy: mapBy, groupBy: groupBy,
     shuffle: shuffle, splitGroups: splitGroups, classReport: classReport, personalReport: personalReport,
-    personalReportHtml: personalReportHtml, escHtml: escHtml,
+    personalReportHtml: personalReportHtml, personalText: personalText, escHtml: escHtml,
     logSummary: logSummary, logReport: logReport, logReportHtml: logReportHtml,
     leaveEnd: leaveEnd, onLeave: onLeave, leaveDays: leaveDays, leaveRange: leaveRange, leaveAlert: leaveAlert, leaveBoard: leaveBoard, schoolDays: schoolDays, schoolDaysAfter: schoolDaysAfter, leaveText: leaveText, leaveReportHtml: leaveReportHtml
   };
@@ -2719,44 +2928,59 @@ var ICONS = {
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
   flag: '<path d="M5 21V4"/><path d="M5 4h12l-2.5 4L17 12H5"/>',
   leave: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M8.5 15h6.5M12.5 12.5l2.5 2.5-2.5 2.5"/>',
-  camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'
+  camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'
 };
 function icon(name, cls) {
   return '<svg class="i ' + (cls || '') + '" viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
 }
 
 var UI = {
-  /* 底部彈出面板。opts: { title, body, actions:[{label, cls, onClick}], center, onMount, onClose } */
+  _open: [],
+  /* 底部彈出面板。opts: { title, body, actions:[{label, cls, del, onClick}], center, onMount, onClose }
+     del: true 的按鈕（刪除）另放在最下面一列，和「不存，回上頁／儲存」分開，避免誤按。
+     沒有給任何按鈕的面板（選單、選學生）自動加上「回上頁」，每個彈出視窗都有明確的返回方式。 */
   sheet: function (opts) {
-    opts = Object.assign({}, opts, { actions: (opts.actions || []).filter(Boolean) });
+    var list = (opts.actions || []).filter(Boolean);
+    if (!list.length && opts.dismissable !== false && opts.back !== false) list = [{ label: icon('back') + '回上頁', cls: 'back' }];
+    opts = Object.assign({}, opts, { actions: list });
     var ov = document.createElement('div');
     ov.className = 'overlay' + (opts.center ? ' center' : '');
-    var acts = (opts.actions || []).map(function (a, i) {
-      return '<button class="btn ' + (a.cls || '') + '" data-i="' + i + '">' + a.label + '</button>';
-    }).join('');
+    var btn = function (a, i) { return '<button class="btn ' + (a.cls || '') + (a.del ? ' del' : '') + '" data-i="' + i + '">' + a.label + '</button>'; };
+    var acts = list.map(function (a, i) { return a.del ? '' : btn(a, i); }).join('');
+    var dels = list.map(function (a, i) { return a.del ? btn(a, i) : ''; }).join('');
     ov.innerHTML = '<div class="sheet" role="dialog">' + (opts.center ? '' : '<div class="grip"></div>') +
       (opts.title ? '<h2>' + opts.title + '</h2>' : '') + '<div class="sheet-body">' + (opts.body || '') + '</div>' +
-      (acts ? '<div class="acts">' + acts + '</div>' : '') + '</div>';
+      (acts ? '<div class="acts">' + acts + '</div>' : '') + (dels ? '<div class="acts acts-del">' + dels + '</div>' : '') + '</div>';
     var closed = false;
     var close = function (v) {
       if (closed) return;
       closed = true;
       ov.remove();
+      var k = UI._open.indexOf(close);
+      if (k >= 0) UI._open.splice(k, 1);
       if (opts.onClose) opts.onClose(v);
     };
     ov.addEventListener('click', function (e) {
       if (e.target === ov && opts.dismissable !== false) close();
       var b = e.target.closest('.acts .btn');
-      if (b) {
+      if (b && b.closest('.overlay') === ov) {
         var a = opts.actions[Number(b.dataset.i)];
         var r = a.onClick ? a.onClick(ov.querySelector('.sheet-body'), close) : undefined;
         if (r !== false) close(a.value);
       }
     });
     document.body.appendChild(ov);
+    UI._open.push(close);
     var api = { el: ov.querySelector('.sheet-body'), close: close, root: ov };
     if (opts.onMount) opts.onMount(api.el, close);
     return api;
+  },
+  /* 換頁時關掉還開著的彈出視窗，否則視窗會蓋住新頁面（例如按「編輯清單」後還停在原視窗） */
+  closeAll: function () {
+    UI._open.slice().reverse().forEach(function (close) { close(); });
+    document.querySelectorAll('.drop-ov').forEach(function (o) { o.remove(); });
   },
   confirm: function (msg, opts) {
     opts = opts || {};
@@ -2816,33 +3040,41 @@ var UI = {
       }
     });
   },
-  /* 下拉選單：從 anchor 正下方展開。opts: { title, align: 'left'|'right' } */
+  /* 下拉選單：從 anchor 正下方展開。opts: { title, align: 'left'|'right' }
+     項目有 edit 時，右邊多一個筆形按鈕（例如事項改名），點名稱仍是選取 */
   dropdown: function (anchor, items, opts) {
     opts = opts || {};
     var list = items.filter(Boolean);
     var ov = document.createElement('div');
     ov.className = 'drop-ov';
     ov.innerHTML = '<div class="dropdown menu-list" role="menu">' + (opts.title ? '<div class="drop-title">' + opts.title + '</div>' : '') + list.map(function (it, i) {
-      return '<button role="menuitem" data-mi="' + i + '" class="' + (it.danger ? 'danger' : '') + (it.current ? ' current' : '') + '">' + (it.icon ? icon(it.icon) : '') + '<span class="ellipsis">' + esc(it.label) + '</span>' + (it.sub ? '<span class="sub">' + esc(it.sub) + '</span>' : '') + '</button>';
+      var main = '<button role="menuitem" data-mi="' + i + '" class="' + (it.danger ? 'danger' : '') + (it.current ? ' current' : '') + '">' + (it.icon ? icon(it.icon) : '') + '<span class="ellipsis">' + esc(it.label) + '</span>' + (it.sub ? '<span class="sub">' + esc(it.sub) + '</span>' : '') + '</button>';
+      return it.edit ? '<div class="drop-row">' + main + '<button class="drop-edit" data-me="' + i + '" aria-label="修改「' + esc(it.label) + '」的名稱" title="修改名稱">' + icon('edit') + '</button></div>' : main;
     }).join('') + '</div>';
     var box = ov.querySelector('.dropdown');
+    document.body.appendChild(ov);
+    // 位置以遮罩本身為準：外層有 transform（例如預覽把畫面固定成手機寬度）時，固定定位的基準不是整個視窗
     var r = anchor.getBoundingClientRect();
-    var vw = document.documentElement.clientWidth;
+    var o = ov.getBoundingClientRect();
+    var vw = o.width || document.documentElement.clientWidth;
+    var vh = o.height || window.innerHeight;
     var w = Math.min(opts.width || 320, vw - 16);
-    var left = opts.align === 'right' ? r.right - w : r.left;
+    var left = (opts.align === 'right' ? r.right - w : r.left) - o.left;
+    var top = r.bottom - o.top + 4;
     box.style.width = w + 'px';
     box.style.left = Math.max(8, Math.min(left, vw - w - 8)) + 'px';
-    box.style.top = r.bottom + 4 + 'px';
-    box.style.maxHeight = 'calc(100vh - ' + (r.bottom + 24) + 'px)';
+    box.style.top = top + 'px';
+    box.style.maxHeight = Math.max(160, vh - top - 20) + 'px';
     var close = function () { ov.remove(); document.removeEventListener('keydown', esc_); };
     var esc_ = function (e) { if (e.key === 'Escape') close(); };
     document.addEventListener('keydown', esc_);
     ov.addEventListener('click', function (e) {
+      var ed = e.target.closest('[data-me]');
+      if (ed) { close(); list[Number(ed.dataset.me)].edit(); return; }
       var b = e.target.closest('[data-mi]');
       if (b) { close(); var it = list[Number(b.dataset.mi)]; if (it.onClick) it.onClick(); return; }
       if (!e.target.closest('.dropdown')) close();
     });
-    document.body.appendChild(ov);
     var cur = box.querySelector('.current');
     if (cur && cur.offsetTop + cur.offsetHeight > box.clientHeight) box.scrollTop = cur.offsetTop - box.clientHeight / 2;
     return { close: close, el: box };
@@ -2890,7 +3122,10 @@ var UI = {
     var max = opts.max || Math.max.apply(null, data.map(function (d) { return d.max || d.value; }).concat([1]));
     return '<div class="bars">' + data.map(function (d) {
       var w = Math.max(0, Math.min(100, (d.value / (d.max || max)) * 100));
-      return '<div class="bar"><span class="lb">' + esc(d.label) + '</span><span class="track"><i style="width:' + w + '%"></i></span><span class="val">' + d.value + (d.suffix || '') + '</span></div>';
+      var inner = '<span class="lb">' + esc(d.label) + '</span><span class="track"><i style="width:' + w + '%"></i></span><span class="val">' + d.value + (d.suffix || '') + '</span>';
+      // d.act：整列可點（例如今日總覽「本週登記」點學生進個人明細）
+      if (d.act) return '<button class="bar bar-link" data-act="' + d.act + '"' + Object.keys(d.data || {}).map(function (k) { return ' data-' + k + '="' + esc(d.data[k]) + '"'; }).join('') + '>' + inner + '<span class="chev">›</span></button>';
+      return '<div class="bar">' + inner + '</div>';
     }).join('') + '</div>';
   },
   seg: function (name, options, value) {
@@ -2920,6 +3155,135 @@ var UI = {
     window.open(url, '_blank');
   }
 };
+
+/* ---------- 日期選擇器（自製，取代系統內建的日期欄） ----------
+   畫面上所有 <input type="date"> 都會自動換成這個選擇器：欄位改成唯讀文字並顯示「2026/10/21（三）」，
+   .value 仍讀寫 yyyy-mm-dd，選好日期時送出 change 事件，原本讀取日期欄的程式不用改。
+   月曆每週前面標週次（開學那週為第 1 週），今天、星期六日與行事曆上的放假日都特別標示。 */
+var DatePick = {
+  _desc: null,
+  fmt: function (v) { return v ? v.replace(/-/g, '/') + '（' + L.WEEK[L.dow(v)] + '）' : ''; },
+  enhance: function (inp) {
+    if (inp.dataset.dp) return;
+    var desc = DatePick._desc || (DatePick._desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'));
+    var iso = desc.get.call(inp) || inp.getAttribute('value') || '';
+    inp.dataset.dp = '1';
+    inp.type = 'text';
+    inp.readOnly = true;
+    inp.setAttribute('inputmode', 'none');
+    inp.classList.add('date-in');
+    if (!inp.placeholder) inp.placeholder = '選擇日期';
+    Object.defineProperty(inp, 'value', {
+      configurable: true,
+      get: function () { return inp.dataset.iso || ''; },
+      set: function (v) { v = /^\d{4}-\d\d-\d\d$/.test(v || '') ? v : ''; inp.dataset.iso = v; desc.set.call(inp, DatePick.fmt(v)); }
+    });
+    inp.value = iso;
+  },
+  scan: function (root) {
+    if (!root || !root.querySelectorAll) return;
+    if (root.matches && root.matches('input[type=date]')) DatePick.enhance(root);
+    root.querySelectorAll('input[type=date]').forEach(DatePick.enhance);
+  },
+  /* 某天是開學後第幾週：以學期開始日那週為第 1 週（週一到週日為一週） */
+  week: function (d) {
+    var start = typeof semesterStartOf === 'function' ? semesterStartOf(d) : null;
+    return start ? L.weekNo(d, start) : null;
+  },
+  open: function (inp) {
+    if (inp.disabled) return;
+    var t = L.today();
+    var cur = inp.value;
+    var min = inp.getAttribute('min') || '';
+    var max = inp.getAttribute('max') || '';
+    var month = (cur || (min && min > t ? min : t)).slice(0, 7);
+    var isSchool = typeof Leave !== 'undefined' ? Leave.isSchool() : null;
+    var title = inp.closest('.field') && inp.closest('.field').querySelector('span');
+    var pick = function (v, close) {
+      inp.value = v;
+      inp.dispatchEvent(new Event('input', { bubbles: true }));
+      inp.dispatchEvent(new Event('change', { bubbles: true }));
+      UI.buzz(8);
+      close();
+    };
+    var draw = function (el) {
+      var first = L.parse(month + '-01');
+      var start = L.addDays(month + '-01', -first.getDay());
+      var h = '<div class="dp-head"><button type="button" class="icon-btn" data-dp-m="-1" aria-label="上個月">' + icon('back') + '</button>' +
+        '<b class="grow center serif">' + first.getFullYear() + ' 年 ' + (first.getMonth() + 1) + ' 月</b>' +
+        '<button type="button" class="icon-btn flip" data-dp-m="1" aria-label="下個月">' + icon('back') + '</button></div>' +
+        '<div class="dp-grid"><span class="dp-wk-h">週次</span>' + '日一二三四五六'.split('').map(function (w, i) {
+          return '<span class="dp-wd' + (i === 0 || i === 6 ? ' we' : '') + '">' + w + '</span>';
+        }).join('');
+      for (var r = 0; r < 6; r++) {
+        var row = L.addDays(start, r * 7);
+        if (r > 3 && row.slice(0, 7) !== month) break;
+        var wk = DatePick.week(L.addDays(row, 1));
+        h += '<span class="dp-wk">' + (wk ? '第' + wk + '週' : '') + '</span>';
+        for (var c = 0; c < 7; c++) {
+          var d = L.addDays(row, c);
+          var we = c === 0 || c === 6;
+          var off = isSchool && !we && !isSchool(d);
+          var bad = (min && d < min) || (max && d > max);
+          h += '<button type="button" class="dp-d' + (we ? ' we' : '') + (off ? ' off' : '') + (d.slice(0, 7) !== month ? ' other' : '') + (d === t ? ' today' : '') + (d === cur ? ' sel' : '') + '"' +
+            (bad ? ' disabled' : ' data-dp="' + d + '"') + ' aria-label="' + L.md(d) + ' 週' + L.WEEK[c] + (d === t ? '（今天）' : '') + '">' + Number(d.slice(8)) + (d === t ? '<small>今天</small>' : '') + '</button>';
+        }
+      }
+      h += '</div>';
+      el.innerHTML = h;
+    };
+    UI.sheet({
+      center: true,
+      title: title ? esc(title.textContent.replace(/（.*?）/g, '')) : '選擇日期',
+      body: '',
+      actions: [
+        { label: icon('back') + '回上頁', cls: 'back' },
+        !inp.required && cur ? { label: '清除', onClick: function (el, close) { pick('', close); return false; } } : null,
+        (!min || t >= min) && (!max || t <= max) ? { label: '今天', cls: 'primary', onClick: function (el, close) { pick(t, close); return false; } } : null
+      ],
+      onMount: function (el, close) {
+        el.parentNode.classList.add('dp-sheet');
+        draw(el);
+        el.addEventListener('click', function (e) {
+          var m = e.target.closest('[data-dp-m]');
+          if (m) { var d = L.parse(month + '-01'); d.setMonth(d.getMonth() + Number(m.dataset.dpM)); month = L.ymd(d).slice(0, 7); draw(el); return; }
+          var b = e.target.closest('[data-dp]');
+          if (b) pick(b.dataset.dp, close);
+        });
+      }
+    });
+  }
+};
+document.addEventListener('click', function (e) {
+  var inp = e.target.closest && e.target.closest('input.date-in');
+  if (inp) { e.preventDefault(); inp.blur(); DatePick.open(inp); }
+});
+document.addEventListener('keydown', function (e) {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('date-in')) { e.preventDefault(); DatePick.open(e.target); }
+});
+if (window.MutationObserver) {
+  new MutationObserver(function (muts) {
+    muts.forEach(function (m) { Array.prototype.forEach.call(m.addedNodes, function (n) { if (n.nodeType === 1) DatePick.scan(n); }); });
+  }).observe(document.documentElement, { childList: true, subtree: true });
+}
+
+/* ---------- 座位格子的姓名：一行完整顯示，放不下時逐步縮小字級（最小 9px） ---------- */
+function fitSeatNames(root) {
+  (root || document).querySelectorAll('.seat .sn').forEach(function (n) {
+    n.style.fontSize = '';
+    var size = parseFloat(getComputedStyle(n).fontSize) || 13;
+    var guard = 0;
+    while (n.scrollWidth > n.clientWidth + 0.5 && size > 9 && guard++ < 20) {
+      size -= 0.5;
+      n.style.fontSize = size + 'px';
+    }
+  });
+}
+var _fitTimer = null;
+window.addEventListener('resize', function () {
+  clearTimeout(_fitTimer);
+  _fitTimer = setTimeout(function () { fitSeatNames(); }, 120);
+});
 
 /* ---------- 手勢：長按 ---------- */
 var Gesture = {
@@ -3091,12 +3455,19 @@ var Beep = {
 
 var TABS = [
   ['today', '今日', 'home'],
+  ['leave', '請假', 'leave'],
   ['check', '勾選', 'check'],
   ['score', '成績', 'score'],
   ['todo', '待辦', 'todo'],
   ['cal', '行事曆', 'cal']
 ];
-var TAB_ROOT = { today: 'today', check: 'checkList', score: 'scoreList', todo: 'todos', cal: 'cal' };
+var TAB_ROOT = { today: 'today', leave: 'leave', check: 'checkList', score: 'scoreList', todo: 'todos', cal: 'cal' };
+/* 分頁的首頁（例如請假紀錄）：從別處前往時直接切到那個分頁 */
+function tabOfRoot(v) {
+  var t = null;
+  Object.keys(TAB_ROOT).forEach(function (k) { if (TAB_ROOT[k] === v && k !== 'today') t = k; });
+  return t;
+}
 
 var Views = {};
 var Act = {};
@@ -3121,6 +3492,9 @@ var App = {
     return s[s.length - 1];
   },
   go: function (v, params) {
+    UI.closeAll();
+    var tab = tabOfRoot(v);
+    if (tab && !(params && params.id)) { this.openIn(tab); return; }
     var top = this.top();
     if (top) top.scroll = this.mainEl() ? this.mainEl().scrollTop : 0;
     this.stacks[this.tab].push(Object.assign({ v: v }, params || {}));
@@ -3137,6 +3511,7 @@ var App = {
     this.render();
   },
   setTab: function (t, reset) {
+    UI.closeAll();
     if (t === this.tab || reset) this.stacks[t].length = 1;
     var top = this.top();
     if (top) top.scroll = this.mainEl() ? this.mainEl().scrollTop : 0;
@@ -3144,7 +3519,10 @@ var App = {
     this.render();
   },
   openIn: function (tab, v, params) {
+    UI.closeAll();
     this.stacks[tab].length = 1;
+    var top = this.top();
+    if (top && tab !== this.tab) top.scroll = this.mainEl() ? this.mainEl().scrollTop : 0;
     this.tab = tab;
     if (v) this.stacks[tab].push(Object.assign({ v: v }, params || {}));
     this.render();
@@ -3228,6 +3606,7 @@ var App = {
       }
     }
     if (V.mount) V.mount(main, view);
+    fitSeatNames(main);
     var after = this.afterRender;
     this.afterRender = [];
     after.forEach(function (fn) { fn(); });
@@ -3251,8 +3630,9 @@ var App = {
     var sv = Sync.view();
     var s = sv.status;
     var n = sv.pending;
-    var syncIcon = s === 'syncing' ? icon('sync', 'spin') : s === 'error' ? icon('alert', 'sync-err') : s === 'offline' ? icon('offline', 'sync-err') : icon('ok', 'sync-ok');
-    var right = '<button class="icon-btn" data-act="syncPanel" aria-label="同步狀態">' + syncIcon + (n && s !== 'syncing' ? '<span class="sync-dot">' + n + '</span>' : '') + '</button>';
+    // 同步狀態：燈號加文字（綠燈「已同步」），不用圖示，避免看起來像勾選框；手機寬度只留燈號（css 控制）
+    var st = s === 'syncing' ? ['busy', '同步中'] : s === 'error' ? ['err', '同步失敗'] : s === 'offline' ? ['off', '離線'] : n ? ['wait', '待同步 ' + n] : s === 'synced' ? ['ok', '已同步'] : ['wait', '尚未同步'];
+    var right = '<button class="sync-pill ' + st[0] + '" data-act="syncPanel" aria-label="同步狀態：' + st[1] + '" title="' + st[1] + '"><i class="lamp"></i><span>' + st[1] + '</span></button>';
     if (V.menu) right += '<button class="icon-btn" data-act="viewMenu" aria-label="更多">' + icon('more') + '</button>';
     if (!V.noGear) right += '<button class="icon-btn" data-act="openSettings" aria-label="設定">' + icon('gear') + '</button>';
     return left + right;
@@ -3298,6 +3678,7 @@ document.addEventListener('focusout', function () {
 
 Act.tab = function (d) { App.setTab(d.tab); };
 Act.back = function () { App.back(); };
+
 Act.seg = function (d) { App.setUi(d.name, d.value); };
 Act.go = function (d) { App.go(d.view, { id: d.id || null }); };
 Act.openSettings = function () { App.go('settings'); };
@@ -3344,7 +3725,7 @@ function resetDataFile() {
 function quickAdd() {
   UI.menu([
     { icon: 'flag', label: '快速登記學生', onClick: function () { App.openIn('today', 'quickLog'); } },
-    { icon: 'leave', label: '登記學生請假', onClick: function () { App.openIn('today', 'leave'); } },
+    { icon: 'leave', label: '登記學生請假', onClick: function () { App.openIn('leave'); } },
     { icon: 'check', label: '新增勾選事項', onClick: function () { createItemSheet('check'); } },
     { icon: 'score', label: '新增成績事項', onClick: function () { createItemSheet('score'); } },
     { icon: 'todo', label: '新增待辦', onClick: function () { todoSheet(); } },
@@ -3524,10 +3905,21 @@ var Timer = {
 };
 
 /* ---------- 啟動 ---------- */
+/* 外觀：預設淺色（宣紙）；可在設定「使用偏好 › 外觀」改成深色或跟隨系統 */
+function themePref() { return Prefs.get('theme', 'light'); }
+function isDark() {
+  var t = themePref();
+  return t === 'dark' || (t === 'auto' && !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches));
+}
 function applyTheme() {
-  var t = Prefs.get('theme', 'auto');
+  var t = themePref();
   if (t === 'auto') document.documentElement.removeAttribute('data-theme');
   else document.documentElement.setAttribute('data-theme', t);
+  var m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute('content', isDark() ? '#15171a' : '#f4ecd8');
+}
+if (window.matchMedia) {
+  try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { if (themePref() === 'auto') { applyTheme(); App.renderSoon(); } }); } catch (e) {}
 }
 
 function boot() {
@@ -3608,14 +4000,36 @@ Views.today = {
   render: function () {
     var t = L.today();
     var d = L.parse(t);
-    var h = '<div class="today-date"><span class="d">' + (d.getMonth() + 1) + ' 月 ' + d.getDate() + ' 日</span><span class="w">' + L.weekdayLabel(t) + '</span><span class="dim right">' + d.getFullYear() + '</span></div>';
+    var wk = weekOf(t);
+    // 依序：第幾週 → 日期與星期 → 年份
+    var h = '<div class="today-date">' + (wk > 0 ? '<span class="wk" title="開學日那週為第 1 週">第 ' + wk + ' 週</span>' : '') +
+      '<span class="d">' + (d.getMonth() + 1) + ' 月 ' + d.getDate() + ' 日</span><span class="w">' + L.weekdayLabel(t) + '</span><span class="y">' + d.getFullYear() + '</span></div>';
     var v = App.versionInfo;
     if (v && v.latest && v.latest !== v.current) {
       h += '<div class="banner">有新版本 ' + esc(v.latest) + '（目前 ' + esc(v.current) + '）。' + esc(v.notes || '') + (v.url ? ' <a href="' + esc(v.url) + '" target="_blank">查看更新方式</a>' : '') + '</div>';
     }
     var cls = App.cls();
-    // 請假：超過天數未完成手續的橫幅、今天與這幾天請假的學生
+    // 卡片順序：請假 → 今日行程 → 待辦 → 快速登記 → 未完成事項 → 本週累計 → 小工具
+    // 請假：超過天數未完成手續的橫幅（列出學生）、今天與這幾天請假的學生
     h += leaveTodayHtml(cls);
+
+    // 今日行事曆
+    var evs = L.sortCal(DB.where('cal', function (e) { return e.date === t; }));
+    h += '<div class="card"><div class="card-title">' + icon('cal') + '<h2>今日行程</h2><button class="btn small primary right" data-act="tab" data-tab="cal">' + icon('cal') + '行事曆</button></div>';
+    h += evs.length ? '<ul class="list">' + evs.map(calRow).join('') + '</ul>' : '<div class="dim">今天沒有行程</div>';
+    h += '</div>';
+
+    // 今日到期與逾期待辦
+    var todos = L.sortTodos(DB.where('todos', function (x) { return !x.done && x.due && x.due <= t; }));
+    h += '<div class="card"><div class="card-title">' + icon('todo') + '<h2>待辦</h2><span class="dim">今日到期與逾期</span>' +
+      '<button class="btn small primary right" data-act="todoNew">' + icon('plus') + '新增</button></div>';
+    h += todos.length ? '<ul class="list">' + todos.map(function (x) {
+      return '<li class="li"><button class="icon-btn" data-act="todoToggle" data-id="' + x.id + '" aria-label="完成" style="width:32px;height:32px">' +
+        '<span class="todo" style="padding:0;min-height:0"><span class="tick"></span></span></button>' +
+        '<div class="grow" data-act="todoEdit" data-id="' + x.id + '">' + esc(x.text) + '<div class="dim ' + (x.due < t ? 'overdue' : '') + '">' + (x.due < t ? '<span class="tag late">已逾期</span> ' : '') + L.relDay(x.due) + (x.classId ? '　' + esc(Q.className(x.classId)) : '') + '</div></div></li>';
+    }).join('') + '</ul>' : '<div class="dim">沒有到期的待辦</div>';
+    h += '</div>';
+
     if (!cls) h += noClassCard();
     else {
       // 快速登記：先點學生，再點事項
@@ -3625,22 +4039,6 @@ Views.today = {
         (logs.length ? '<ul class="list">' + logs.slice(0, 4).map(function (l) { return QLog.row(l, { who: true }); }).join('') + '</ul>' +
           (logs.length > 4 ? '<button class="btn small block" data-act="quickLog">看今天全部 ' + logs.length + ' 筆</button>' : '') : '<div class="dim">掃地沒掃、缺交作業、上課吵鬧…點學生就能記一筆</div>') + '</div>';
     }
-
-    // 今日行事曆
-    var evs = L.sortCal(DB.where('cal', function (e) { return e.date === t; }));
-    h += '<div class="card"><div class="card-title">' + icon('cal') + '<h2>今日行程</h2><button class="btn small right" data-act="tab" data-tab="cal">行事曆</button></div>';
-    h += evs.length ? '<ul class="list">' + evs.map(calRow).join('') + '</ul>' : '<div class="dim">今天沒有行程</div>';
-    h += '</div>';
-
-    // 今日到期與逾期待辦
-    var todos = L.sortTodos(DB.where('todos', function (x) { return !x.done && x.due && x.due <= t; }));
-    h += '<div class="card"><div class="card-title">' + icon('todo') + '<h2>待辦</h2><span class="dim">今日到期與逾期</span></div>';
-    h += todos.length ? '<ul class="list">' + todos.map(function (x) {
-      return '<li class="li"><button class="icon-btn" data-act="todoToggle" data-id="' + x.id + '" aria-label="完成" style="width:32px;height:32px">' +
-        '<span class="todo" style="padding:0;min-height:0"><span class="tick"></span></span></button>' +
-        '<div class="grow" data-act="todoEdit" data-id="' + x.id + '">' + esc(x.text) + '<div class="dim ' + (x.due < t ? 'overdue' : '') + '">' + L.relDay(x.due) + (x.classId ? '　' + esc(Q.className(x.classId)) : '') + '</div></div></li>';
-    }).join('') + '</ul>' : '<div class="dim">沒有到期的待辦</div>';
-    h += '</div>';
 
     // 未完成的勾選與成績事項（所有班級，目前班級在前）
     var pending = [];
@@ -3678,7 +4076,7 @@ Views.today = {
         .filter(function (x) { return x.s; }).sort(function (a, b) { return b.n - a.n || a.s.no - b.s.no; }).slice(0, 5);
       h += '<div class="card"><div class="card-title">' + icon('counter') + '<h2>本週登記</h2><span class="dim">' + esc(cls.name) + '</span>' +
         '<button class="btn small right" data-act="quickLogBy" data-by="item">依事項看</button></div>';
-      h += top.length ? UI.bars(top.map(function (x) { return { label: x.s.no + ' ' + x.s.name, value: x.n, suffix: ' 次' }; })) : '<div class="dim">本週還沒有登記</div>';
+      h += top.length ? UI.bars(top.map(function (x) { return { label: x.s.no + ' ' + x.s.name, value: x.n, suffix: ' 次', act: 'go', data: { view: 'personal', id: x.s.id } }; })) : '<div class="dim">本週還沒有登記</div>';
       h += '</div>';
     }
 
@@ -3873,7 +4271,16 @@ function unarchiveItem(id) {
     .catch(function (e) { done(); UI.error(e); });
 }
 
-/* ---------- 快速切換：在事項頁點標題，跳到同一分頁的其他事項 ---------- */
+/* ---------- 修改標題：在事項頁標題的下拉清單裡，點事項旁的筆形圖示就能改 ---------- */
+function renameItemTitle(id) {
+  var item = DB.get('items', id);
+  if (!item) return;
+  UI.prompt('修改事項標題', item.title, { ok: '儲存' }).then(function (v) {
+    if (v && v !== item.title) { DB.update('items', item.id, { title: v }); UI.toast('已修改標題'); }
+  });
+}
+
+/* ---------- 快速切換：在事項頁點標題，下拉選擇同一分頁的其他事項；每個事項旁可直接改名 ---------- */
 function itemProgress(i) {
   var ids = Q.rosterOf(i).filter(function (s) { return !s.out; }).map(function (s) { return s.id; });
   if (i.type === 'check') {
@@ -3891,13 +4298,13 @@ Act.switchItem = function (d, el) {
   var types = [cur.type];
   var list = [];
   types.forEach(function (t) { list = list.concat(Q.items(t, cur.classId)); });
-  if (list.length < 2) { UI.toast('這個班級目前只有這一個事項'); return; }
   UI.dropdown(el || document.querySelector('.title-switch'), list.map(function (i) {
     return {
       icon: i.type === 'check' ? 'check' : 'score',
       label: i.title,
       sub: itemProgress(i),
       current: i.id === cur.id,
+      edit: function () { renameItemTitle(i.id); },
       onClick: function () {
         if (i.id === cur.id) return;
         App.replace(TYPE_VIEW[i.type], { id: i.id });
@@ -4001,10 +4408,16 @@ function checkRow(item, s, c, detail) {
     '<span class="box" data-pop="' + s.id + '">' + (on ? '<span class="seal' + (Pref.seal().length > 1 ? ' two' : '') + '">' + esc(Pref.seal()) + '</span>' : '') + '</span></li>';
 }
 
-function seatGridHtml(classId, students, cellFn) {
+/* 座位表：以老師站在講台看學生的視角呈現。講台在最下面，最靠近講台的是第 1 橫排（row 0），
+   離講台最遠的是最後一橫排；從老師看過去最左邊是第 1 直行（col 0）。預設 6 橫排 × 7 直行。
+   opts.adjust：在座位表下方放「調整座位」按鈕 */
+var SEAT_ROWS = 6;
+var SEAT_COLS = 7;
+function seatGridHtml(classId, students, cellFn, opts) {
+  opts = opts || {};
   var cls = DB.get('classes', classId);
-  var rows = (cls && cls.seatRows) || 6;
-  var cols = (cls && cls.seatCols) || 6;
+  var rows = (cls && cls.seatRows) || SEAT_ROWS;
+  var cols = (cls && cls.seatCols) || SEAT_COLS;
   var byPos = {};
   var placed = {};
   var ids = {};
@@ -4012,9 +4425,15 @@ function seatGridHtml(classId, students, cellFn) {
   DB.where('seats', function (x) { return x.classId === classId; }).forEach(function (x) {
     if (ids[x.studentId] && x.row < rows && x.col < cols) { byPos[x.row + ',' + x.col] = ids[x.studentId]; placed[x.studentId] = true; }
   });
-  var h = '<div class="podium">講　台</div><div class="seats" style="grid-template-columns:repeat(' + cols + ',minmax(0,1fr))">';
-  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) h += cellFn(byPos[r + ',' + c], r, c);
-  h += '</div>';
+  var tpl = 'grid-template-columns:repeat(' + cols + ',minmax(0,1fr))';
+  var h = '<div class="seat-wrap"><div class="seat-rows" style="grid-template-rows:repeat(' + rows + ',minmax(0,1fr))">';
+  for (var rr = rows - 1; rr >= 0; rr--) h += '<span>' + (rr + 1) + '<br>排</span>';
+  h += '</div><div class="seats" style="' + tpl + '">';
+  for (var r = rows - 1; r >= 0; r--) for (var c = 0; c < cols; c++) h += cellFn(byPos[r + ',' + c], r, c);
+  h += '</div><div class="seat-cols" style="' + tpl + '">';
+  for (var cc = 0; cc < cols; cc++) h += '<span>第 ' + (cc + 1) + ' 行</span>';
+  h += '</div><div class="podium">講　台</div></div>';
+  if (opts.adjust) h += '<div class="seat-tools"><span class="dim grow">從講台看學生：最下面是第 1 排</span><button class="btn small primary" data-act="go" data-view="seats" data-id="' + classId + '">' + icon('seat') + '調整座位</button></div>';
   var rest = students.filter(function (s) { return !placed[s.id]; });
   return { html: h, rest: rest };
 }
@@ -4062,9 +4481,9 @@ Views.checkItem = {
       var g = seatGridHtml(item.classId, students, function (s, r, c) {
         if (!s || !pass(s)) return '<div class="seat empty"></div>';
         var on = cm[s.id] && cm[s.id].checked;
-        return '<div class="seat ' + (on ? 'done' : '') + (Leave.onDay(item.date)[s.id] ? ' leave' : '') + '" data-act="toggleCheck" data-item="' + item.id + '" data-sid="' + s.id + '" data-lp="stu"><span class="sno">' + s.no + '</span>' + esc(s.name) +
+        return '<div class="seat ' + (on ? 'done' : '') + (Leave.onDay(item.date)[s.id] ? ' leave' : '') + '" data-act="toggleCheck" data-item="' + item.id + '" data-sid="' + s.id + '" data-lp="stu"><span class="sno">' + s.no + '</span><span class="sn">' + esc(s.name) + '</span>' +
           (detail && on ? '<span class="sno">' + L.hm(cm[s.id].checkedAt) + '</span>' : '') + '</div>';
-      });
+      }, { adjust: true });
       h += g.html;
       var rest = g.rest.filter(pass);
       if (rest.length) {
@@ -4074,7 +4493,7 @@ Views.checkItem = {
         }).join('') + '</div>';
       }
       if (!DB.where('seats', function (x) { return x.classId === item.classId; }).length) {
-        h += '<div class="empty">尚未安排座位。<button class="btn small" data-act="go" data-view="seats" data-id="' + item.classId + '">安排座位</button></div>';
+        h += '<div class="empty">尚未安排座位，按上面的「調整座位」安排。</div>';
       }
       return h;
     }
@@ -4200,6 +4619,8 @@ function completeTodo(id) {
 }
 Act.todoToggle = function (d) { completeTodo(d.id); };
 Act.todoEdit = function (d) { todoSheet(DB.get('todos', d.id)); };
+/* 今日總覽「待辦」卡片的「新增」：切到待辦分頁再新增 */
+Act.todoNew = function () { App.openIn('todo'); todoSheet(null); };
 function deleteTodo(id) {
   var t = DB.get('todos', id);
   if (!t) return;
@@ -4210,6 +4631,7 @@ function deleteTodo(id) {
 function todoRow(x) {
   var t = L.today();
   var meta = [];
+  if (x.due && !x.done && x.due < t) meta.push('<span class="tag late">已逾期</span>');
   if (x.due) meta.push('<span class="' + (!x.done && x.due < t ? 'overdue' : '') + '">' + L.relDay(x.due) + '</span>');
   if (x.classId) meta.push('<span class="tag">' + esc(Q.className(x.classId) || '已刪除班級') + '</span>');
   if (x.repeat && x.repeat.type && x.repeat.type !== 'none') meta.push('<span>↻ ' + esc(L.describeRepeat(x.repeat)) + '</span>');
@@ -4227,9 +4649,15 @@ Views.todos = {
     var list = DB.where('todos', function (x) { return !f || x.classId === f; });
     var open = L.sortTodos(list.filter(function (x) { return !x.done; }));
     var done = L.sortTodos(list.filter(function (x) { return x.done; }));
+    var t = L.today();
+    // 逾時：已過期限還沒完成的待辦另外列在最上面
+    var late = open.filter(function (x) { return x.due && x.due < t; });
+    var rest = open.filter(function (x) { return !(x.due && x.due < t); });
     var h = '<div class="toolbar"><select class="input" style="width:auto;min-width:140px" data-change="todoClass">' + UI.classOptions(f, { none: '全部班級' }) + '</select>' +
-      '<span class="dim right">' + open.length + ' 項待辦</span></div>';
-    h += open.length ? open.map(todoRow).join('') : '<div class="empty">沒有待辦事項</div>';
+      '<span class="dim right">' + open.length + ' 項待辦' + (late.length ? '・<b class="red">逾時 ' + late.length + '</b>' : '') + '</span></div>';
+    if (late.length) h += '<div class="section-label overdue-label" style="margin-top:4px">' + icon('alert') + '逾時 ' + late.length + ' 項（已過期限還沒完成）</div><div class="todo-overdue">' + late.map(todoRow).join('') + '</div>';
+    if (late.length && rest.length) h += '<div class="section-label">待辦 ' + rest.length + ' 項</div>';
+    h += rest.length ? rest.map(todoRow).join('') : late.length ? '' : '<div class="empty">沒有待辦事項</div>';
     if (done.length) {
       var show = !!App.ui.showDone;
       h += '<div class="section-label" data-act="seg" data-name="showDone" data-value="' + (show ? '' : '1') + '">已完成 ' + done.length + ' 項 ' + (show ? '▲' : '▼') + '</div>';
@@ -4311,7 +4739,7 @@ function todoSheet(todo) {
       '<div class="row"><label class="field grow"><span>期限（選填）</span><input class="input" type="date" id="td-due" value="' + esc(x.due || '') + '"></label>' +
       '<label class="field grow"><span>班級標籤（選填）</span><select class="input" id="td-class">' + UI.classOptions(x.classId, { none: '不指定' }) + '</select></label></div>' +
       repeatFields(x.repeat),
-    actions: (todo ? [{ label: icon('trash'), cls: 'danger', onClick: function () { deleteTodo(todo.id); } }] : []).concat([{ label: '取消' }, {
+    actions: (todo ? [{ label: icon('trash') + '刪除這項待辦', del: true, onClick: function () { deleteTodo(todo.id); } }] : []).concat([{ label: icon('back') + '不存，回上頁', cls: 'back' }, {
       label: '儲存', cls: 'primary', onClick: function (el) {
         var text = el.querySelector('#td-text').value.trim();
         if (!text) { UI.toast('請輸入內容'); return false; }
@@ -4384,14 +4812,19 @@ Views.cal = {
     h += '<div class="row" style="margin-bottom:8px"><button class="icon-btn" data-act="calMonth" data-delta="-1">' + icon('back') + '</button>' +
       '<h2 class="grow center" style="margin:0">' + first.getFullYear() + ' 年 ' + (first.getMonth() + 1) + ' 月</h2>' +
       '<button class="icon-btn" data-act="calMonth" data-delta="1" style="transform:scaleX(-1)">' + icon('back') + '</button></div>';
-    h += '<div class="month">' + '日一二三四五六'.split('').map(function (w, i) { return '<div class="wd ' + (i === 0 ? 'sun' : '') + '">' + w + '</div>'; }).join('');
+    // 每週前面加週次欄（開學日那週為第 1 週）
+    h += '<div class="month with-wk"><div class="wd wk-h">週次</div>' + '日一二三四五六'.split('').map(function (w, i) { return '<div class="wd ' + (i === 0 ? 'sun' : i === 6 ? 'sat' : '') + '">' + w + '</div>'; }).join('');
     for (var i = 0; i < 42; i++) {
       var d = L.addDays(start, i);
+      if (i % 7 === 0) {
+        var wn = weekOf(L.addDays(d, 1));
+        h += '<div class="wk" title="開學日那週為第 1 週">' + (wn > 0 ? '<small>第</small><b>' + wn + '</b><small>週</small>' : '') + '</div>';
+      }
       var n = (byDate[d] || []).length;
       var wk = L.dow(d) === 0 || L.dow(d) === 6;
-      var dayCls = !isSchool(d) && !wk ? 'off ' : isSchool(d) && wk ? 'makeup ' : '';
+      var dayCls = !isSchool(d) && !wk ? 'off ' : isSchool(d) && wk ? 'makeup ' : wk ? 'we ' : '';
       h += '<div class="dc ' + dayCls + (d.slice(0, 7) !== m ? 'other ' : '') + (d === t ? 'today ' : '') + (d === sel ? 'sel' : '') + '" data-act="calDay" data-date="' + d + '">' +
-        '<span class="dn ' + (L.dow(d) === 0 ? 'sun' : '') + '">' + Number(d.slice(8)) + '</span><span class="dots">' + new Array(Math.min(n, 3) + 1).join('<i></i>') + '</span></div>';
+        '<span class="dn ' + (L.dow(d) === 0 ? 'sun' : L.dow(d) === 6 ? 'sat' : '') + '">' + Number(d.slice(8)) + '</span><span class="dots">' + new Array(Math.min(n, 3) + 1).join('<i></i>') + '</span></div>';
       if (i === 34 && L.addDays(start, 35).slice(0, 7) !== m) break;
     }
     h += '</div>';
@@ -4410,7 +4843,7 @@ function calSheet(ev, date) {
   UI.sheet({
     title: ev ? '編輯行程' : '新增行程',
     body: '<label class="field"><span>內容（可用鍵盤上的麥克風說話輸入）</span><textarea class="input" id="cs-text" rows="2">' + esc(x.text) + '</textarea></label>' +
-      '<div class="row"><label class="field grow"><span>日期</span><input class="input" type="date" id="cs-date" value="' + esc(x.date) + '"></label>' +
+      '<div class="row"><label class="field grow"><span>日期</span><input class="input" type="date" required id="cs-date" value="' + esc(x.date) + '"></label>' +
       '<label class="field grow"><span>時間</span><input class="input" type="time" id="cs-time" value="' + esc(x.time || '') + '"' + (x.time ? '' : ' disabled') + '></label></div>' +
       '<label class="check-line"><input type="checkbox" id="cs-allday"' + (x.time ? '' : ' checked') + '> 整天</label>' +
       '<div class="field"><span>上課日設定（請假手續以上課日計算）</span><div class="seg full" id="cs-type">' + [['', '一般行程'], ['off', '放假不上課'], ['makeup', '補上課']].map(function (o) {
@@ -4418,10 +4851,10 @@ function calSheet(ev, date) {
       }).join('') + '</div></div>' +
       '<label class="field" id="cs-end-f"' + (dayType === 'off' ? '' : ' style="display:none"') + '><span>放到哪一天（連續放假才填，例如寒暑假）</span><input class="input" type="date" id="cs-end" value="' + esc(x.endDate || '') + '"></label>' +
       '<label class="field"><span>班級標籤（選填）</span><select class="input" id="cs-class">' + UI.classOptions(x.classId, { none: '不指定' }) + '</select></label>',
-    actions: (ev ? [{ label: icon('trash'), cls: 'danger', onClick: function () {
+    actions: (ev ? [{ label: icon('trash') + '刪除這個行程', del: true, onClick: function () {
       DB.del('cal', ev.id);
       UI.undo('已刪除行程', function () { DB.put('cal', Object.assign({}, ev, { deleted: false })); });
-    } }] : []).concat([{ label: '取消' }, {
+    } }] : []).concat([{ label: icon('back') + '不存，回上頁', cls: 'back' }, {
       label: '儲存', cls: 'primary', onClick: function (el) {
         var text = el.querySelector('#cs-text').value.trim();
         var d = el.querySelector('#cs-date').value;
@@ -4475,17 +4908,10 @@ var Pref = {
   msgAvg: function () { return Settings.get('msgAvg', false) === true; },
   calLinks: function () { return Settings.get('calLinks', true) !== false; }
 };
-function semesterStart() {
-  var t = L.today();
-  var y = Number(t.slice(0, 4));
-  var md = t.slice(5);
-  var a = Pref.sem1();
-  var b = Pref.sem2();
-  if (a < b) { var x = a; a = b; b = x; }
-  if (md >= a) return y + '-' + a;
-  if (md >= b) return y + '-' + b;
-  return y - 1 + '-' + a;
-}
+function semesterStartOf(d) { return L.semesterStartOf(d, Pref.sem1(), Pref.sem2()); }
+function semesterStart() { return semesterStartOf(L.today()); }
+/* 開學後第幾週（開學日那週為第 1 週）；在今日總覽、日期選擇器與月曆顯示 */
+function weekOf(d) { return L.weekNo(d, semesterStartOf(d)); }
 function online() { return Backend.local || navigator.onLine !== false; }
 
 document.addEventListener('submit', function (e) {
@@ -4523,8 +4949,8 @@ Views.settings = {
       '<label class="field"><span>預設開啟頁面</span><select class="input" data-change="defaultTab">' + TABS.map(function (t) {
         return '<option value="' + t[0] + '"' + (Settings.get('defaultTab', 'today') === t[0] ? ' selected' : '') + '>' + t[1] + '</option>';
       }).join('') + '</select></label>' +
-      '<label class="field"><span>外觀</span><select class="input" data-change="theme">' + [['auto', '跟隨系統'], ['light', '淺色（宣紙）'], ['dark', '深色（墨色）']].map(function (o) {
-        return '<option value="' + o[0] + '"' + (Prefs.get('theme', 'auto') === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+      '<label class="field"><span>外觀</span><select class="input" data-change="theme">' + [['light', '淺色（宣紙）'], ['dark', '深色（墨色）'], ['auto', '跟隨系統']].map(function (o) {
+        return '<option value="' + o[0] + '"' + (themePref() === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
       }).join('') + '</select></label>' +
       '<label class="check-line"><input type="checkbox" data-change="vibrate"' + (Prefs.get('vibrate', true) ? ' checked' : '') + '> 勾選與 +1 時震動</label></div>';
     h += '<div class="section-label">預設與細項</div><div class="card">' +
@@ -4533,9 +4959,9 @@ Views.settings = {
         return '<option value="' + o[0] + '"' + (Pref.titleFmt() === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
       }).join('') + '</select></label>' +
       '<label class="field"><span>成績預設滿分</span><input class="input" inputmode="numeric" data-change="defaultMax" data-fk="set:max" value="' + Pref.maxScore() + '"></label>' +
-      '<div class="row"><label class="field grow"><span>上學期開始</span><input class="input" inputmode="numeric" placeholder="08/01" data-change="semDate" data-key="sem1" data-fk="set:sem1" value="' + Pref.sem1().replace('-', '/') + '"></label>' +
-      '<label class="field grow"><span>下學期開始</span><input class="input" inputmode="numeric" placeholder="02/01" data-change="semDate" data-key="sem2" data-fk="set:sem2" value="' + Pref.sem2().replace('-', '/') + '"></label></div>' +
-      '<p class="dim">學期開始日用於個人明細與整班匯出的預設區間。</p>' +
+      '<div class="row"><label class="field grow"><span>上學期開學日</span><input class="input" inputmode="numeric" placeholder="08/01" data-change="semDate" data-key="sem1" data-fk="set:sem1" value="' + Pref.sem1().replace('-', '/') + '"></label>' +
+      '<label class="field grow"><span>下學期開學日</span><input class="input" inputmode="numeric" placeholder="02/01" data-change="semDate" data-key="sem2" data-fk="set:sem2" value="' + Pref.sem2().replace('-', '/') + '"></label></div>' +
+      '<p class="dim">開學日那週為第 1 週，今日總覽、日期選擇器與行事曆的週次都依此計算；也用於個人明細與整班匯出的預設區間。</p>' +
       '<div class="menu-list">' + setRow('flag', '快速登記清單（' + Pref.quickList().length + ' 項）', 'go', ' data-view="quickListEdit"') + '</div>' +
       '<div class="row"><label class="field grow"><span>請假手續提醒（上課日）</span><input class="input" inputmode="numeric" data-change="leaveDays" data-key="leaveRemind" data-fk="set:lvr" value="' + Pref.leaveRemind() + '"></label>' +
       '<label class="field grow"><span>請假手續警示（上課日）</span><input class="input" inputmode="numeric" data-change="leaveDays" data-key="leaveWarn" data-fk="set:lvw" value="' + Pref.leaveWarn() + '"></label></div>' +
@@ -4601,7 +5027,7 @@ Change.semDate = function (d, el) {
 };
 Change.msgAvg = function (d, el) { Settings.set('msgAvg', el.checked); };
 Change.msgSign = function (d, el) { Settings.set('msgSign', el.value.trim()); };
-Change.theme = function (d, el) { Prefs.set('theme', el.value); applyTheme(); };
+Change.theme = function (d, el) { Prefs.set('theme', el.value); applyTheme(); App.render(); };
 Change.vibrate = function (d, el) { Prefs.set('vibrate', el.checked); if (el.checked) UI.buzz(30); };
 Change.pinOn = function (d, el) {
   if (el.checked) { Pin.setup(function () { App.render(); }); el.checked = false; return; }
@@ -4702,7 +5128,7 @@ Act.unarchiveClass = function (d) { DB.update('classes', d.id, { archived: false
 
 function addStudents(classId, list) {
   var have = {};
-  Q.students(classId).forEach(function (s) { have[s.no] = true; });
+  Q.students(classId, true).forEach(function (s) { have[s.no] = true; });
   var added = 0;
   var skipped = 0;
   list.forEach(function (x) {
@@ -4713,11 +5139,17 @@ function addStudents(classId, list) {
   });
   UI.toast('已加入 ' + added + ' 位學生' + (skipped ? '，' + skipped + ' 筆座號重複已略過' : ''));
 }
-function parseRoster(text) {
+/* 貼上名單：每行一個姓名，座號依貼上的順序自動編號（班上已有學生時接在最後一號後面）。
+   如果每行前面已有座號（從 Excel 兩欄一起複製），座號會忽略，只取姓名。 */
+function parseNames(text, startNo) {
+  var no = startNo || 1;
   return text.split(/\r?\n/).map(function (line) {
-    var m = /^\s*(\d+)[\s\t,，、.．:：]+(.+?)\s*$/.exec(line);
-    return m ? { no: Number(m[1]), name: m[2] } : null;
+    var name = line.replace(/^\s*\d+[\s\t,，、.．:：]+/, '').replace(/\s+/g, ' ').trim();
+    return name ? { no: no++, name: name } : null;
   }).filter(Boolean);
+}
+function nextNo(classId) {
+  return Q.students(classId, true).reduce(function (m, s) { return Math.max(m, s.no || 0); }, 0) + 1;
 }
 
 Views.roster = {
@@ -4745,23 +5177,29 @@ Views.roster = {
       '<button class="btn small" data-act="importRoster" data-id="' + c.id + '">' + icon('link') + (window.WEB ? '從 Excel 匯入' : '從試算表匯入') + '</button></div>';
     h += list.length ? '<ul class="roster">' + list.map(function (s) {
       return '<li class="stu ' + (s.out ? 'out' : '') + '" data-act="editStudent" data-id="' + s.id + '"><span class="no">' + s.no + '</span><span class="name">' + esc(s.name) + '</span>' + (s.out ? '<span class="tag">轉出</span>' : '') + '<span class="dim">›</span></li>';
-    }).join('') + '</ul>' : '<div class="empty">還沒有學生。每行一位，格式「座號 姓名」，可直接從 Excel 複製貼上。</div>';
+    }).join('') + '</ul>' : '<div class="empty">還沒有學生。按「貼上名單」，依座號順序每行貼上一個姓名，座號會自動編好。</div>';
     h += '<p class="dim center">座號可隨時修改；轉出只做標記，不會刪除紀錄，新事項會自動排除。</p>';
     return h;
   }
 };
 Act.pasteRoster = function (d) {
+  var start = nextNo(d.id);
+  var preview = function (list) {
+    return list.length ? '辨識到 ' + list.length + ' 位：' + esc(list.slice(0, 3).map(function (x) { return x.no + ' ' + x.name; }).join('、')) + (list.length > 3 ? '…' + esc(list[list.length - 1].no + ' ' + list[list.length - 1].name) : '') : '辨識到 0 位';
+  };
   UI.sheet({
     title: '貼上名單',
-    body: '<label class="field"><span>每行「座號 姓名」，座號與姓名之間用空白或 Tab 分隔</span><textarea class="input" id="pr-text" rows="8" placeholder="1 王小明&#10;2 李小華"></textarea></label><div class="dim" id="pr-count">辨識到 0 位</div>',
-    actions: [{ label: '取消' }, { label: '加入', cls: 'primary', onClick: function (el) {
-      var list = parseRoster(el.querySelector('#pr-text').value);
+    body: '<label class="field"><span>依座號順序，每行貼上一個姓名</span><textarea class="input" id="pr-text" rows="8" placeholder="王小明&#10;李小華&#10;陳怡君"></textarea></label>' +
+      '<p class="dim" style="margin-top:-6px">座號會依順序自動編為 ' + start + '、' + (start + 1) + '、' + (start + 2) + '…' + (start > 1 ? '（接在班上現有最後一號後面）' : '') + '；可直接從 Excel 複製一欄姓名貼上。</p>' +
+      '<div class="dim" id="pr-count">辨識到 0 位</div>',
+    actions: [{ label: icon('back') + '回上頁', cls: 'back' }, { label: '加入', cls: 'primary', onClick: function (el) {
+      var list = parseNames(el.querySelector('#pr-text').value, start);
       if (!list.length) { UI.toast('沒有辨識到學生'); return false; }
       addStudents(d.id, list);
     } }],
     onMount: function (el) {
       var ta = el.querySelector('#pr-text');
-      ta.addEventListener('input', function () { el.querySelector('#pr-count').textContent = '辨識到 ' + parseRoster(ta.value).length + ' 位'; });
+      ta.addEventListener('input', function () { el.querySelector('#pr-count').innerHTML = preview(parseNames(ta.value, start)); });
       setTimeout(function () { ta.focus(); }, 80);
     }
   });
@@ -4779,10 +5217,10 @@ function studentSheet(s) {
     body: '<div class="row"><label class="field" style="width:90px"><span>座號</span><input class="input" id="st-no" inputmode="numeric" value="' + esc(s.no) + '"></label>' +
       '<label class="field grow"><span>姓名</span><input class="input" id="st-name" value="' + esc(s.name) + '"></label></div>' +
       (isNew ? '' : '<label class="check-line"><input type="checkbox" id="st-out"' + (s.out ? ' checked' : '') + '> 已轉出（保留紀錄，新事項不列入）</label>'),
-    actions: (!isNew && !used ? [{ label: icon('trash'), cls: 'danger', onClick: function () {
+    actions: (!isNew && !used ? [{ label: icon('trash') + '刪除這位學生', del: true, onClick: function () {
       DB.del('students', s.id);
       UI.undo('已刪除 ' + s.name, function () { DB.put('students', Object.assign({}, s, { deleted: false })); });
-    } }] : []).concat([{ label: '取消' }, { label: '儲存', cls: 'primary', onClick: function (el) {
+    } }] : []).concat([{ label: icon('back') + '不存，回上頁', cls: 'back' }, { label: '儲存', cls: 'primary', onClick: function (el) {
       var no = Number(el.querySelector('#st-no').value);
       var name = el.querySelector('#st-name').value.trim();
       if (!no || !name) { UI.toast('請輸入座號與姓名'); return false; }
@@ -4848,12 +5286,13 @@ Views.seats = {
     if (!c) return '<div class="empty">找不到班級</div>';
     var students = Q.students(c.id);
     var pick = App.ui.seatPick;
-    var h = '<div class="toolbar"><label class="row">列<input class="input" style="width:60px" inputmode="numeric" data-change="seatSize" data-k="seatRows" data-id="' + c.id + '" value="' + (c.seatRows || 6) + '"></label>' +
-      '<label class="row">行<input class="input" style="width:60px" inputmode="numeric" data-change="seatSize" data-k="seatCols" data-id="' + c.id + '" value="' + (c.seatCols || 6) + '"></label>' +
-      '<button class="btn small" data-act="seatAuto" data-id="' + c.id + '">依座號排入</button><button class="btn small" data-act="seatClear" data-id="' + c.id + '">清空</button></div>';
+    var h = '<div class="toolbar seat-size"><label>橫排（前後）<input class="input" style="width:56px" inputmode="numeric" data-change="seatSize" data-k="seatRows" data-id="' + c.id + '" value="' + (c.seatRows || SEAT_ROWS) + '"></label>' +
+      '<label>直行（左右）<input class="input" style="width:56px" inputmode="numeric" data-change="seatSize" data-k="seatCols" data-id="' + c.id + '" value="' + (c.seatCols || SEAT_COLS) + '"></label>' +
+      '<button class="btn small" data-act="seatAuto" data-id="' + c.id + '">依座號排入</button><button class="btn small" data-act="seatClear" data-id="' + c.id + '">清空</button></div>' +
+      '<p class="dim" style="margin:-4px 2px 8px">以老師站在講台看學生的方向排列：講台在下面，最靠近講台的是第 1 排，最左邊是第 1 行。</p>';
     var g = seatGridHtml(c.id, students, function (s, r, col) {
       return '<div class="seat ' + (s ? '' : 'empty ') + (s && pick === s.id ? 'picked' : '') + '" data-drop="1" data-r="' + r + '" data-c="' + col + '" data-act="seatTap" data-class="' + c.id + '"' + (s ? ' data-drag="1" data-sid="' + s.id + '"' : '') + '>' +
-        (s ? '<span class="sno">' + s.no + '</span>' + esc(s.name) : '') + '</div>';
+        (s ? '<span class="sno">' + s.no + '</span><span class="sn">' + esc(s.name) + '</span>' : '') + '</div>';
     });
     h += g.html;
     h += '<div class="section-label">未安排（拖到座位上，或先點學生再點座位）</div><div class="card" data-drop="1" data-r="-1" data-c="-1" data-act="seatTap" data-class="' + c.id + '" style="min-height:60px"><div class="chips">' +
@@ -4888,15 +5327,15 @@ Act.seatTap = function (d, el, e) {
   App.setUi('seatPick', d.sid && pick !== d.sid ? d.sid : null, false);
 };
 Change.seatSize = function (d, el) {
-  var n = Math.max(1, Math.min(12, Number(el.value) || 6));
+  var n = Math.max(1, Math.min(12, Number(el.value) || (d.k === 'seatCols' ? SEAT_COLS : SEAT_ROWS)));
   var p = {};
   p[d.k] = n;
   DB.update('classes', d.id, p);
 };
 Act.seatAuto = function (d) {
   var c = DB.get('classes', d.id);
-  var rows = c.seatRows || 6;
-  var cols = c.seatCols || 6;
+  var rows = c.seatRows || SEAT_ROWS;
+  var cols = c.seatCols || SEAT_COLS;
   // 由講台前方開始，逐行（直排）依座號排入
   Q.students(c.id).forEach(function (s, i) {
     if (i >= rows * cols) return;
@@ -4962,11 +5401,11 @@ function noteSheet(sid, note) {
   var n = note || { date: L.today(), text: '' };
   UI.sheet({
     title: (note ? '編輯備註・' : '新增備註・') + esc(s.name),
-    body: '<label class="field"><span>日期</span><input class="input" type="date" id="nt-date" value="' + n.date + '"></label><label class="field"><span>備註（例如：上課睡覺，已提醒）</span><textarea class="input" id="nt-text" rows="3">' + esc(n.text) + '</textarea></label>',
-    actions: (note ? [{ label: icon('trash'), cls: 'danger', onClick: function () {
+    body: '<label class="field"><span>日期</span><input class="input" type="date" required id="nt-date" value="' + n.date + '"></label><label class="field"><span>備註（例如：上課睡覺，已提醒）</span><textarea class="input" id="nt-text" rows="3">' + esc(n.text) + '</textarea></label>',
+    actions: (note ? [{ label: icon('trash') + '刪除這則備註', del: true, onClick: function () {
       DB.del('notes', note.id);
       UI.undo('已刪除備註', function () { DB.put('notes', Object.assign({}, note, { deleted: false })); });
-    } }] : []).concat([{ label: '取消' }, { label: '儲存', cls: 'primary', onClick: function (el) {
+    } }] : []).concat([{ label: icon('back') + '不存，回上頁', cls: 'back' }, { label: '儲存', cls: 'primary', onClick: function (el) {
       var text = el.querySelector('#nt-text').value.trim();
       if (!text) return false;
       DB.put('notes', Object.assign({}, note || { id: uid(), studentId: sid }, { date: el.querySelector('#nt-date').value || L.today(), text: text }));
@@ -5021,7 +5460,7 @@ Views.personal = {
     var data = mergeRange(App.cache[key], localRange(s.classId));
     var rep = L.personalReport({ student: s, items: data.items, checks: data.checks, events: data.events, scores: data.scores, logs: DB.where('logs', function (l) { return l.studentId === s.id; }), from: from, to: to });
     var h = '<div class="card"><div class="row"><span class="seal-logo" style="width:40px;height:40px;font-size:18px">' + s.no + '</span><div class="grow"><h2 style="margin:0">' + esc(s.name) + (s.out ? ' <span class="tag">轉出</span>' : '') + '</h2><div class="dim">' + esc(Q.className(s.classId)) + '</div></div></div>' +
-      '<div class="row" style="margin-top:10px"><input class="input" type="date" value="' + from + '" data-change="range" data-k="pFrom"><span>～</span><input class="input" type="date" value="' + to + '" data-change="range" data-k="pTo"></div>' +
+      '<div class="row" style="margin-top:10px"><input class="input" type="date" required value="' + from + '" data-change="range" data-k="pFrom"><span>～</span><input class="input" type="date" required value="' + to + '" data-change="range" data-k="pTo"></div>' +
       '<div class="dim" style="margin-top:4px">' + (data.local ? (online() ? '讀取已歸檔資料中…（目前只顯示未歸檔事項）' : '離線中，只顯示未歸檔事項') : '含已歸檔事項') + '</div></div>';
     var bars = [];
     var mylogs = DB.where('logs', function (l) { return l.studentId === s.id && l.date >= from && l.date <= to; }).sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
@@ -5061,7 +5500,7 @@ Views.personal = {
         var t = (c.topics || []).map(function (x) { return x.title.replace(/^\d{1,2}\/\d{1,2}\s*/, ''); }).join('、') || c.text.split('\n')[1] || '';
         return '<li class="li" data-act="viewContact" data-id="' + c.id + '"><span class="when">' + L.md(c.date) + '</span><span class="grow ellipsis">' + esc(t) + '</span><span class="dim">' + esc(c.via || '') + '</span></li>';
       }).join('') + '</ul>' : '<div class="dim">還沒有聯絡過家長</div>') + '</div>';
-    h += '<div class="row"><button class="btn primary grow" data-act="personalPdf" data-id="' + s.id + '">' + icon('export') + '匯出 PDF</button><button class="btn grow" data-act="personalPdf" data-share="1" data-id="' + s.id + '">' + icon('share') + '分享（LINE 等）</button></div>';
+    h += '<div class="row"><button class="btn grow" data-act="personalPdf" data-id="' + s.id + '">' + icon('export') + '匯出 PDF</button><button class="btn primary grow" data-act="personalText" data-id="' + s.id + '">' + icon('msg') + '文字給家長（LINE）</button></div>';
     return h;
   },
   mount: function (main, v) {
@@ -5131,6 +5570,41 @@ Act.personalPdf = function (d) {
   }).catch(function (e) { done(); UI.error(e); });
 };
 
+/* 個人明細轉成純文字：老師複製後貼到 LINE 給家長（只含這位學生），不產生 PDF */
+Act.personalText = function (d) {
+  var s = Q.student(d.id);
+  if (!s) return;
+  var from = App.ui.pFrom || semesterStart();
+  var to = App.ui.pTo || L.today();
+  var data = mergeRange(App.cache['p:' + s.id + ':' + from + ':' + to], localRange(s.classId));
+  var rep = L.personalReport({ student: s, items: data.items, checks: data.checks, events: data.events, scores: data.scores, logs: DB.where('logs', function (l) { return l.studentId === s.id; }), from: from, to: to });
+  var sign = Pref.sign();
+  var text = L.personalText(rep, { name: s.name, from: from, to: to }) + (sign ? '\n' + sign : '');
+  var logIt = function (ta, via) {
+    DB.put('contacts', { id: uid(), studentId: s.id, classId: s.classId, date: L.today(), at: Date.now(), via: via, text: ta.value, topics: [{ title: '個人明細' }] });
+  };
+  UI.sheet({
+    title: s.no + ' 號　' + esc(s.name) + '・給家長的文字',
+    body: '<p class="dim center" style="margin:-4px 0 8px">' + L.md(from) + '～' + L.md(to) + '　只含這位學生，可直接修改</p>' +
+      '<textarea class="input pm-text" id="pt-text" rows="12"></textarea>' +
+      '<p class="dim">按「複製」後到 LINE 貼上傳給家長；複製或分享後會記入家長聯絡紀錄。</p>',
+    actions: [
+      { label: icon('back') + '回上頁', cls: 'back' },
+      { label: icon('share') + '分享', onClick: function (el, close) {
+        var ta = el.querySelector('#pt-text');
+        ParentMsg.share(ta.value, function () { logIt(ta, '分享'); close(); });
+        return false;
+      } },
+      { label: icon('copy') + '複製', cls: 'primary', onClick: function (el, close) {
+        var ta = el.querySelector('#pt-text');
+        ParentMsg.copy(ta, close, function () { logIt(ta, '複製'); });
+        return false;
+      } }
+    ],
+    onMount: function (el) { el.querySelector('#pt-text').value = text; }
+  });
+};
+
 /* ============ 整班明細匯出 ============ */
 Views.exportClass = {
   title: function () { return '匯出整班明細'; },
@@ -5151,7 +5625,7 @@ Views.exportClass = {
     var items = data.items.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).concat(logItems);
     var chosen = items.filter(function (i) { return !off[i.id]; });
     var h = '<div class="card"><label class="field"><span>班級</span><select class="input" data-change="exClass">' + UI.classOptions(cls.id) + '</select></label>' +
-      '<div class="row"><input class="input" type="date" value="' + from + '" data-change="range" data-k="exFrom"><span>～</span><input class="input" type="date" value="' + to + '" data-change="range" data-k="exTo"></div>' +
+      '<div class="row"><input class="input" type="date" required value="' + from + '" data-change="range" data-k="exFrom"><span>～</span><input class="input" type="date" required value="' + to + '" data-change="range" data-k="exTo"></div>' +
       '<div class="dim" style="margin-top:4px">' + (data.local ? (online() ? '讀取已歸檔資料中…' : '離線中，只含未歸檔事項') : '含已歸檔事項') + '</div></div>';
     h += '<div class="card"><div class="card-title"><h2>事項</h2><span class="dim">' + chosen.length + ' / ' + items.length + '</span><button class="btn small right" data-act="exAll">' + (chosen.length === items.length ? '全不選' : '全選') + '</button></div>' +
       (items.length ? items.map(function (i) {
@@ -5607,7 +6081,7 @@ var ParentMsg = {
           if (!b) return;
           var queue = current().map(function (x) { return x.id; });
           close();
-          setTimeout(function () { ParentMsg.open(b.dataset.sid, item, queue); }, 0);
+          setTimeout(function () { ParentMsg.open(b.dataset.sid, item, queue, function () { ParentMsg.pick(item); }); }, 0);
         });
       }
     });
@@ -5691,18 +6165,19 @@ var ParentMsg = {
     if (lines.length === 1) return ParentMsg.wrap(hi, [(on.length ? s.name : '') + lines[0], '謝謝您！']);
     return ParentMsg.wrap(hi, ['跟您說明' + s.name + '最近在學校的幾件事：'].concat(lines.map(function (l, i) { return (i + 1) + '. ' + l; })).concat(['謝謝您！']));
   },
-  /* 個別學生的訊息：勾選要談的事情，依情境模版整理成一則 */
-  open: function (sid, origin, queue) {
+  /* 個別學生的訊息：勾選要談的事情，依情境模版整理成一則。back：按「回上頁」時要回到的畫面（例如選學生清單） */
+  open: function (sid, origin, queue, back) {
     var s = Q.student(sid);
     if (!s) return;
     var topics = ParentMsg.topics(s);
     topics.forEach(function (t) { if (origin && t.item.id === origin.id) t.on = true; });
     var next = queue ? queue[queue.indexOf(sid) + 1] : null;
     var actions = [
+      { label: icon('back') + '回上頁', cls: 'back', onClick: function () { if (back) setTimeout(back, 0); } },
       { label: icon('share') + '分享', onClick: function (el) { var v = el.querySelector('#pm-text').value; ParentMsg.share(v, function () { ParentMsg.log(s, topics, v, '分享'); }); return false; } },
       { label: icon('copy') + '複製', cls: 'primary', onClick: function (el, close) { var ta = el.querySelector('#pm-text'); var v = ta.value; ParentMsg.copy(ta, close, function () { ParentMsg.log(s, topics, v, '複製'); }); return false; } }
     ];
-    if (next && Q.student(next)) actions.push({ label: '下一位 ›', onClick: function () { setTimeout(function () { ParentMsg.open(next, origin, queue); }, 0); } });
+    if (next && Q.student(next)) actions.push({ label: '下一位 ›', onClick: function () { setTimeout(function () { ParentMsg.open(next, origin, queue, back); }, 0); } });
     var rows = topics.map(function (t, i) {
       var tones = t.tones;
       return '<div class="pm-topic"><label class="check-line grow"><input type="checkbox" data-t="' + i + '"' + (t.on ? ' checked' : '') + '><span class="grow ellipsis">' + esc(t.item.title) + '</span><span class="sub ' + (t.on ? 'red' : 'dim') + '">' + esc(t.state) + '</span></label>' +
@@ -5781,11 +6256,11 @@ Act.viewContact = function (d) {
     title: '家長聯絡紀錄',
     body: '<div class="dim center" style="margin:-4px 0 8px">' + L.fmtStamp(c.at) + '　' + esc(c.via || '') + '</div><textarea class="input pm-text" id="pm-text" rows="7" readonly>' + esc(c.text) + '</textarea>',
     actions: [
-      { label: icon('trash'), cls: 'danger', onClick: function () {
+      { label: icon('trash') + '刪除這筆聯絡紀錄', del: true, onClick: function () {
         DB.del('contacts', c.id);
         UI.undo('已刪除聯絡紀錄', function () { DB.put('contacts', Object.assign({}, c, { deleted: false })); });
       } },
-      { label: '關閉' },
+      { label: icon('back') + '回上頁', cls: 'back' },
       { label: icon('copy') + '再複製', cls: 'primary', onClick: function (el, close) { ParentMsg.copy(el.querySelector('#pm-text'), close); return false; } }
     ]
   });
@@ -5854,7 +6329,7 @@ var QLog = {
       title: s.no + ' 號　' + esc(s.name),
       body: '',
       actions: [{ label: icon('user') + '個人明細', onClick: function () { App.go('personal', { id: sid }); } }, { label: '完成', cls: 'primary' }],
-      onMount: function (el) {
+      onMount: function (el, close) {
         draw(el);
         listener = function () { draw(el); };
         DB.onChange(listener);
@@ -5875,17 +6350,21 @@ var QLog = {
             });
             return;
           }
-          if (e.target.closest('[data-qedit-list]')) { App.go('quickListEdit'); return; }
+          // 換頁前先關掉這個視窗（App.go 也會關），否則視窗會蓋住清單頁，返回鍵也按不到
+          if (e.target.closest('[data-qedit-list]')) { close(); App.go('quickListEdit'); return; }
           var row = e.target.closest('[data-qrow]');
-          if (row) QLog.edit(row.dataset.id);
+          // 從這裡打開的編輯視窗，按「不存，回上頁」或「儲存」後直接回到選學生的畫面
+          if (row) QLog.edit(row.dataset.id, { after: close });
         });
       },
       onClose: function () { if (listener) DB.offChange(listener); }
     });
   },
 
-  /* 編輯一筆登記：事項、日期時間、備註、相片 */
-  edit: function (id) {
+  /* 編輯一筆登記：事項、日期時間、備註、相片。opts.after：按下面的按鈕離開時一併關掉的上一層視窗 */
+  edit: function (id, opts) {
+    opts = opts || {};
+    var after = function () { if (opts.after) opts.after(); };
     var l = DB.get('logs', id);
     if (!l) return;
     var s = Q.student(l.studentId);
@@ -5914,16 +6393,17 @@ var QLog = {
       body: '<label class="field"><span>事項</span><select class="input" id="ql-label">' + labels.map(function (x) {
           return '<option' + (x === l.label ? ' selected' : '') + '>' + esc(x) + '</option>';
         }).join('') + '</select></label>' +
-        '<div class="row"><label class="field grow"><span>日期</span><input class="input" type="date" id="ql-date" value="' + l.date + '"></label>' +
+        '<div class="row"><label class="field grow"><span>日期</span><input class="input" type="date" required id="ql-date" value="' + l.date + '"></label>' +
         '<label class="field grow"><span>時間</span><input class="input" type="time" id="ql-time" value="' + (l.at ? L.hm(l.at) : '') + '"></label></div>' +
         '<label class="field"><span>備註</span><textarea class="input" id="ql-note" rows="3" placeholder="例如：第三節英文課，已提醒兩次">' + esc(l.note || '') + '</textarea></label>' +
         '<div class="field"><span>相片</span><div class="ql-photos" id="ql-photos"></div></div>',
       actions: [
-        { label: icon('trash'), cls: 'danger', onClick: function () {
+        { label: icon('trash') + '刪除這筆登記', del: true, onClick: function () {
           DB.del('logs', l.id);
           UI.undo('已刪除這筆登記', function () { DB.put('logs', Object.assign({}, l, { deleted: false })); });
+          after();
         } },
-        { label: '取消' },
+        { label: icon('back') + '不存，回上頁', cls: 'back', onClick: after },
         { label: '儲存', cls: 'primary', onClick: function (el) {
           if (uploading) { UI.toast('相片還在上傳，請稍候'); return false; }
           var date = el.querySelector('#ql-date').value || l.date;
@@ -5932,6 +6412,7 @@ var QLog = {
           if (tm) { var d = L.parse(date); var p = tm.split(':'); d.setHours(Number(p[0]), Number(p[1])); at = d.getTime(); }
           DB.put('logs', Object.assign({}, DB.raw('logs', l.id) || l, { label: el.querySelector('#ql-label').value, date: date, at: at, note: el.querySelector('#ql-note').value.trim(), photos: photos }));
           UI.toast('已儲存');
+          after();
         } }
       ],
       onMount: function (el) {
@@ -6063,9 +6544,9 @@ Views.quickLog = {
     else if (mode === 'seat') {
       var g = seatGridHtml(cls.id, students, function (s) {
         if (!s) return '<div class="seat empty"></div>';
-        return '<div class="seat ' + (cnt[s.id] ? 'logged' : '') + (Leave.onDay()[s.id] ? ' leave' : '') + '" data-act="qlPick" data-sid="' + s.id + '"><span class="sno">' + s.no + '</span>' + esc(s.name) +
+        return '<div class="seat ' + (cnt[s.id] ? 'logged' : '') + (Leave.onDay()[s.id] ? ' leave' : '') + '" data-act="qlPick" data-sid="' + s.id + '"><span class="sno">' + s.no + '</span><span class="sn">' + esc(s.name) + '</span>' +
           (cnt[s.id] ? '<span class="cnt">' + cnt[s.id] + '</span>' : '') + '</div>';
-      });
+      }, { adjust: true });
       h += g.html;
       if (g.rest.length) h += '<div class="section-label">未安排座位</div><div class="ql-grid">' + g.rest.map(cell).join('') + '</div>';
     } else h += '<div class="ql-grid">' + students.map(cell).join('') + '</div>';
@@ -6246,7 +6727,7 @@ Views.logExport = {
       '<label class="field"><span>學生</span><select class="input" data-change="lxStu"><option value="">全班</option>' + Q.students(x.cls.id, true).map(function (s) {
         return '<option value="' + s.id + '"' + (s.id === x.sid ? ' selected' : '') + '>' + s.no + ' ' + esc(s.name) + (s.out ? '（轉出）' : '') + '</option>';
       }).join('') + '</select></label>' +
-      '<div class="row"><input class="input" type="date" value="' + x.from + '" data-change="range" data-k="lxFrom"><span>～</span><input class="input" type="date" value="' + x.to + '" data-change="range" data-k="lxTo"></div></div>';
+      '<div class="row"><input class="input" type="date" required value="' + x.from + '" data-change="range" data-k="lxFrom"><span>～</span><input class="input" type="date" required value="' + x.to + '" data-change="range" data-k="lxTo"></div></div>';
     h += '<div class="card"><div class="card-title"><h2>事項</h2><span class="dim">' + x.rep.list.length + ' 筆</span></div>' +
       (x.all.counts.length ? x.all.counts.map(function (c) {
         return '<label class="check-line"><input type="checkbox" data-change="lxLabel" data-label="' + esc(c.label) + '"' + (x.off[c.label] ? '' : ' checked') + '><span class="grow">' + esc(c.label) + '</span><span class="badge">' + c.count + '</span></label>';
@@ -6398,9 +6879,10 @@ var Leave = {
           (l.reason ? '<span class="dim">' + (l.kind ? '・' : '') + esc(l.reason) + '</span>' : '') + '</span>' +
         '<span class="lv-tags">' + state + unrep + (l.parentOk ? '<span class="tag ok">家長已確認</span>' : '<span class="tag">家長未確認</span>') + status + '</span>';
     }
+    // 左側方框＝請假手續是否完成；方框下方直接寫「手續完成」，勾了改成「已完成」
     return '<li class="li lv-row' + (a && a.level !== 'pending' ? ' ' + a.level : '') + '">' +
-      '<button class="lv-done' + (l.done ? ' on' : '') + '"' + (opts.still ? ' disabled' : ' data-act="leaveDone"') + ' data-id="' + l.id + '" aria-label="' + (l.done ? '已完成請假手續' : '標記已完成請假手續') + '">' +
-        (l.done ? '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : '') + '</button>' +
+      '<span class="lv-donebox' + (l.done ? ' on' : '') + '"><button class="lv-done' + (l.done ? ' on' : '') + '"' + (opts.still ? ' disabled' : ' data-act="leaveDone"') + ' data-id="' + l.id + '" aria-label="' + (l.done ? '已完成請假手續' : '標記已完成請假手續') + '">' +
+        (l.done ? '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : '') + '</button><span class="cap">' + (l.done ? '手續<br>已完成' : '手續<br>完成') + '</span></span>' +
       '<span class="grow"' + (opts.still ? '' : ' data-act="leaveEdit"') + ' data-id="' + l.id + '">' + body + '</span></li>';
   },
   toggleDone: function (id) {
@@ -6426,7 +6908,7 @@ var Leave = {
       .sort(function (a, b) { return a.start < b.start ? 1 : -1; });
     var kinds = LEAVE_KINDS.slice();
     if (kind && kinds.indexOf(kind) < 0) kinds.splice(kinds.length - 1, 0, kind);
-    var body = '<div class="row"><label class="field grow"><span>請假日期（可選任何一天）</span><input class="input" type="date" id="lv-start" value="' + l.start + '"></label>' +
+    var body = '<div class="row"><label class="field grow"><span>請假日期（可選任何一天）</span><input class="input" type="date" required id="lv-start" value="' + l.start + '"></label>' +
       '<label class="field grow"><span>到哪一天（連續多天才填）</span><input class="input" type="date" id="lv-end" min="' + l.start + '" value="' + (l.end && l.end > l.start ? l.end : '') + '"></label></div>' +
       '<div class="lv-quick" id="lv-quick"><span class="dim">快速選</span>' + [[0, '今天'], [1, '明天'], [2, '後天']].map(function (x) {
         return '<button type="button" class="chip" data-lv-day="' + L.addDays(t, x[0]) + '">' + x[1] + '</button>';
@@ -6444,11 +6926,11 @@ var Leave = {
       (others.length ? '<div class="row ql-sub"><span class="grow">這位學生的其他請假</span><button type="button" class="btn small" data-lv-parent="1">' + icon('msg') + '跟家長核對</button></div>' +
         '<ul class="list">' + others.slice(0, 6).map(function (x) { return Leave.row(x, { still: true }); }).join('') + '</ul>' : '');
     var acts = [];
-    if (old) acts.push({ label: icon('trash'), cls: 'danger', onClick: function () {
+    if (old) acts.push({ label: icon('trash') + '刪除這筆請假', del: true, onClick: function () {
       DB.del('leaves', old.id);
       UI.undo('已刪除這筆請假', function () { DB.put('leaves', Object.assign({}, old, { deleted: false })); });
     } });
-    acts.push({ label: '取消' });
+    acts.push({ label: icon('back') + '不存，回上頁', cls: 'back' });
     acts.push({ label: old ? '儲存' : '登記', cls: 'primary', onClick: function (el) {
       var start = el.querySelector('#lv-start').value;
       var end = el.querySelector('#lv-end').value;
@@ -6528,11 +7010,11 @@ Leave.parentCheck = function (sid) {
   };
   UI.sheet({
     title: s.no + ' 號　' + esc(s.name) + '・請假明細',
-    body: '<div class="row"><input class="input" type="date" id="lp-from" value="' + from + '"><span>～</span><input class="input" type="date" id="lp-to" value="' + to + '"></div>' +
+    body: '<div class="row"><input class="input" type="date" required id="lp-from" value="' + from + '"><span>～</span><input class="input" type="date" required id="lp-to" value="' + to + '"></div>' +
       '<label class="field" style="margin-top:10px"><span>給家長的訊息（只含這位學生，可修改）</span><textarea class="input" id="lp-text" rows="9"></textarea></label>' +
       '<button type="button" class="btn block" data-lp-pdf="1">' + icon('export') + '產生 PDF 明細</button>',
     actions: [
-      { label: '關閉' },
+      { label: icon('back') + '回上頁', cls: 'back' },
       { label: icon('share') + '分享', onClick: function (el, close) {
         var ta = el.querySelector('#lp-text');
         ParentMsg.share(ta.value, function () { logIt(ta, '分享'); close(); });
@@ -6580,9 +7062,21 @@ function leaveTodayHtml(cls) {
   var all = Leave.board();
   var h = '';
   if (all.warn || all.remind) {
-    h += '<button class="banner block lv-banner' + (all.warn ? '' : ' warn') + '" data-act="go" data-view="leave">' + icon('alert') + '<span>' +
-      (all.warn ? '警示：' + all.warn + ' 位學生銷假後已滿 ' + Pref.leaveWarn() + ' 個上課日還沒完成請假手續' + (all.remind ? '；另有 ' + all.remind + ' 位已滿 ' + Pref.leaveRemind() + ' 個上課日' : '') :
-        '提醒：' + all.remind + ' 位學生銷假後已滿 ' + Pref.leaveRemind() + ' 個上課日還沒完成請假手續') + '</span></button>';
+    // 直接列出是哪幾位學生（座號、姓名；別班的學生前面加班級名稱）
+    var names = function (level) {
+      var seen = {};
+      return all.todo.filter(function (x) { return x.level === level; }).map(function (x) {
+        var s = Q.student(x.l.studentId);
+        if (!s || seen[s.id]) return '';
+        seen[s.id] = true;
+        return (cls && s.classId !== cls.id ? Q.className(s.classId) + ' ' : '') + s.no + ' 號 ' + s.name;
+      }).filter(Boolean);
+    };
+    var warn = names('warn');
+    var remind = names('remind');
+    var line = function (label, list, n) { return label + '：' + esc(list.join('、')) + ' 銷假後已滿 ' + n + ' 個上課日還沒完成請假手續'; };
+    h += '<button class="banner block lv-banner' + (all.warn ? '' : ' warn') + '" data-act="leaveLate">' + icon('alert') + '<span>' +
+      (warn.length ? line('警示', warn, Pref.leaveWarn()) : '') + (warn.length && remind.length ? '；' : '') + (remind.length ? line('提醒', remind, Pref.leaveRemind()) : '') + '</span></button>';
   }
   if (!cls) return h;
   var b = Leave.board(cls.id);
@@ -6613,25 +7107,30 @@ Views.leave = {
     var mode = App.ui.lvMode || 'roll';
     var b = Leave.board(cls.id);
     var t = L.today();
+    var byDate = function (a, c) { return a.start < c.start ? -1 : a.start > c.start ? 1 : 0; };
+    // 逾時：銷假後已滿提醒天數（橘）或警示天數（紅）仍未完成手續
+    var late = b.todo.filter(function (x) { return x.level !== 'pending'; }).map(function (x) { return x.l; }).sort(byDate);
     var h = '<div class="toolbar"><select class="input class-sel" data-change="lvClass" aria-label="班級">' + UI.classOptions(cls.id) + '</select>' +
-      UI.seg('lvMode', [['roll', icon('users') + '名單'], ['all', icon('list') + '全部紀錄']], mode) + '</div>';
+      UI.seg('lvMode', [['roll', icon('users') + '名單'], ['late', icon('alert') + '逾時請假' + (late.length ? '<span class="n">' + late.length + '</span>' : '')], ['all', icon('list') + '全部紀錄']], mode) + '</div>';
     if (mode === 'all') {
-      var list = Leave.list(cls.id).sort(function (a, c) { return a.start < c.start ? 1 : a.start > c.start ? -1 : 0; });
+      // 依請假日期由早到晚
+      var list = Leave.list(cls.id).sort(byDate);
       var f = App.ui.lvFilter || 'all';
       var shown = list.filter(function (l) { return f === 'all' || (f === 'todo' ? !l.done : l.done); });
       h += '<div class="row" style="margin-bottom:8px">' + UI.seg('lvFilter', [['all', '全部 ' + list.length], ['todo', '手續未完成 ' + list.filter(function (l) { return !l.done; }).length], ['done', '已完成']], f) + '</div>';
       h += '<div class="card">' + (shown.length ? '<ul class="list">' + shown.map(function (l) { return Leave.row(l, { who: true }); }).join('') + '</ul>' : '<div class="dim">沒有紀錄</div>') + '</div>';
+      h += '<p class="dim center">左邊方框打勾＝請假手續已完成；依請假日期由早到晚排列</p>';
       return h;
     }
-    // 請假已過、還沒完成手續（今天或之後的請假列在名單下方）
-    var past = b.todo.filter(function (x) { return L.leaveEnd(x.l) < t; });
-    if (past.length) {
-      h += '<div class="card' + (b.warn ? ' lv-alert' : b.remind ? ' lv-alert warn' : '') + '"><div class="card-title">' + icon('alert') + '<h2>請假手續未完成</h2><span class="dim">' + past.length + ' 筆</span></div>' +
-        '<ul class="list">' + past.map(function (x) { return Leave.row(x.l, { who: true, compact: true }); }).join('') + '</ul>' +
-        '<p class="dim lv-hint">點左邊方框即可標記「已完成請假手續」。</p></div>';
+    if (mode === 'late') {
+      h += '<div class="card' + (b.warn ? ' lv-alert' : late.length ? ' lv-alert warn' : '') + '"><div class="card-title">' + icon('alert') + '<h2>逾時請假</h2><span class="dim">' + late.length + ' 筆</span></div>' +
+        (late.length ? '<ul class="list">' + late.map(function (l) { return Leave.row(l, { who: true }); }).join('') + '</ul>' +
+          '<p class="dim lv-hint">點左邊方框即可標記「已完成請假手續」。</p>' : '<div class="dim">沒有逾時未完成手續的請假，很棒！</div>') + '</div>';
+      h += '<p class="dim center">銷假後滿 ' + Pref.leaveRemind() + ' 個上課日還沒完成手續為提醒（橘）、滿 ' + Pref.leaveWarn() + ' 個上課日為警示（紅）；天數可在設定「預設與細項」修改</p>';
+      return h;
     }
     var soon = b.today.concat(b.upcoming);
-    // 全班名單：點學生登記請假
+    // 名單頁順序：全班名單（最上）→ 今天與之後的請假（中）→ 請假手續未完成（最下）
     var students = Q.students(cls.id).filter(function (s) { return !s.out; });
     var next = {};
     soon.forEach(function (l) { if (!next[l.studentId] || l.start < next[l.studentId].start) next[l.studentId] = l; });
@@ -6649,12 +7148,21 @@ Views.leave = {
         (sub ? '<span class="lv-sub">' + sub + '</span>' : '') + '</button>';
     }).join('') + '</div>';
     h += '<p class="dim center">學生說哪天要請假，點他的名字記下來；到了那天會出現在今日總覽</p>';
-    if (soon.length) {
-      h += '<div class="card"><div class="card-title">' + icon('cal') + '<h2>今天與之後的請假</h2></div><ul class="list">' + soon.map(function (l) { return Leave.row(l, { who: true }); }).join('') + '</ul></div>';
+    h += '<div class="card"><div class="card-title">' + icon('cal') + '<h2>今天與之後的請假</h2>' + (soon.length ? '<span class="dim">' + soon.length + ' 筆</span>' : '') + '</div>' +
+      (soon.length ? '<ul class="list">' + soon.slice().sort(byDate).map(function (l) { return Leave.row(l, { who: true }); }).join('') + '</ul>' : '<div class="dim">目前沒有登記的請假</div>') + '</div>';
+    // 請假已過、還沒完成手續（依請假日期由早到晚）
+    var past = b.todo.filter(function (x) { return L.leaveEnd(x.l) < t; }).sort(function (x, y) { return byDate(x.l, y.l); });
+    if (past.length) {
+      h += '<div class="card' + (b.warn ? ' lv-alert' : b.remind ? ' lv-alert warn' : '') + '"><div class="card-title">' + icon('alert') + '<h2>請假手續未完成</h2><span class="dim">' + past.length + ' 筆</span></div>' +
+        '<ul class="list">' + past.map(function (x) { return Leave.row(x.l, { who: true, compact: true }); }).join('') + '</ul>' +
+        '<p class="dim lv-hint">點左邊方框即可標記「已完成請假手續」。</p></div>';
     }
     return h;
   }
 };
+
+/* 今日總覽的逾時橫幅：直接打開請假分頁的「逾時請假」 */
+Act.leaveLate = function () { App.ui.lvMode = 'late'; Prefs.set('ui', App.ui); App.openIn('leave'); };
 
 Act.leaveSheet = function () {
   var cls = App.cls();
@@ -7491,6 +7999,7 @@ WEB.settingsHtml = function () {
     '<p class="dim">一般不需要更改。學校或老師想用自己的 Google Cloud 專案時，可在這裡填入。</p>' +
     '<input class="input" data-change="webClientId" data-fk="web:cid" placeholder="' + esc((window.WEB_CONFIG && WEB_CONFIG.googleClientId) || '例如 1234-abc.apps.googleusercontent.com') + '" value="' + esc((function () { try { return localStorage.getItem('tn:web:clientId') || ''; } catch (e) { return ''; } })()) + '"></details>';
   h += '</div>';
+  h += A2HS.settingsHtml();
   return h;
 };
 Change.webClientId = function (d, el) {
@@ -7592,6 +8101,98 @@ Act.rebuild = function () {
   });
 };
 
+/* ---------- 加到主畫面（讓網頁版用起來像 App） ----------
+ * iOS 不允許網頁一鍵安裝：iPhone／iPad 的 Safari 還沒加到主畫面時，跳出一次圖解說明（可選不要再提醒）。
+ * Android／電腦的 Chrome 會發出 beforeinstallprompt，先攔下來，讓設定與首次使用畫面的「安裝到主畫面」按鈕使用。 */
+var A2HS = {
+  evt: null,
+  key: 'tn:web:a2hs',
+  standalone: function () {
+    return !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
+  },
+  ios: function () {
+    var ua = navigator.userAgent || '';
+    return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  },
+  // iOS 上只有 Safari 有「加入主畫面」的完整流程；Chrome、Firefox 等 iOS 版本不提示
+  iosSafari: function () { return this.ios() && !/CriOS|FxiOS|EdgiOS|OPiOS|GSA\//.test(navigator.userAgent || ''); },
+  can: function () { return !!this.evt && !this.standalone(); },
+  pref: function () { try { return JSON.parse(localStorage.getItem(this.key) || '{}'); } catch (e) { return {}; } },
+  setPref: function (v) { try { localStorage.setItem(this.key, JSON.stringify(v)); } catch (e) {} },
+  install: function () {
+    var e = A2HS.evt;
+    if (!e) { A2HS.guide(); return Promise.resolve(false); }
+    e.prompt();
+    return (e.userChoice || Promise.resolve({})).then(function (r) {
+      A2HS.evt = null;
+      if (r && r.outcome === 'accepted') UI.toast('已安裝到主畫面');
+      A2HS.refresh();
+      return r && r.outcome === 'accepted';
+    });
+  },
+  icons: {
+    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M8 10H6.5A1.5 1.5 0 0 0 5 11.5v8A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-8a1.5 1.5 0 0 0-1.5-1.5H16"/></svg>',
+    add: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M12 8.5v7M8.5 12h7"/></svg>',
+    ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg>'
+  },
+  // 圖解說明：iPhone 的分享鈕在下方工具列，iPad 在右上角
+  guide: function (opts) {
+    opts = opts || {};
+    var ipad = /iPad/.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var ic = A2HS.icons;
+    var body = '<p class="dim" style="margin-top:0">加到主畫面後，老師隨手記會像 App 一樣有自己的圖示，開啟時是全螢幕，不會有網址列。</p>' +
+      '<ol class="a2hs-steps">' +
+      '<li><span>按 Safari ' + (ipad ? '右上角' : '下方工具列') + '的<b>「分享」</b>按鈕</span><span class="ic">' + ic.share + '</span></li>' +
+      '<li><span>往下滑，選<b>「加入主畫面」</b></span><span class="ic">' + ic.add + '</span></li>' +
+      '<li><span>按右上角的<b>「新增」</b>，主畫面就會出現「隨手記」圖示</span><span class="ic">' + ic.ok + '</span></li>' +
+      '</ol>' +
+      (ipad ? '' : '<div class="a2hs-hint">分享按鈕在畫面下方 <span class="arrow">↓</span></div>');
+    var acts = opts.auto
+      ? [{ label: '不要再提醒', onClick: function () { var p = A2HS.pref(); p.never = true; A2HS.setPref(p); UI.toast('之後不會再提醒，需要時可到「設定」查看'); } },
+         { label: '知道了', cls: 'primary' }]
+      : [{ label: icon('back') + '回上頁', cls: 'back' }];
+    UI.sheet({ title: '加到主畫面', body: body, actions: acts });
+  },
+  // 啟動後自動提示一次（iOS Safari、還沒加到主畫面、沒有選過「不要再提醒」）；每台裝置只自動跳一次
+  autoPrompt: function () {
+    if (!A2HS.iosSafari() || A2HS.standalone()) return;
+    var p = A2HS.pref();
+    if (p.never || p.shown) return;
+    var tries = 0;
+    (function wait() {
+      // 等 PIN、首次設定等其他視窗關掉再跳
+      if ((window.Pin && Pin.locked) || (UI._open && UI._open.length) || document.querySelector('.overlay')) {
+        if (++tries < 20) setTimeout(wait, 3000);
+        return;
+      }
+      var q = A2HS.pref(); q.shown = Date.now(); A2HS.setPref(q);
+      A2HS.guide({ auto: true });
+    })();
+  },
+  // 設定頁的一段
+  settingsHtml: function () {
+    if (A2HS.standalone()) return '';
+    var row;
+    if (A2HS.can()) row = '<button class="btn small primary" data-act="a2hsInstall">' + icon('plus') + '安裝到主畫面</button>';
+    else if (A2HS.ios()) row = '<button class="btn small" data-act="a2hsGuide">' + icon('plus') + '怎麼加到主畫面</button>';
+    else return '';
+    return '<div class="section-label">加到主畫面</div><div class="card"><p class="dim" style="margin-top:0">加到主畫面後，像 App 一樣從圖示直接開啟、全螢幕使用。</p><div class="row wrap">' + row + '</div></div>';
+  },
+  refresh: function () {
+    var w = document.querySelector('.welcome .a2hs-slot');
+    if (w) w.innerHTML = A2HS.can() ? '<button class="btn primary a2hs-btn" data-act="a2hsInstall">' + icon('plus') + '安裝到主畫面</button>' : '';
+    if (window.App && App.booted && App.top && App.top() && App.top().view === 'settings') App.renderSoon();
+  }
+};
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  A2HS.evt = e;
+  A2HS.refresh();
+});
+window.addEventListener('appinstalled', function () { A2HS.evt = null; A2HS.refresh(); });
+Act.a2hsInstall = function () { A2HS.install(); };
+Act.a2hsGuide = function () { A2HS.guide(); };
+
 /* ---------- 首次使用 ---------- */
 WEB.welcome = function () {
   var root = document.getElementById('app');
@@ -7604,6 +8205,7 @@ WEB.welcome = function () {
     (window.showOpenFilePicker ? '<button class="welcome-opt" data-w="file"><b>存到電腦上的 Excel 檔</b><span>選一個 Excel 檔（新的或之前存的），之後自動存回這個檔。</span></button>' : '') +
     '<button class="welcome-opt" data-w="import"><b>從 Excel 檔開始</b><span>匯入之前下載的資料檔，或 GAS 版資料試算表下載成的 Excel。</span></button>' +
     '</div>' + (g ? '' : '<p class="dim" style="font-size:12px">這個網站尚未設定 Google 用戶端 ID，暫時無法使用雲端硬碟同步。</p>') +
+    '<div class="a2hs-slot">' + (A2HS.can() ? '<button class="btn primary a2hs-btn" data-act="a2hsInstall">' + icon('plus') + '安裝到主畫面</button>' : '') + '</div>' +
     '<p class="dim" style="font-size:12px"><a href="about/">關於老師隨手記</a>・<a href="privacy/">隱私權政策</a></p></div>';
   return new Promise(function (resolve) {
     root.querySelector('.welcome-list').addEventListener('click', function (e) {
@@ -7668,6 +8270,7 @@ WEB.start = function () {
   }).then(function () {
     boot();
     Cloud.sync();
+    setTimeout(A2HS.autoPrompt, 2500);
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'visible') Cloud.schedule(0);
       else WEB.saveNow();
