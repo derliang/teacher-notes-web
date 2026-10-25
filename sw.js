@@ -1,5 +1,5 @@
 // 讓網頁版在沒有網路時也能開啟：先用快取，背景再更新（下次開啟就是新版）。
-var CACHE = 'teacher-notes-1.4.3-mvn4pmrf';
+var CACHE = 'teacher-notes-1.4.4-mvn5149f';
 var SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon.png', 'icon.svg', 'vendor/jspdf.umd.min.js', 'vendor/html2canvas.min.js'];
 
 self.addEventListener('install', function (e) {
