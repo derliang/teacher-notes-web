@@ -13,7 +13,7 @@ Authorization inquiries: derliang@gmail.com
     <title>老師隨手記</title>
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" href="icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="隨手記">
@@ -842,6 +842,189 @@ input[type='checkbox']:disabled { opacity: 0.45; cursor: default; }
 .imp-preview th, .imp-preview td { padding: 4px 6px; border-bottom: 1px dashed var(--line); text-align: right; }
 .imp-preview th:first-child, .imp-preview td:first-child { text-align: left; }
 .imp-preview th { font-weight: normal; color: var(--ink-2); font-size: 12px; }
+/* 行事曆：嵌入 Google 日曆與匯入行程（#8） */
+.gcal-embed { display: block; width: 100%; height: min(72vh, 680px); border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+.cal-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 14px 0 0; }
+.cal-tools .dim { flex: 1; min-width: 0; font-size: 13px; }
+
+/* 座位表拍照填入（第 30 條）：入口列、確認畫面、參考圖 */
+.sp-bar { display: flex; margin: 0 0 8px; }
+.sp-bar .btn { flex: 1; gap: 6px; }
+.sp-hint { margin: 0 0 8px; line-height: 1.6; }
+.sp-pick { width: 100%; justify-content: center; gap: 6px; margin-top: 4px; }
+.sp-busy { text-align: center; padding: 24px 0; color: var(--ink-2); }
+.sp-thumb { display: block; max-width: 100%; max-height: 120px; margin: 0 auto 8px; border-radius: var(--r-sm, 6px); }
+.sp-flip { display: flex; gap: 8px; margin-bottom: 8px; }
+.sp-flip .btn { flex: 1; }
+.sp-grid { display: grid; gap: 4px; }
+.sp-cell { position: relative; min-width: 0; border: 1px solid var(--line); border-radius: 6px; padding: 2px; }
+.sp-cell.low { background: var(--warn-soft); border-color: var(--warn); }
+.sp-cell.bad { border-color: var(--red); border-width: 2px; }
+.sp-cell select { width: 100%; min-width: 0; height: 36px; padding: 0 2px; font-size: 12px; }
+.sp-raw { display: block; font-size: 10px; color: var(--ink-3); min-height: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.sp-legend, .sp-sum { font-size: 12px; margin-top: 8px; }
+.sp-dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; border: 1px solid var(--warn); background: var(--warn-soft); vertical-align: -1px; }
+.sp-dot.bad { border-color: var(--red); background: transparent; }
+.sp-keep { display: block; margin-top: 10px; font-size: 13px; }
+.sp-ref { margin: 0 0 10px; }
+.sp-ref img { display: block; width: 100%; max-height: 260px; object-fit: contain; border-radius: 6px; background: var(--card-2); }
+.sp-ref-bar { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 13px; }
+.sp-ref-bar label { flex: 1; display: flex; align-items: center; gap: 8px; }
+.sp-ref-bar input[type=range] { flex: 1; min-width: 0; }
+
+/* ============ 2026-10 介面拉皮（設計規格：七格底欄、頁首、卡片標題列、FAB 與提示條） ============ */
+:root { --ink-soft: var(--ink-2); --tab-h: 60px; }
+/* 底部導覽：七格；目前頁用朱紅粗體＋淡紅底＋上緣 3px 色條 */
+.tabs { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.tabs button { font-size: 12px; white-space: nowrap; padding: 0; }
+.tabs button svg { width: 22px; height: 22px; }
+.tabs button.on { background: var(--red-soft); }
+.tabs button.on::before { content: ''; }
+@media (max-width: 1023px) { .tabs button.on::before { left: 10%; right: 10%; height: 3px; border-radius: 0 0 3px 3px; } }
+.tabs .t-full { display: none; }
+.tabs .t-short { display: inline; }
+/* 頁首：子頁「‹ 回OO」，同步燈號固定最右 */
+.back-btn { flex: none; display: inline-flex; align-items: center; gap: 2px; min-height: 44px; padding: 0 8px 0 4px; border: 0; background: none; color: var(--red); font: inherit; font-weight: 700; white-space: nowrap; border-radius: 8px; }
+.back-btn .chev { font-size: 26px; line-height: 1; margin-top: -3px; }
+.back-btn:active { background: var(--red-soft); }
+.head .title.grow { min-width: 0; }
+.sync-pill { min-width: 44px; min-height: 44px; border-color: transparent; background: none; }
+.sync-pill .lamp { width: 10px; height: 10px; }
+@media (min-width: 700px) { .sync-pill { min-width: 0; min-height: 30px; border-color: var(--line); background: var(--card); } }
+/* 卡片標題列：標題、說明、按鈕都不斷行、不被擠成直排 */
+.card-title { flex-wrap: nowrap; }
+.card-title h2, .card-title > .title { white-space: nowrap; flex: none; }
+.card-title > .dim, .card-title > .muted, .card-title > small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 0 1 auto; }
+.card-title > .btn, .card-title > button, .card-title > a.btn { flex: none; white-space: nowrap; min-width: 64px; }
+.card-title > .right { margin-left: auto; }
+.btn { white-space: nowrap; min-height: 44px; }
+.btn.small { min-height: 36px; min-width: 64px; }
+.kv > span:first-child, .field > span { white-space: nowrap; }
+.kv > b, .kv > span:last-child { min-width: 0; text-align: right; }
+.kv > span:first-child { flex: none; }
+.toolbar > .btn, .toolbar > a.btn { flex: none; }
+@media (max-width: 360px) { .card-title > .dim, .card-title > .muted { display: none; } }
+/* FAB 與「已完成／復原」提示條：內容留白、提示條不蓋 FAB */
+.main { padding-bottom: calc(88px + 16px); }
+.fab { width: 52px; height: 52px; right: 16px; bottom: calc(var(--tab-h) + var(--safe-bottom) + 16px); }
+.snack { left: 16px; right: 84px; transform: none; max-width: none; bottom: calc(var(--tab-h) + var(--safe-bottom) + 16px); min-height: 44px; white-space: nowrap; justify-content: space-between; }
+.snack > span { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+/* 設定頁：按鈕群組兩欄格狀 */
+[data-view='settings'] .row.wrap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+[data-view='settings'] .row.wrap > .btn, [data-view='settings'] .row.wrap > a.btn { width: 100%; justify-content: center; }
+/* 勾選方塊與按鈕尺寸一致 */
+input[type='checkbox'] { border-radius: 6px; }
+/* 日期選擇器：週次不斷行、今天明顯 */
+.dp-wk { font-size: 11px; padding: 0 2px; }
+.dp-d.today { background: var(--red-soft); }
+/* 行事曆篩選列：整齊排列，連結按鈕為次要樣式 */
+[data-view='cal'] .toolbar { gap: 8px; }
+[data-view='cal'] .toolbar select.class-sel { flex: 1 1 140px; max-width: 260px; }
+[data-view='cal'] .toolbar a.btn, [data-view='cal'] .toolbar .btn.small { margin-left: auto; }
+@media (min-width: 1024px) {
+  .tabs button[data-tab='settings'] { margin-top: auto; }
+  .tabs .t-full { display: inline; }
+  .tabs .t-short { display: none; }
+  .snack { left: calc(50% + var(--rail) / 2); right: auto; transform: translateX(-50%); max-width: 520px; }
+}
+@media (min-width: 700px) and (max-width: 1023px) {
+  :root { --tab-h: 68px; }
+  .tabs button { font-size: 13px; }
+  .main { padding-left: max(28px, calc((100% - 764px) / 2)); padding-right: max(28px, calc((100% - 764px) / 2)); }
+  .fab { right: 28px; }
+}
+/* ============ #9 行事曆頁「開啟 Google 日曆」外連按鈕 ============ */
+.gcal-link { white-space: nowrap; color: var(--red); border-color: var(--line); background: transparent; font-weight: 700; flex: none; gap: 4px; }
+.gcal-link svg { width: 15px; height: 15px; }
+.cal-bar { flex-wrap: wrap; }
+@media (max-width: 699px) { .cal-bar select.class-sel, .cal-bar > select { flex: 1 1 100%; max-width: none; width: 100%; } .cal-bar .gcal-link { margin-left: auto; } }
+
+/* ============ 2026-10 拉皮：各頁細修（座位表、名單、個人頁、計時器、抽籤、行事曆空狀態）與 iPad／桌機利用寬度 ============ */
+/* 行事曆近期沒有行程的空狀態 */
+.cal-empty { text-align: center; padding: 26px 16px; }
+.cal-empty .seal-logo { width: 44px; height: 44px; font-size: 24px; margin: 0 auto 10px; display: flex; opacity: 0.88; }
+.cal-empty b { display: block; font-size: 17px; }
+.cal-empty p { margin: 6px 0 16px; }
+.cal-empty .acts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.cal-empty .acts .btn { min-width: 128px; }
+/* 座位表：設定列整齊、標籤不斷行、按鈕等寬 */
+.seat-size { gap: 8px 12px; }
+.seat-size label { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 14px; color: var(--ink-2); }
+.seat-size .btn { flex: 1 1 120px; }
+/* 計時器與抽籤：數字放大、主按鈕加高、開始／重設等寬 */
+.timer-face { font-size: 72px; }
+[data-view='timer'] .btn, [data-view='draw'] .btn.primary { min-height: 52px; }
+[data-view='timer'] .btn.primary, [data-view='draw'] .btn.primary { font-size: 17px; }
+/* 個人頁：日期欄等寬不斷行 */
+[data-view='personal'] input.date-in { min-width: 0; font-size: 14px; }
+/* 名單：座號與姓名欄 */
+[data-view='roster'] .li { min-height: 52px; }
+@media (min-width: 700px) {
+  .timer-face { font-size: 120px; }
+  #app[data-view='timer'], #app[data-view='draw'] { --page-w: 640px; }
+  /* iPad 直向起：單欄頁面改兩欄（卡片不拆開） */
+  .page[data-view='settings'], .page[data-view='personal'], .page[data-view='scoreList'], .page[data-view='checkList'] { columns: 2; column-gap: 16px; }
+  .page[data-view='settings'] > .card, .page[data-view='personal'] > .card, .page[data-view='scoreList'] > .card, .page[data-view='checkList'] > .card { break-inside: avoid; }
+  .page[data-view='settings'] > .section-label, .page[data-view='personal'] > .section-label { break-after: avoid; margin-top: 4px; }
+}
+@media (min-width: 900px) {
+  .page[data-view='cal'] .day-block { break-inside: avoid; }
+  .page[data-view='cal'] { columns: 2; column-gap: 16px; }
+  .page[data-view='cal'] > .toolbar, .page[data-view='cal'] > .dim, .page[data-view='cal'] > p { column-span: all; }
+}
+@media (min-width: 1280px) {
+  #app[data-view='settings'], #app[data-view='personal'], #app[data-view='cal'], #app[data-view='leave'], #app[data-view='roster'] { --page-w: 1040px; }
+  .page[data-view='roster'] .list, .page[data-view='roster'] > .card > .list { columns: 2; column-gap: 20px; }
+}
+/* 深色模式：卡片只用邊框，不加陰影；外連按鈕與空狀態維持對比 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .card { box-shadow: none; }
+  :root:not([data-theme='light']) .gcal-link, :root:not([data-theme='light']) .back-btn { color: var(--red); }
+}
+:root[data-theme='dark'] .card { box-shadow: none; }
+/* ============ 2026-10 拉皮補充：今日逾時提醒條單行、範本 chip 等寬格、三段切換徽章、週次欄 ============ */
+.lv-banner { min-height: 44px; flex-wrap: nowrap; }
+.lv-banner > span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lv-banner::after { content: '›'; flex: none; font-size: 20px; line-height: 1; }
+.seg .n { min-width: 18px; height: 18px; line-height: 18px; padding: 0 5px; border-radius: 9px; background: var(--fill); color: var(--on-fill); font-weight: 700; }
+.seg button.on .n { background: var(--on-fill); color: var(--fill); }
+.page[data-view='checkList'] > .chips, .page[data-view='scoreList'] > .chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+.page[data-view='checkList'] > .chips > .dim, .page[data-view='scoreList'] > .chips > .dim { grid-column: 1 / -1; }
+.page[data-view='checkList'] > .chips .chip, .page[data-view='scoreList'] > .chips .chip { min-height: 44px; padding: 4px 10px; border-radius: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+.dp-grid { grid-template-columns: 46px repeat(7, minmax(0, 1fr)); }
+.dp-wk, .dp-wk-h { white-space: nowrap; }
+@media (min-width: 700px) { .page[data-view='checkList'] > .chips, .page[data-view='scoreList'] > .chips { grid-template-columns: repeat(3, minmax(0, 1fr)); column-span: all; } }
+/* ============ 2026-10 視覺精修：古典雙線頁首、卡片質感、底欄圖示膠囊、按鈕與標籤層次、FAB ============ */
+.head { border-bottom: 1px solid var(--line); }
+.head::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--line-soft); pointer-events: none; }
+.card { border-radius: 14px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), var(--shadow); }
+.card::after { inset: 4px; border-radius: 10px; opacity: 0.8; }
+.card-title h2 { font-size: 17px; letter-spacing: 0.06em; }
+.card-title > svg.i { color: var(--red); }
+.section-label::before { content: ''; width: 7px; height: 7px; background: var(--red); transform: rotate(45deg); flex: none; margin-right: 2px; }
+.today-date .d { font-size: 36px; letter-spacing: 0.02em; }
+.btn { border-radius: 10px; box-shadow: 0 1px 0 rgba(80, 60, 20, 0.07); }
+.btn.primary { background: linear-gradient(180deg, color-mix(in srgb, var(--fill) 86%, #fff), var(--fill)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 3px rgba(120, 30, 20, 0.3); font-weight: 700; letter-spacing: 0.04em; }
+.input, select.input, textarea.input { border-radius: 10px; }
+.input:focus { outline: 0; border-color: var(--red); box-shadow: 0 0 0 3px var(--red-soft); }
+.tag { border: 0; background: var(--line-soft); color: var(--ink-2); padding: 1px 9px; border-radius: 10px; }
+.tag.red { background: var(--red-soft); color: var(--red); }
+.tag.leave { background: var(--card-2); }
+.li { padding-top: 11px; padding-bottom: 11px; }
+.fab { background: linear-gradient(180deg, color-mix(in srgb, var(--fill) 86%, #fff), var(--fill)); box-shadow: 0 0 0 3px var(--paper), var(--fab-shadow); }
+.banner { border-radius: 10px; }
+.sheet { border-radius: 20px 20px 0 0; }
+.seg { border-radius: 10px; box-shadow: 0 1px 0 rgba(80, 60, 20, 0.06); }
+@media (max-width: 1023px) {
+  .tabs button.on { background: none; }
+  .tabs button.on::before { display: none; }
+  .tabs button svg { width: 44px; height: 28px; padding: 3px 11px; border-radius: 14px; box-sizing: border-box; transition: background 0.15s; }
+  .tabs button.on svg { background: var(--red-soft); stroke-width: 2; }
+  .tabs button { gap: 1px; }
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .card { box-shadow: none; } :root:not([data-theme='light']) .btn.primary { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12); } }
+:root[data-theme='dark'] .card { box-shadow: none; }
+:root[data-theme='dark'] .btn.primary { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12); }
 </style>
 
   </head>
@@ -1022,8 +1205,24 @@ input[type='checkbox']:disabled { opacity: 0.45; cursor: default; }
   }
   var DATE_FMT_IDS = { 14: 1, 15: 1, 16: 1, 17: 1, 22: 1 };
 
+  // 匯入上限：防止惡意或損壞的檔案耗盡記憶體（正常資料遠低於這些數字）
+  var LIMITS = { fileBytes: 30 * 1024 * 1024, unzipBytes: 150 * 1024 * 1024, entries: 200, rows: 100000, cellChars: 100000 };
+
   function read(bytes) {
-    var zip = fflate.unzipSync(bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes));
+    bytes = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+    if (bytes.length > LIMITS.fileBytes) throw new Error('檔案太大（超過 ' + LIMITS.fileBytes / 1048576 + ' MB），無法匯入。');
+    var total = 0;
+    var count = 0;
+    var zip = fflate.unzipSync(bytes, {
+      filter: function (f) {
+        // 解壓前就依標頭宣告的大小檢查，超過就整個拒絕
+        count++;
+        total += f.originalSize;
+        if (count > LIMITS.entries) throw new Error('檔案內容異常（內部檔案過多），已拒絕匯入。');
+        if (total > LIMITS.unzipBytes) throw new Error('檔案解壓後太大（超過 ' + LIMITS.unzipBytes / 1048576 + ' MB），已拒絕匯入。');
+        return true;
+      }
+    });
     var s = function (p) {
       return zip[p] ? fflate.strFromU8(zip[p]) : '';
     };
@@ -1075,6 +1274,7 @@ input[type='checkbox']:disabled { opacity: 0.45; cursor: default; }
         var rn = attr(rAttr, 'r');
         var ri = rn ? Number(rn) - 1 : nextRow;
         nextRow = ri + 1;
+        if (ri >= LIMITS.rows) throw new Error('工作表列數太多（超過 ' + LIMITS.rows + ' 列），已拒絕匯入。');
         var row = [];
         var cellRe = /<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g;
         var cm;
@@ -1099,6 +1299,8 @@ input[type='checkbox']:disabled { opacity: 0.45; cursor: default; }
             val = Number(v);
             if (dateStyles[Number(attr(ca, 's') || 0)]) val = serialToDate(val);
           }
+          if (ci > 1000) throw new Error('工作表欄數太多，已拒絕匯入。');
+          if (typeof val === 'string' && val.length > LIMITS.cellChars) throw new Error('有儲存格的文字過長（超過 ' + LIMITS.cellChars + ' 字），已拒絕匯入。');
           while (row.length < ci) row.push('');
           row[ci] = val;
         }
@@ -1138,7 +1340,7 @@ input[type='checkbox']:disabled { opacity: 0.45; cursor: default; }
     return rows;
   }
 
-  return { write: write, read: read, parseCsv: parseCsv };
+  return { write: write, read: read, parseCsv: parseCsv, LIMITS: LIMITS };
 });
 </script>
 <script>/*
@@ -2046,8 +2248,8 @@ var Drive = (function () {
   return self;
 })();
 </script>
-<script>window.GAS_SOURCE = "// ---- Archive.gs\n/**\n * 歸檔與封存：\n * - 裝置上把事項設為歸檔後，該事項與紀錄不再同步到裝置。\n * - 歸檔滿 ARCHIVE_MOVE_AFTER_DAYS 天，其紀錄搬入「封存」sheet，維持主表精簡。\n * - 已歸檔事項可查詢、檢視、還原，或在確認後刪除。\n */\n\nfunction readArchiveSheet_() {\n  var sh = getSS_().getSheetByName(ARCHIVE_SHEET);\n  var n = sh.getLastRow() - 1;\n  var rows = n > 0 ? sh.getRange(2, 1, n, ARCHIVE_COLS.length).getValues() : [];\n  return {\n    sh: sh,\n    rows: rows.filter(function (r) {\n      return r[0] !== '';\n    })\n  };\n}\n\nfunction writeArchiveSheet_(ar, rows) {\n  // 單次寫入（不先清空），中途失敗也不會清掉整張封存表\n  var old = Math.max(ar.sh.getLastRow() - 1, 0);\n  var n = Math.max(old, rows.length);\n  if (!n) return;\n  var values = rows.slice();\n  while (values.length < n) values.push(['', '', '', '', '']);\n  ar.sh.getRange(2, 1, n, ARCHIVE_COLS.length).setNumberFormat('@').setValues(values);\n}\n\n/** 把歸檔夠久的事項紀錄搬入封存 sheet。 */\nfunction moveArchivedChildren_(now) {\n  var cutoff = now - ARCHIVE_MOVE_AFTER_DAYS * 86400000;\n  var itemsTb = openTable_('items');\n  var targets = {};\n  var movedItems = [];\n  readRows_(itemsTb).forEach(function (i) {\n    if (i.archived && !i.moved && !i.deleted && (i.archivedAt || 0) < cutoff) {\n      targets[i.id] = true;\n      i.moved = true;\n      i._raw = objToRow_(itemsTb, i, i._raw);\n      movedItems.push(i);\n    }\n  });\n  if (!movedItems.length) return 0;\n  // 順序：先寫入封存 → 再從主表移除 → 最後標記已搬移。任何一步中斷都只會重複、不會遺失；\n  // 已在封存中的紀錄不會重複寫入。\n  var ar = readArchiveSheet_();\n  var inArchive = {};\n  ar.rows.forEach(function (row) {\n    inArchive[row[0] + '|' + row[1]] = true;\n  });\n  var add = [];\n  var stamp = String(now);\n  var plans = [];\n  CHILD_TABLES.forEach(function (t) {\n    var tb = openTable_(t);\n    var rows = readRows_(tb);\n    var keep = [];\n    rows.forEach(function (r) {\n      if (targets[r.itemId]) {\n        if (!r.deleted && !inArchive[t + '|' + r.id]) add.push([t, r.id, r.itemId, JSON.stringify(publicObj_(tb, r)), stamp]);\n      } else {\n        keep.push(r);\n      }\n    });\n    if (keep.length !== rows.length) plans.push([tb, keep]);\n  });\n  if (add.length) {\n    var start = ar.sh.getLastRow() + 1;\n    var need = start + add.length - 1 - ar.sh.getMaxRows();\n    if (need > 0) ar.sh.insertRowsAfter(ar.sh.getMaxRows(), need);\n    ar.sh.getRange(start, 1, add.length, ARCHIVE_COLS.length).setNumberFormat('@').setValues(add);\n  }\n  plans.forEach(function (pl) {\n    rewriteTable_(pl[0], pl[1]);\n  });\n  writeRows_(itemsTb, movedItems, []);\n  return movedItems.length;\n}\n\nfunction findItem_(itemsTb, id) {\n  var rows = readRows_(itemsTb);\n  for (var i = 0; i < rows.length; i++) if (rows[i].id === id) return rows[i];\n  return null;\n}\n\n/** 讀取某些事項的全部紀錄（主表＋封存）。 */\nfunction childrenOf_(itemIds, filter) {\n  var ids = {};\n  itemIds.forEach(function (id) {\n    ids[id] = true;\n  });\n  var out = { checks: [], events: [], scores: [] };\n  CHILD_TABLES.forEach(function (t) {\n    var tb = openTable_(t);\n    readRows_(tb).forEach(function (r) {\n      if (ids[r.itemId] && !r.deleted && (!filter || filter(t, r))) out[t].push(publicObj_(tb, r));\n    });\n  });\n  var seen = {};\n  CHILD_TABLES.forEach(function (t) {\n    out[t].forEach(function (r) {\n      seen[t + '|' + r.id] = true;\n    });\n  });\n  readArchiveSheet_().rows.forEach(function (row) {\n    if (!ids[row[2]] || !out[row[0]] || seen[row[0] + '|' + row[1]]) return;\n    seen[row[0] + '|' + row[1]] = true;\n    try {\n      var r = JSON.parse(row[3]);\n      if (!filter || filter(row[0], r)) out[row[0]].push(r);\n    } catch (e) {}\n  });\n  return out;\n}\n\nfunction apiArchivedList_(p) {\n  getSS_();\n  var tb = openTable_('items');\n  var q = String(p.q || '').trim().toLowerCase();\n  var list = readRows_(tb)\n    .filter(function (i) {\n      if (!i.archived || i.deleted) return false;\n      if (p.type && i.type !== p.type) return false;\n      if (p.classId && i.classId !== p.classId) return false;\n      if (q && String(i.title).toLowerCase().indexOf(q) < 0) return false;\n      return true;\n    })\n    .map(function (i) {\n      return publicObj_(tb, i);\n    });\n  list.sort(function (a, b) {\n    return (b.archivedAt || 0) - (a.archivedAt || 0);\n  });\n  return list;\n}\n\nfunction apiArchivedDetail_(p) {\n  getSS_();\n  var tb = openTable_('items');\n  var item = findItem_(tb, p.id);\n  if (!item || item.deleted) throw new Error('找不到這個事項');\n  var ch = childrenOf_([item.id]);\n  return { item: publicObj_(tb, item), checks: ch.checks, events: ch.events, scores: ch.scores };\n}\n\nfunction apiRestoreItem_(p) {\n  return withLock_(function () {\n    getSS_();\n    var now = Date.now();\n    var itemsTb = openTable_('items');\n    var item = findItem_(itemsTb, p.id);\n    if (!item || item.deleted) throw new Error('找不到這個事項');\n    if (item.moved) {\n      var ar = readArchiveSheet_();\n      var keep = [];\n      var back = { checks: [], events: [], scores: [] };\n      ar.rows.forEach(function (row) {\n        if (row[2] === item.id && back[row[0]]) {\n          try {\n            back[row[0]].push(JSON.parse(row[3]));\n          } catch (e) {}\n        } else {\n          keep.push(row);\n        }\n      });\n      CHILD_TABLES.forEach(function (t) {\n        if (!back[t].length) return;\n        var tb = openTable_(t);\n        var exists = {};\n        readRows_(tb).forEach(function (r) {\n          exists[r.id] = true;\n        });\n        back[t] = back[t].filter(function (r) {\n          if (exists[r.id]) return false;\n          exists[r.id] = true;\n          return true;\n        });\n        var appends = back[t].map(function (r) {\n          r._rev = now;\n          r._raw = objToRow_(tb, r);\n          return r;\n        });\n        writeRows_(tb, [], appends);\n      });\n      writeArchiveSheet_(ar, keep);\n    } else {\n      CHILD_TABLES.forEach(function (t) {\n        var tb = openTable_(t);\n        var ups = readRows_(tb).filter(function (r) {\n          return r.itemId === item.id;\n        });\n        ups.forEach(function (r) {\n          r._rev = now;\n          r._raw = objToRow_(tb, r, r._raw);\n        });\n        writeRows_(tb, ups, []);\n      });\n    }\n    item.archived = false;\n    item.archivedAt = null;\n    item.moved = false;\n    item.updatedAt = now;\n    item._rev = now;\n    item._raw = objToRow_(itemsTb, item, item._raw);\n    writeRows_(itemsTb, [item], []);\n    return { ok: true };\n  });\n}\n\nfunction apiDeleteArchived_(p) {\n  return withLock_(function () {\n    getSS_();\n    var now = Date.now();\n    var itemsTb = openTable_('items');\n    var item = findItem_(itemsTb, p.id);\n    if (!item || item.deleted) return { ok: true };\n    if (!item.archived) throw new Error('只能刪除已歸檔的事項');\n    CHILD_TABLES.forEach(function (t) {\n      var tb = openTable_(t);\n      var rows = readRows_(tb);\n      var keep = rows.filter(function (r) {\n        return r.itemId !== item.id;\n      });\n      if (keep.length !== rows.length) rewriteTable_(tb, keep);\n    });\n    var ar = readArchiveSheet_();\n    var keepAr = ar.rows.filter(function (row) {\n      return row[2] !== item.id;\n    });\n    if (keepAr.length !== ar.rows.length) writeArchiveSheet_(ar, keepAr);\n    item.deleted = true;\n    item.updatedAt = now;\n    item._rev = now;\n    item._raw = objToRow_(itemsTb, item, item._raw);\n    writeRows_(itemsTb, [item], []);\n    return { ok: true };\n  });\n}\n\n/**\n * 匯出用：取得某班（或某位學生）在日期範圍內的所有事項與紀錄，含已歸檔與封存。\n * 勾選與成績以事項日期篩選。\n */\nfunction apiFetchRange_(p) {\n  getSS_();\n  var from = p.from || '0000-00-00';\n  var to = p.to || '9999-99-99';\n  var tb = openTable_('items');\n  var items = readRows_(tb).filter(function (i) {\n    if (i.deleted || i.classId !== p.classId) return false;\n    return i.date >= from && i.date <= to;\n  });\n  var ch = childrenOf_(\n    items.map(function (i) {\n      return i.id;\n    }),\n    function (t, r) {\n      if (p.studentId && r.studentId !== p.studentId) return false;\n      return true;\n    }\n  );\n  return {\n    items: items.map(function (i) {\n      return publicObj_(tb, i);\n    }),\n    checks: ch.checks,\n    events: ch.events,\n    scores: ch.scores\n  };\n}\n\n// ---- Calendar.gs\n/**\n * 行事曆單向同步：本 App 寫入專用的「老師隨手記」Google 日曆，日曆端的修改不回寫。\n */\n\nfunction teacherCalendar_(create) {\n  var id = props_().getProperty('CAL_ID');\n  var cal = null;\n  if (id) {\n    try {\n      cal = CalendarApp.getCalendarById(id);\n      if (cal && !cal.isOwnedByMe()) cal = null;\n    } catch (e) {\n      cal = null;\n    }\n  }\n  if (!cal) {\n    // 只用自己建立的日曆，略過別人分享過來的同名日曆\n    var list = (CalendarApp.getCalendarsByName(CALENDAR_NAME) || []).filter(function (c) {\n      return c.isOwnedByMe();\n    });\n    cal = list.length ? list[0] : null;\n    if (!cal && create) cal = CalendarApp.createCalendar(CALENDAR_NAME, { color: CalendarApp.Color.RED });\n    if (cal) props_().setProperty('CAL_ID', cal.getId());\n  }\n  return cal;\n}\n\nfunction classNameMap_() {\n  var map = {};\n  readRows_(openTable_('classes')).forEach(function (c) {\n    map[c.id] = c.name;\n  });\n  return map;\n}\n\nfunction parseLocalDate_(date, time) {\n  var d = String(date).split('-');\n  var y = Number(d[0]);\n  var m = Number(d[1]) - 1;\n  var day = Number(d[2]);\n  if (!time) return new Date(y, m, day);\n  var t = String(time).split(':');\n  return new Date(y, m, day, Number(t[0]), Number(t[1] || 0));\n}\n\n/** 把行事曆列同步到 Google 日曆，並把日曆事件 ID 寫回 sheet。 */\nfunction syncCalendarRows_(tb, rows) {\n  var cal = teacherCalendar_(true);\n  if (!cal) throw new Error('無法建立 Google 日曆');\n  var names = classNameMap_();\n  var col = tb.idx.gcalId + 1;\n  rows.forEach(function (r) {\n    var ev = null;\n    if (r.gcalId) {\n      try {\n        ev = cal.getEventById(r.gcalId);\n      } catch (e) {\n        ev = null;\n      }\n    }\n    var gid = r.gcalId || '';\n    if (r.deleted || !r.date) {\n      if (ev) ev.deleteEvent();\n      gid = '';\n    } else {\n      var title = (r.classId && names[r.classId] ? '［' + names[r.classId] + '］' : '') + r.text;\n      var start = parseLocalDate_(r.date, r.time);\n      if (!ev) {\n        ev = r.time\n          ? cal.createEvent(title, start, new Date(start.getTime() + CALENDAR_EVENT_MINUTES * 60000))\n          : cal.createAllDayEvent(title, start);\n      } else {\n        ev.setTitle(title);\n        if (r.time) ev.setTime(start, new Date(start.getTime() + CALENDAR_EVENT_MINUTES * 60000));\n        else ev.setAllDayDate(start);\n      }\n      gid = ev.getId();\n    }\n    if (gid !== (r.gcalId || '') && r._row) {\n      tb.sh.getRange(r._row, col).setNumberFormat('@').setValue(gid);\n      r.gcalId = gid;\n    }\n  });\n}\n\n/** 開啟同步時，把今天（含）以後的行程全部寫入日曆。 */\nfunction apiCalendarSyncAll_() {\n  return withLock_(function () {\n    getSS_();\n    var tb = openTable_('cal');\n    var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');\n    var rows = readRows_(tb).filter(function (r) {\n      return !r.deleted && r.date >= today;\n    });\n    syncCalendarRows_(tb, rows);\n    var cal = teacherCalendar_(false);\n    return { count: rows.length, calendarId: cal ? cal.getId() : null };\n  });\n}\n\n// ---- Code.gs\n/*\n * Copyright (c) 2026 黃德亮 (derliang). All rights reserved.\n * Non-commercial use only. Sheng Kung Girls' High School\n * students and staff may use this software free of charge\n * for non-commercial educational purposes.\n * Other schools must obtain authorization by email.\n * Contact: derliang@gmail.com\n * See LICENSE.md for full terms.\n */\n/**\n * 網頁 App 入口與 API 分派。\n * 前端只透過 api(action, payload) 呼叫後端，回傳 JSON 字串；\n * 日後要改成獨立前台時，只需替換前端的 Backend 轉接層。\n */\n\nfunction doGet() {\n  var t = HtmlService.createTemplateFromFile('index');\n  t.boot = JSON.stringify({ version: APP_VERSION, email: Session.getActiveUser().getEmail() });\n  var out = t\n    .evaluate()\n    .setTitle(APP_NAME)\n    .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');\n  if (FAVICON_URL) out.setFaviconUrl(FAVICON_URL);\n  return out;\n}\n\nfunction include(name) {\n  return HtmlService.createHtmlOutputFromFile(name).getContent();\n}\n\nfunction apiTable_() {\n  return {\n    pull: apiPull_,\n    push: apiPush_,\n    archivedList: apiArchivedList_,\n    archivedDetail: apiArchivedDetail_,\n    restoreItem: apiRestoreItem_,\n    deleteArchived: apiDeleteArchived_,\n    fetchRange: apiFetchRange_,\n    createSheet: apiCreateSheet_,\n    htmlToPdf: apiHtmlToPdf_,\n    uploadPhoto: apiUploadPhoto_,\n    photo: apiPhoto_,\n    importRoster: apiImportRoster_,\n    resetPin: apiResetPin_,\n    checkVersion: apiCheckVersion_,\n    calendarSyncAll: apiCalendarSyncAll_,\n    backupNow: apiBackupNow_,\n    resetDataFile: apiResetDataFile_\n  };\n}\n\nfunction api(action, payload) {\n  // 每次呼叫都重新判斷試算表狀態（GAS 每次執行本來就會重置全域變數）\n  _ss = null;\n  _fresh = false;\n  try {\n    var fn = apiTable_()[action];\n    if (!fn) throw new Error('未知的操作：' + action);\n    return JSON.stringify({ ok: true, data: fn(payload || {}) });\n  } catch (err) {\n    console.error(action + ' 失敗：' + (err && err.stack ? err.stack : err));\n    return JSON.stringify({ ok: false, error: String((err && err.message) || err) });\n  }\n}\n\n// ---- Config.gs\n/**\n * 老師隨手記：全域設定。\n * 改版時請同步更新 APP_VERSION 與根目錄的 version.json。\n */\nvar APP_NAME = '老師隨手記';\nvar APP_VERSION = '1.4.5';\n\n// 方式 A（自行部署）用的版本檢查網址：指向一個公開的 version.json（格式見 repo 根目錄）。\n// 留空則不檢查。\nvar VERSION_CHECK_URL = '';\n\n// 網頁分頁圖示（需為公開的 https PNG 網址），留空則使用預設。\nvar FAVICON_URL = '';\n\nvar DATA_FILE_NAME = '老師隨手記資料';\nvar BACKUP_FOLDER_NAME = '老師隨手記備份';\nvar PHOTO_FOLDER_NAME = '老師隨手記相片';\n// 單張相片上限（前端會先縮圖，通常只有幾百 KB）。\nvar PHOTO_MAX_BYTES = 5 * 1024 * 1024;\n// 沒有任何登記紀錄使用的相片，上傳幾天後丟進垃圾桶（垃圾桶內 30 天內仍可救回）。\nvar PHOTO_ORPHAN_DAYS = 7;\nvar BACKUP_KEEP = 4;\nvar BACKUP_EVERY_DAYS = 7;\nvar CALENDAR_NAME = '老師隨手記';\nvar CALENDAR_EVENT_MINUTES = 60;\n\n// 已歸檔事項的紀錄在歸檔幾天後搬入「封存」sheet。\nvar ARCHIVE_MOVE_AFTER_DAYS = 7;\n// 已完成待辦保留天數。\nvar DONE_TODO_KEEP_DAYS = 30;\n// 已刪除資料（同步用的刪除標記）保留天數；超過後裝置需整份重新同步。\nvar TOMBSTONE_KEEP_DAYS = 60;\n\n// 快速登記清單的預設項目（老師沒改過清單時使用；與前端 js_log.html 的 DEFAULT_QUICK 相同）。\nvar DEFAULT_QUICK_LIST = ['掃地沒掃', '缺交作業', '上課吵鬧', '講髒話', '上課睡覺', '遲到', '忘記帶學用品', '服儀不整'];\n\n// ---- Db.gs\n/**\n * 試算表存取層：找到（或建立）老師的資料試算表、維護欄位結構、讀寫資料列。\n *\n * 方式 C：網頁 App 以存取者身分執行，資料試算表建立在老師自己的雲端硬碟，\n *         試算表 ID 存在 UserProperties。\n * 方式 A：腳本綁定在老師複製的試算表上，直接使用該試算表。\n */\nvar _ss = null;\nvar _fresh = false;\n\nfunction props_() {\n  return PropertiesService.getUserProperties();\n}\n\nfunction boundSpreadsheet_() {\n  try {\n    return SpreadsheetApp.getActiveSpreadsheet();\n  } catch (e) {\n    return null;\n  }\n}\n\nfunction appMode_() {\n  return boundSpreadsheet_() ? 'A' : 'C';\n}\n\nfunction getSS_() {\n  if (_ss) return _ss;\n  var bound = boundSpreadsheet_();\n  if (bound) {\n    _ss = bound;\n    if (!_ss.getSheetByName(TABLES.classes.sheet)) _fresh = true;\n  } else {\n    var id = props_().getProperty('SS_ID');\n    if (id) {\n      try {\n        _ss = SpreadsheetApp.openById(id);\n      } catch (e) {\n        // 只有確認檔案已丟進垃圾桶才換新檔；其他錯誤（服務暫時失敗、配額等）直接回報，避免悄悄換成空白試算表\n        if (!isTrashed_(id)) throw new Error(SS_OPEN_ERROR + '（' + String((e && e.message) || e) + '）');\n      }\n      if (_ss && isTrashed_(id)) _ss = null;\n    }\n    if (!_ss) {\n      _ss = SpreadsheetApp.create(DATA_FILE_NAME);\n      props_().setProperty('SS_ID', _ss.getId());\n      props_().deleteProperty('SCHEMA_VER');\n      props_().deleteProperty('PURGE_HORIZON');\n      _fresh = true;\n    }\n  }\n  if (_fresh || props_().getProperty('SCHEMA_VER') !== APP_VERSION + ':' + _ss.getId()) {\n    ensureSchema_(_ss);\n    props_().setProperty('SCHEMA_VER', APP_VERSION + ':' + _ss.getId());\n  }\n  return _ss;\n}\n\nvar SS_OPEN_ERROR = '暫時無法開啟你的資料試算表，請稍後再試。若檔案已被永久刪除，可在「同步狀態」選擇改用新的資料試算表';\n\n/** 老師確認原檔已永久刪除後，改用新的資料試算表（下次同步時建立，裝置上的資料會重新上傳）。 */\nfunction apiResetDataFile_() {\n  if (boundSpreadsheet_()) throw new Error('自行部署的版本請直接使用綁定的試算表');\n  props_().deleteProperty('SS_ID');\n  return { ok: true };\n}\n\nfunction isTrashed_(id) {\n  try {\n    return DriveApp.getFileById(id).isTrashed();\n  } catch (e) {\n    return false;\n  }\n}\n\n/** 建立缺少的 sheet 與欄位；既有欄位不動，新欄位加在最後。 */\nfunction ensureSchema_(ss) {\n  Object.keys(TABLES).forEach(function (t) {\n    var labels = tableCols_(t).map(function (c) {\n      return c.label;\n    });\n    ensureSheet_(ss, TABLES[t].sheet, labels);\n  });\n  ensureSheet_(ss, ARCHIVE_SHEET, ARCHIVE_COLS);\n  ['Sheet1', '工作表1', '工作表 1'].forEach(function (n) {\n    var sh = ss.getSheetByName(n);\n    if (sh && ss.getSheets().length > 1 && sh.getLastRow() === 0) ss.deleteSheet(sh);\n  });\n}\n\nfunction ensureSheet_(ss, name, labels) {\n  var sh = ss.getSheetByName(name);\n  if (!sh) sh = ss.insertSheet(name);\n  var lastCol = sh.getLastColumn();\n  var header = lastCol ? sh.getRange(1, 1, 1, lastCol).getValues()[0] : [];\n  var missing = labels.filter(function (l) {\n    return header.indexOf(l) < 0;\n  });\n  if (missing.length) {\n    sh.getRange(1, header.length + 1, 1, missing.length)\n      .setNumberFormat('@')\n      .setValues([missing])\n      .setFontWeight('bold')\n      .setBackground('#efe4c8');\n    sh.setFrozenRows(1);\n  }\n  return sh;\n}\n\n/** 開啟資料表：回傳 sheet 與「欄位鍵 → 欄位索引」對照。 */\nfunction openTable_(t) {\n  var sh = getSS_().getSheetByName(TABLES[t].sheet);\n  var width = sh.getLastColumn();\n  var header = sh.getRange(1, 1, 1, width).getValues()[0];\n  var cols = tableCols_(t);\n  var idx = {};\n  cols.forEach(function (c) {\n    idx[c.key] = header.indexOf(c.label);\n  });\n  return { t: t, sh: sh, cols: cols, idx: idx, width: width };\n}\n\nfunction readRows_(tb) {\n  var n = tb.sh.getLastRow() - 1;\n  if (n <= 0) return [];\n  var vals = tb.sh.getRange(2, 1, n, tb.width).getValues();\n  var out = [];\n  for (var i = 0; i < vals.length; i++) {\n    if (vals[i][tb.idx.id] === '' || vals[i][tb.idx.id] == null) continue;\n    var o = rowToObj_(tb, vals[i]);\n    o._row = i + 2;\n    o._raw = vals[i];\n    out.push(o);\n  }\n  return out;\n}\n\nfunction rowToObj_(tb, row) {\n  var o = {};\n  tb.cols.forEach(function (c) {\n    var i = tb.idx[c.key];\n    o[c.key] = parseCell_(c.type, i >= 0 ? row[i] : '');\n  });\n  return o;\n}\n\nfunction objToRow_(tb, o, base) {\n  var row = base ? base.slice() : [];\n  for (var i = row.length; i < tb.width; i++) row.push('');\n  tb.cols.forEach(function (c) {\n    var i = tb.idx[c.key];\n    if (i >= 0) row[i] = fmtCell_(c.type, o[c.key]);\n  });\n  return row;\n}\n\nfunction parseCell_(type, v) {\n  if (v instanceof Date) v = Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd');\n  if (type === 'num') return v === '' || v == null ? null : Number(v);\n  if (type === 'bool') return v === true || v === 1 || v === '1' || v === 'TRUE' || v === 'true';\n  if (type === 'json') {\n    if (v === '' || v == null) return null;\n    try {\n      return JSON.parse(v);\n    } catch (e) {\n      return null;\n    }\n  }\n  return v == null ? '' : String(v);\n}\n\nfunction fmtCell_(type, v) {\n  if (v === undefined || v === null || v === '') return '';\n  if (type === 'bool') return v ? '1' : '';\n  if (type === 'json') return JSON.stringify(v);\n  return String(v);\n}\n\n/** 只回傳給裝置看的欄位（去除內部欄位與 serverOnly 欄位）。 */\nfunction publicObj_(tb, o) {\n  var out = {};\n  tb.cols.forEach(function (c) {\n    if (!c.serverOnly) out[c.key] = o[c.key];\n  });\n  return out;\n}\n\n/**\n * 寫回資料：updates 為已讀出的列物件（帶 _row、_raw），appends 為新列物件（帶 _raw）。\n * 相鄰的更新會合併成一次寫入。\n */\nfunction writeRows_(tb, updates, appends) {\n  if (updates.length) {\n    updates.sort(function (a, b) {\n      return a._row - b._row;\n    });\n    var cluster = [];\n    var flush = function () {\n      if (!cluster.length) return;\n      var first = cluster[0]._row;\n      var last = cluster[cluster.length - 1]._row;\n      var block;\n      if (cluster.length === last - first + 1) {\n        block = cluster.map(function (o) {\n          return o._raw;\n        });\n      } else {\n        block = tb.sh.getRange(first, 1, last - first + 1, tb.width).getValues();\n        cluster.forEach(function (o) {\n          block[o._row - first] = o._raw;\n        });\n      }\n      tb.sh.getRange(first, 1, block.length, tb.width).setNumberFormat('@').setValues(block);\n      cluster = [];\n    };\n    updates.forEach(function (o) {\n      if (cluster.length && o._row - cluster[cluster.length - 1]._row > 20) flush();\n      cluster.push(o);\n    });\n    flush();\n  }\n  if (appends.length) {\n    var start = tb.sh.getLastRow() + 1;\n    var need = start + appends.length - 1 - tb.sh.getMaxRows();\n    if (need > 0) tb.sh.insertRowsAfter(tb.sh.getMaxRows(), need);\n    tb.sh\n      .getRange(start, 1, appends.length, tb.width)\n      .setNumberFormat('@')\n      .setValues(\n        appends.map(function (o) {\n          return o._raw;\n        })\n      );\n    appends.forEach(function (o, i) {\n      o._row = start + i;\n    });\n  }\n}\n\n/** 以新的資料列整個取代資料表內容（用於搬移與清除）。 */\nfunction rewriteTable_(tb, rows) {\n  // 一次寫入「新資料＋空白列補到原本長度」，避免先清空再寫入時中途失敗而清掉整張表\n  var old = Math.max(tb.sh.getLastRow() - 1, 0);\n  var n = Math.max(old, rows.length);\n  if (n) {\n    var blank = [];\n    for (var i = 0; i < tb.width; i++) blank.push('');\n    var values = rows.map(function (o) {\n      return o._raw;\n    });\n    while (values.length < n) values.push(blank.slice());\n    tb.sh.getRange(2, 1, n, tb.width).setNumberFormat('@').setValues(values);\n  }\n  var extra = tb.sh.getMaxRows() - Math.max(rows.length + 1, 2) - 50;\n  if (extra > 200) tb.sh.deleteRows(rows.length + 52, extra);\n}\n\nfunction withLock_(fn) {\n  var lock = LockService.getUserLock();\n  lock.waitLock(25000);\n  try {\n    return fn();\n  } finally {\n    lock.releaseLock();\n  }\n}\n\nfunction readSetting_(key) {\n  var tb = openTable_('settings');\n  var rows = readRows_(tb);\n  for (var i = 0; i < rows.length; i++) {\n    if (rows[i].id === key && !rows[i].deleted) return rows[i].value;\n  }\n  return null;\n}\n\nfunction writeSetting_(key, value) {\n  var tb = openTable_('settings');\n  var rows = readRows_(tb);\n  var now = Date.now();\n  var cur = null;\n  rows.forEach(function (r) {\n    if (r.id === key) cur = r;\n  });\n  var obj = { id: key, value: value, updatedAt: now, deleted: false, _rev: now };\n  if (cur) {\n    cur._raw = objToRow_(tb, obj, cur._raw);\n    writeRows_(tb, [cur], []);\n  } else {\n    obj._raw = objToRow_(tb, obj);\n    writeRows_(tb, [], [obj]);\n  }\n}\n\n// ---- Export.gs\n/**\n * 匯出與匯入：\n * - 整班明細：產生新的 Google 試算表（可下載 Excel）。\n * - 個人明細：前端組好古典風格 HTML，這裡轉成 PDF 存到雲端硬碟。\n * - 從其他試算表匯入學生名單。\n */\n\nfunction exportFolder_() {\n  return ownFolder_('EXPORT_FOLDER_ID', APP_NAME + '匯出');\n}\n\n/**\n * p.title：檔名；p.header：表頭；p.rows：資料列；\n * p.sheetName：工作表名稱（預設「整班明細」）；\n * p.chart：{ title, labels: [], values: [], seriesName }（選填，會另建「統計」工作表與長條圖）\n */\nfunction apiCreateSheet_(p) {\n  var ss = SpreadsheetApp.create(p.title || APP_NAME + '匯出');\n  var sh = ss.getSheets()[0];\n  sh.setName(p.sheetName || '整班明細');\n  var data = [p.header].concat(p.rows || []);\n  var width = p.header.length;\n  sh.getRange(1, 1, data.length, width).setNumberFormat('@').setValues(\n    data.map(function (r) {\n      var row = r.slice(0, width);\n      while (row.length < width) row.push('');\n      return row.map(function (v) {\n        return v == null ? '' : String(v);\n      });\n    })\n  );\n  sh.getRange(1, 1, 1, width).setFontWeight('bold').setBackground('#efe4c8');\n  sh.setFrozenRows(1);\n  sh.setFrozenColumns(Math.min(2, width));\n  sh.autoResizeColumns(1, width);\n  if (p.chart && p.chart.labels && p.chart.labels.length) {\n    var st = ss.insertSheet('統計');\n    var vals = [['項目', p.chart.seriesName || '數值']].concat(\n      p.chart.labels.map(function (l, i) {\n        return [String(l), Number(p.chart.values[i]) || 0];\n      })\n    );\n    st.getRange(1, 1, vals.length, 2).setValues(vals);\n    st.getRange(1, 1, 1, 2).setFontWeight('bold');\n    var chart = st\n      .newChart()\n      .setChartType(Charts.ChartType.COLUMN)\n      .addRange(st.getRange(1, 1, vals.length, 2))\n      .setPosition(1, 4, 0, 0)\n      .setOption('title', p.chart.title || '')\n      .setOption('legend', { position: 'none' })\n      .setOption('colors', ['#b8312f'])\n      .build();\n    st.insertChart(chart);\n  }\n  try {\n    DriveApp.getFileById(ss.getId()).moveTo(exportFolder_());\n  } catch (e) {}\n  return {\n    url: ss.getUrl(),\n    xlsxUrl: 'https://docs.google.com/spreadsheets/d/' + ss.getId() + '/export?format=xlsx',\n    name: ss.getName()\n  };\n}\n\nfunction apiHtmlToPdf_(p) {\n  var name = (p.name || '個人明細') + '.pdf';\n  var blob = HtmlService.createHtmlOutput(embedPhotos_(String(p.html || ''))).getBlob().getAs('application/pdf').setName(name);\n  var folder = exportFolder_();\n  // 同名的舊檔丟進垃圾桶，避免每按一次就多一份\n  var old = folder.getFilesByName(name);\n  while (old.hasNext()) old.next().setTrashed(true);\n  var file = folder.createFile(blob);\n  return {\n    name: name,\n    url: file.getUrl(),\n    downloadUrl: 'https://drive.google.com/uc?export=download&id=' + file.getId(),\n    base64: Utilities.base64Encode(blob.getBytes())\n  };\n}\n\n/** 從試算表網址匯入名單：找含「座號」「姓名」的表頭，否則取前兩欄。 */\nfunction apiImportRoster_(p) {\n  var ss = SpreadsheetApp.openByUrl(String(p.url).trim());\n  var values = ss.getSheets()[0].getDataRange().getValues();\n  var noCol = 0;\n  var nameCol = 1;\n  var start = 0;\n  for (var r = 0; r < Math.min(values.length, 10); r++) {\n    var row = values[r].map(String);\n    var a = row.indexOf('座號');\n    var b = row.indexOf('姓名');\n    if (a >= 0 && b >= 0) {\n      noCol = a;\n      nameCol = b;\n      start = r + 1;\n      break;\n    }\n  }\n  var out = [];\n  for (var i = start; i < values.length; i++) {\n    var no = Number(values[i][noCol]);\n    var name = String(values[i][nameCol] || '').trim();\n    if (no > 0 && name) out.push({ no: no, name: name });\n  }\n  return out;\n}\n\n/** 忘記 PIN：能呼叫到這裡就代表已用 Google 帳號登入，直接清除 PIN。 */\nfunction apiResetPin_() {\n  return withLock_(function () {\n    getSS_();\n    writeSetting_('pin', { enabled: false, asked: true });\n    return { ok: true, email: Session.getActiveUser().getEmail() };\n  });\n}\n\nfunction apiCheckVersion_() {\n  if (!VERSION_CHECK_URL) return { current: APP_VERSION, latest: null };\n  var cached = props_().getProperty('VERSION_CHECK');\n  if (cached) {\n    var c = JSON.parse(cached);\n    if (Date.now() - c.at < 6 * 3600000) return c.data;\n  }\n  var data = { current: APP_VERSION, latest: null };\n  try {\n    var res = UrlFetchApp.fetch(VERSION_CHECK_URL, { muteHttpExceptions: true });\n    if (res.getResponseCode() === 200) {\n      var j = JSON.parse(res.getContentText());\n      data = { current: APP_VERSION, latest: j.version, notes: j.notes || '', url: j.url || '' };\n    }\n  } catch (e) {}\n  props_().setProperty('VERSION_CHECK', JSON.stringify({ at: Date.now(), data: data }));\n  return data;\n}\n\n// ---- Maintenance.gs\n/**\n * 定期維護（每日觸發器，觸發器不存在時也會在拉取資料時補做）：\n * - 清除完成超過 30 天的待辦\n * - 歸檔事項的紀錄搬入封存\n * - 沒被任何登記紀錄使用的相片丟進垃圾桶\n * - 清除過期的刪除標記\n * - 每週備份整份試算表，保留 4 份\n */\n\nfunction ensureTriggers_() {\n  var ssId = getSS_().getId();\n  if (props_().getProperty('TRIGGER_VER') === APP_VERSION + ':' + ssId) return;\n  try {\n    var triggers = ScriptApp.getProjectTriggers();\n    var has = function (h, src) {\n      return triggers.some(function (t) {\n        return t.getHandlerFunction() === h && (!src || t.getTriggerSourceId() === src);\n      });\n    };\n    if (!has('dailyMaintenance')) ScriptApp.newTrigger('dailyMaintenance').timeBased().everyDays(1).atHour(3).create();\n    // 老師直接修改試算表時，讓該列重新同步到裝置\n    if (!has('onDataEdit', ssId)) ScriptApp.newTrigger('onDataEdit').forSpreadsheet(ssId).onEdit().create();\n    props_().setProperty('TRIGGER_VER', APP_VERSION + ':' + ssId);\n  } catch (e) {\n    console.warn('無法建立觸發器：' + e);\n  }\n}\n\n/** 由每日觸發器呼叫。 */\nfunction dailyMaintenance() {\n  withLock_(function () {\n    maintenance_(Date.now());\n  });\n  backupIfDue_(false);\n}\n\nfunction maintenanceIfDue_() {\n  var last = Number(props_().getProperty('LAST_MAINT') || 0);\n  if (Date.now() - last > 86400000) maintenance_(Date.now());\n}\n\nfunction maintenance_(now) {\n  getSS_();\n  // 1. 已完成超過 30 天的待辦 → 標記刪除\n  var todoTb = openTable_('todos');\n  var cutoff = now - DONE_TODO_KEEP_DAYS * 86400000;\n  var expired = readRows_(todoTb).filter(function (r) {\n    return r.done && !r.deleted && r.doneAt && r.doneAt < cutoff;\n  });\n  expired.forEach(function (r) {\n    r.deleted = true;\n    r.updatedAt = now;\n    r._rev = now;\n    r._raw = objToRow_(todoTb, r, r._raw);\n  });\n  writeRows_(todoTb, expired, []);\n\n  // 2. 歸檔事項紀錄搬入封存\n  moveArchivedChildren_(now);\n\n  // 3. 沒有登記紀錄使用的相片丟進垃圾桶\n  try {\n    cleanupPhotos_(now);\n  } catch (e) {\n    console.warn('清理相片失敗：' + e);\n  }\n\n  // 4. 清除過期刪除標記\n  var tombCut = now - TOMBSTONE_KEEP_DAYS * 86400000;\n  var purged = false;\n  Object.keys(TABLES).forEach(function (t) {\n    var tb = openTable_(t);\n    var rows = readRows_(tb);\n    var keep = rows.filter(function (r) {\n      // 已轉成學生登記的累計事項保留（讓原本的累計事件繼續隱藏，不會被當成無主紀錄同步）\n      if (t === 'items' && r.opts && r.opts.toLogs) return true;\n      return !(r.deleted && (r.updatedAt || 0) < tombCut);\n    });\n    if (keep.length !== rows.length) {\n      rewriteTable_(tb, keep);\n      purged = true;\n    }\n  });\n  if (purged) props_().setProperty('PURGE_HORIZON', String(now));\n  props_().setProperty('LAST_MAINT', String(now));\n}\n\nfunction backupFolder_() {\n  return ownFolder_('BACKUP_FOLDER_ID', BACKUP_FOLDER_NAME);\n}\n\n/**\n * 取得老師自己擁有的資料夾。依名稱搜尋時會略過別人分享過來的同名資料夾，\n * 避免把學生資料複製進他人的共用空間。\n */\nfunction ownFolder_(propKey, name) {\n  var me = Session.getEffectiveUser().getEmail();\n  var mine = function (f) {\n    try {\n      var o = f.getOwner();\n      return !f.isTrashed() && !!o && o.getEmail() === me;\n    } catch (e) {\n      return false;\n    }\n  };\n  var id = props_().getProperty(propKey);\n  if (id) {\n    try {\n      var f = DriveApp.getFolderById(id);\n      if (mine(f)) return f;\n    } catch (e) {}\n  }\n  var it = DriveApp.getFoldersByName(name);\n  while (it.hasNext()) {\n    var g = it.next();\n    if (mine(g)) {\n      props_().setProperty(propKey, g.getId());\n      return g;\n    }\n  }\n  var folder = DriveApp.createFolder(name);\n  props_().setProperty(propKey, folder.getId());\n  return folder;\n}\n\nfunction backupIfDue_(force) {\n  var now = Date.now();\n  var last = Number(props_().getProperty('LAST_BACKUP') || 0);\n  if (!force && now - last < BACKUP_EVERY_DAYS * 86400000) return null;\n  var ss = getSS_();\n  var folder = backupFolder_();\n  var stamp = Utilities.formatDate(new Date(now), Session.getScriptTimeZone(), 'yyyy-MM-dd');\n  var prefix = ss.getName() + ' 備份 ';\n  DriveApp.getFileById(ss.getId()).makeCopy(prefix + stamp, folder);\n  var files = [];\n  var it = folder.getFiles();\n  while (it.hasNext()) {\n    var f = it.next();\n    if (f.getName().indexOf(prefix) === 0 && !f.isTrashed()) files.push(f);\n  }\n  files.sort(function (a, b) {\n    return b.getDateCreated().getTime() - a.getDateCreated().getTime();\n  });\n  files.slice(BACKUP_KEEP).forEach(function (f) {\n    f.setTrashed(true);\n  });\n  props_().setProperty('LAST_BACKUP', String(now));\n  return { at: now, kept: Math.min(files.length, BACKUP_KEEP), folderUrl: folder.getUrl() };\n}\n\nfunction apiBackupNow_() {\n  return backupIfDue_(true);\n}\n\n// ---- Migrate.gs\n/**\n * 資料轉換：累計表併入學生快速登記（v1.2）。\n *\n * 每次拉取資料時檢查，有累計事項就轉換：\n * - 每一筆累計事件 → 一筆學生登記（事項名稱＝累計表標題，日期時間不變）。\n *   登記的 ID 由事件 ID 決定（ev-事件ID），多台裝置同時轉換或重複轉換都不會多出紀錄。\n * - 未歸檔的累計表標題、累計範本名稱加進快速登記清單，之後一樣點一下就能記。\n * - 累計事項標記為已轉換並刪除（不再同步到裝置），累計範本刪除。\n *   原本的「累計事件」sheet 與封存資料原封不動保留，作為備查。\n * 已轉換的累計事項之後若還收到舊版裝置上傳的事件，下次拉取時會一併補轉。\n */\n\nfunction migrateCounters_(now) {\n  var itemsTb = openTable_('items');\n  var items = readRows_(itemsTb).filter(function (i) {\n    return i.type === 'counter' && (!i.deleted || (i.opts && i.opts.toLogs));\n  });\n  var tplTb = openTable_('templates');\n  var tpls = readRows_(tplTb).filter(function (t) {\n    return t.type === 'counter' && !t.deleted;\n  });\n  if (!items.length && !tpls.length) return 0;\n\n  var pending = items.filter(function (i) {\n    return !i.deleted;\n  });\n  var byId = {};\n  items.forEach(function (i) {\n    byId[i.id] = i;\n  });\n\n  // 新轉換的事項讀主表＋封存；已轉換過的只看主表有沒有新上傳的事件\n  var events = [];\n  if (pending.length) {\n    events = childrenOf_(\n      pending.map(function (i) {\n        return i.id;\n      })\n    ).events;\n  }\n  var evTb = openTable_('events');\n  var seenEv = {};\n  events.forEach(function (e) {\n    seenEv[e.id] = true;\n  });\n  readRows_(evTb).forEach(function (e) {\n    var it = byId[e.itemId];\n    if (!it || !it.deleted || e.deleted || seenEv[e.id]) return;\n    seenEv[e.id] = true;\n    events.push(publicObj_(evTb, e));\n  });\n\n  var logTb = openTable_('logs');\n  var have = {};\n  readRows_(logTb).forEach(function (l) {\n    have[l.id] = true;\n  });\n  var appends = [];\n  events.forEach(function (e) {\n    var it = byId[e.itemId];\n    var id = 'ev-' + e.id;\n    if (!it || have[id] || !e.studentId) return;\n    have[id] = true;\n    var log = {\n      id: id,\n      classId: it.classId,\n      studentId: e.studentId,\n      label: String(it.title || '').trim() || '累計',\n      date: e.date,\n      at: e.at,\n      note: '',\n      photos: [],\n      updatedAt: now,\n      deleted: false,\n      _rev: now\n    };\n    log._raw = objToRow_(logTb, log);\n    appends.push(log);\n  });\n  writeRows_(logTb, [], appends);\n\n  // 快速登記清單：補上還在用的累計表與累計範本名稱\n  var add = [];\n  pending\n    .filter(function (i) {\n      return !i.archived;\n    })\n    .sort(function (a, b) {\n      return (a.createdAt || 0) - (b.createdAt || 0);\n    })\n    .forEach(function (i) {\n      add.push(String(i.title || '').trim());\n    });\n  tpls.forEach(function (t) {\n    add.push(String(t.name || '').trim());\n  });\n  if (add.length) {\n    var cur = readSetting_('quickList');\n    var list = Array.isArray(cur) ? cur.slice() : DEFAULT_QUICK_LIST.slice();\n    var changed = false;\n    add.forEach(function (x) {\n      if (x && list.indexOf(x) < 0) {\n        list.push(x);\n        changed = true;\n      }\n    });\n    if (changed || !Array.isArray(cur)) writeSetting_('quickList', list);\n  }\n\n  pending.forEach(function (i) {\n    i.opts = Object.assign({}, i.opts, { toLogs: true });\n    i.deleted = true;\n    i.updatedAt = now;\n    i._rev = now;\n    i._raw = objToRow_(itemsTb, i, i._raw);\n  });\n  writeRows_(itemsTb, pending, []);\n  tpls.forEach(function (t) {\n    t.deleted = true;\n    t.updatedAt = now;\n    t._rev = now;\n    t._raw = objToRow_(tplTb, t, t._raw);\n  });\n  writeRows_(tplTb, tpls, []);\n  return appends.length;\n}\n\n// ---- Photo.gs\n/**\n * 學生登記的相片：存在老師自己雲端硬碟的「老師隨手記相片」資料夾（App 自己建立、擁有的資料夾）。\n * 前端先縮圖再上傳；讀取時只回傳這個資料夾裡的檔案。\n */\n\nfunction photoFolder_() {\n  return ownFolder_('PHOTO_FOLDER_ID', PHOTO_FOLDER_NAME);\n}\n\n/** p.data：data URL（image/jpeg、png、webp）；p.name：檔名（不含副檔名）。 */\nfunction apiUploadPhoto_(p) {\n  var m = String(p.data || '').match(/^data:(image\\/(jpeg|png|webp));base64,([A-Za-z0-9+\\/=]+)$/);\n  if (!m) throw new Error('不支援這種相片格式');\n  var bytes = Utilities.base64Decode(m[3]);\n  if (bytes.length > PHOTO_MAX_BYTES) throw new Error('相片太大，請換一張');\n  var base = String(p.name || '相片').replace(/[\\\\\\/:*?\"<>|\\r\\n]+/g, ' ').trim().slice(0, 80) || '相片';\n  var file = photoFolder_().createFile(Utilities.newBlob(bytes, m[1], base + '.' + (m[2] === 'jpeg' ? 'jpg' : m[2])));\n  return { id: file.getId(), name: file.getName() };\n}\n\n/** 只允許讀取相片資料夾裡的檔案。 */\nfunction photoFile_(id) {\n  var folderId = photoFolder_().getId();\n  var file;\n  try {\n    file = DriveApp.getFileById(String(id));\n  } catch (e) {\n    throw new Error('找不到這張相片');\n  }\n  var parents = file.getParents();\n  while (parents.hasNext()) {\n    if (parents.next().getId() === folderId) return file;\n  }\n  throw new Error('找不到這張相片');\n}\n\nfunction apiPhoto_(p) {\n  var blob = photoFile_(p.id).getBlob();\n  return { type: blob.getContentType(), base64: Utilities.base64Encode(blob.getBytes()) };\n}\n\n/** PDF 用：把 <img data-photo=\"檔案ID\"> 換成內嵌圖片。 */\nfunction embedPhotos_(html) {\n  if (html.indexOf('data-photo=') < 0) return html;\n  return html.replace(/<img data-photo=\"([\\w-]+)\"/g, function (all, id) {\n    try {\n      var b = photoFile_(id).getBlob();\n      return '<img src=\"data:' + b.getContentType() + ';base64,' + Utilities.base64Encode(b.getBytes()) + '\"';\n    } catch (e) {\n      return '<img alt=\"（相片無法讀取）\"';\n    }\n  });\n}\n\n/** 沒被任何登記紀錄使用、且上傳超過 PHOTO_ORPHAN_DAYS 天的相片丟進垃圾桶。 */\nfunction cleanupPhotos_(now) {\n  var folderId = props_().getProperty('PHOTO_FOLDER_ID');\n  if (!folderId) return;\n  var rows = readRows_(openTable_('logs'));\n  // 登記表是空的（例如剛換新的資料試算表）時不清，避免誤丟所有相片\n  if (!rows.length) return;\n  var used = {};\n  rows.forEach(function (r) {\n    if (r.deleted) return;\n    (r.photos || []).forEach(function (ph) {\n      if (ph && ph.id) used[ph.id] = true;\n    });\n  });\n  var folder;\n  try {\n    folder = DriveApp.getFolderById(folderId);\n  } catch (e) {\n    return;\n  }\n  var cut = now - PHOTO_ORPHAN_DAYS * 86400000;\n  var it = folder.getFiles();\n  while (it.hasNext()) {\n    var f = it.next();\n    if (!used[f.getId()] && !f.isTrashed() && f.getDateCreated().getTime() < cut) f.setTrashed(true);\n  }\n}\n\n// ---- Schema.gs\n/**\n * 試算表資料結構。每個資料表對應一個 sheet，第一列為中文欄名。\n * 欄位型別：str（預設）、num、bool、json。\n * serverOnly 欄位只由伺服器寫入，裝置上傳時不會覆蓋。\n */\nvar TABLES = {\n  classes: {\n    sheet: '班級',\n    cols: [\n      ['id', 'ID'],\n      ['name', '班級名稱'],\n      ['year', '學年'],\n      ['order', '排序', 'num'],\n      ['archived', '歸檔', 'bool'],\n      ['seatRows', '座位列數', 'num'],\n      ['seatCols', '座位行數', 'num']\n    ]\n  },\n  students: {\n    sheet: '學生',\n    cols: [\n      ['id', 'ID'],\n      ['classId', '班級ID'],\n      ['no', '座號', 'num'],\n      ['name', '姓名'],\n      ['out', '轉出', 'bool']\n    ]\n  },\n  items: {\n    sheet: '事項清單',\n    cols: [\n      ['id', 'ID'],\n      ['classId', '班級ID'],\n      ['type', '類型'], // check 勾選｜score 成績（舊版的 counter 累計已轉成學生登記，見 Migrate.gs）\n      ['title', '標題'],\n      ['date', '日期'],\n      ['archived', '歸檔', 'bool'],\n      ['archivedAt', '歸檔時間', 'num'],\n      ['roster', '名單快照', 'json'],\n      ['opts', '設定', 'json'],\n      ['createdAt', '建立時間', 'num'],\n      ['moved', '已搬入封存', 'bool', 'serverOnly']\n    ]\n  },\n  checks: {\n    sheet: '勾選紀錄',\n    child: true,\n    cols: [\n      ['id', 'ID'],\n      ['itemId', '事項ID'],\n      ['studentId', '學生ID'],\n      ['checked', '勾選', 'bool'],\n      ['checkedAt', '勾選時間', 'num'],\n      ['amount', '金額']\n    ]\n  },\n  // 舊版累計表的紀錄，已轉成學生登記（logs）；保留作為備查與轉換來源\n  events: {\n    sheet: '累計事件',\n    child: true,\n    cols: [\n      ['id', 'ID'],\n      ['itemId', '事項ID'],\n      ['studentId', '學生ID'],\n      ['date', '日期'],\n      ['at', '時間', 'num']\n    ]\n  },\n  scores: {\n    sheet: '成績紀錄',\n    child: true,\n    cols: [\n      ['id', 'ID'],\n      ['itemId', '事項ID'],\n      ['studentId', '學生ID'],\n      ['score', '分數'],\n      ['absent', '缺考', 'bool']\n    ]\n  },\n  todos: {\n    sheet: '待辦',\n    cols: [\n      ['id', 'ID'],\n      ['text', '內容'],\n      ['due', '期限'],\n      ['classId', '班級標籤'],\n      ['repeat', '重複設定', 'json'],\n      ['occurrence', '第幾次', 'num'],\n      ['done', '完成', 'bool'],\n      ['doneAt', '完成時間', 'num'],\n      ['nextId', '下一次ID']\n    ]\n  },\n  cal: {\n    sheet: '行事曆',\n    cols: [\n      ['id', 'ID'],\n      ['date', '日期'],\n      ['time', '時間'],\n      ['text', '內容'],\n      ['classId', '班級標籤'],\n      ['gcalId', 'Google日曆ID', 'str', 'serverOnly'],\n      ['dayType', '上課日設定'], // 空白：一般行程｜off 放假（不上課）｜makeup 補上課\n      ['endDate', '結束日期'] // 放假可連續多天（例如寒暑假）\n    ]\n  },\n  templates: {\n    sheet: '範本',\n    cols: [\n      ['id', 'ID'],\n      ['name', '名稱'],\n      ['type', '類型'],\n      ['opts', '設定', 'json'],\n      ['order', '排序', 'num']\n    ]\n  },\n  notes: {\n    sheet: '學生備註',\n    cols: [\n      ['id', 'ID'],\n      ['studentId', '學生ID'],\n      ['date', '日期'],\n      ['text', '備註']\n    ]\n  },\n  contacts: {\n    sheet: '家長聯絡紀錄',\n    cols: [\n      ['id', 'ID'],\n      ['studentId', '學生ID'],\n      ['classId', '班級ID'],\n      ['date', '日期'],\n      ['at', '時間', 'num'],\n      ['topics', '談及事項', 'json'],\n      ['text', '訊息內容'],\n      ['via', '方式']\n    ]\n  },\n  logs: {\n    sheet: '學生登記',\n    cols: [\n      ['id', 'ID'],\n      ['classId', '班級ID'],\n      ['studentId', '學生ID'],\n      ['label', '事項'],\n      ['date', '日期'],\n      ['at', '時間', 'num'],\n      ['note', '備註'],\n      ['photos', '相片', 'json']\n    ]\n  },\n  leaves: {\n    sheet: '請假紀錄',\n    cols: [\n      ['id', 'ID'],\n      ['classId', '班級ID'],\n      ['studentId', '學生ID'],\n      ['start', '開始日期'],\n      ['end', '結束日期'],\n      ['kind', '假別'],\n      ['reason', '原因'],\n      ['unreported', '未報備', 'bool'],\n      ['parentOk', '家長已確認', 'bool'],\n      ['parentAt', '家長確認時間', 'num'],\n      ['done', '已完成請假手續', 'bool'],\n      ['doneAt', '完成手續時間', 'num'],\n      ['createdAt', '登記時間', 'num']\n    ]\n  },\n  seats: {\n    sheet: '座位',\n    cols: [\n      ['id', 'ID'],\n      ['classId', '班級ID'],\n      ['studentId', '學生ID'],\n      ['row', '列', 'num'],\n      ['col', '行', 'num']\n    ]\n  },\n  groups: {\n    sheet: '分組',\n    cols: [\n      ['id', 'ID'],\n      ['classId', '班級ID'],\n      ['name', '方案名稱'],\n      ['groups', '各組成員', 'json']\n    ]\n  },\n  settings: {\n    sheet: '設定',\n    cols: [\n      ['id', '鍵'],\n      ['value', '值', 'json']\n    ]\n  }\n};\n\nvar META_COLS = [\n  ['updatedAt', '修改時間', 'num'],\n  ['deleted', '已刪除', 'bool'],\n  ['_rev', '同步版本', 'num', 'serverOnly']\n];\n\nvar ARCHIVE_SHEET = '封存';\nvar ARCHIVE_COLS = ['資料表', 'ID', '事項ID', '資料', '搬入時間'];\n\n/** 子資料表（隸屬於事項）的名稱。 */\nvar CHILD_TABLES = ['checks', 'events', 'scores'];\n\nfunction tableCols_(t) {\n  var def = TABLES[t];\n  if (!def) throw new Error('未知的資料表：' + t);\n  if (!def._all) {\n    def._all = def.cols.concat(META_COLS).map(function (c) {\n      return { key: c[0], label: c[1], type: c[2] || 'str', serverOnly: c[3] === 'serverOnly' };\n    });\n  }\n  return def._all;\n}\n\n// ---- Sync.gs\n/**\n * 同步：裝置以「最後修改為準」上傳變更（push），再以同步版本號拉取差異（pull）。\n * 每筆資料都有 updatedAt（裝置修改時間）與 _rev（伺服器寫入時間）。\n * 刪除以 deleted 標記保留一段時間，讓其他裝置也能收到。\n */\n\nfunction apiPull_(p) {\n  return withLock_(function () {\n    getSS_();\n    ensureTriggers_();\n    maintenanceIfDue_();\n    migrateCounters_(Date.now());\n    var now = Date.now();\n    var since = Number(p.since) || 0;\n    var horizon = Number(props_().getProperty('PURGE_HORIZON') || 0);\n    var full = !since || since < horizon || !!p.full;\n\n    var itemsTb = openTable_('items');\n    var items = readRows_(itemsTb);\n    var hidden = {};\n    items.forEach(function (i) {\n      if (i.archived || i.deleted) hidden[i.id] = true;\n    });\n\n    var tables = {};\n    Object.keys(TABLES).forEach(function (t) {\n      var tb = t === 'items' ? itemsTb : openTable_(t);\n      var rows = t === 'items' ? items : readRows_(tb);\n      var child = !!TABLES[t].child;\n      // 老師直接在試算表新增或修改的列沒有同步版本（修改時由 onDataEdit 清空），補上版本後一併送出\n      var stamped = rows.filter(function (r) {\n        return !r._rev;\n      });\n      stamped.forEach(function (r) {\n        r._rev = now;\n        if (!r.updatedAt) r.updatedAt = now;\n        r._raw = objToRow_(tb, r, r._raw);\n      });\n      if (stamped.length) writeRows_(tb, stamped, []);\n      tables[t] = rows\n        .filter(function (r) {\n          if (child && hidden[r.itemId]) return false;\n          if (full) return !r.deleted && !(t === 'items' && r.archived);\n          return r._rev >= since;\n        })\n        .map(function (r) {\n          return publicObj_(tb, r);\n        });\n    });\n    return {\n      rev: now,\n      full: full,\n      fresh: _fresh,\n      tables: tables,\n      info: serverInfo_()\n    };\n  });\n}\n\nfunction apiPush_(p) {\n  var changes = p.changes || {};\n  return withLock_(function () {\n    getSS_();\n    var now = Date.now();\n    var conflicts = {};\n    var calChanged = [];\n    var calTb = null;\n    Object.keys(changes).forEach(function (t) {\n      if (!TABLES[t]) return;\n      var recs = changes[t] || [];\n      if (!recs.length) return;\n      var tb = openTable_(t);\n      var rows = readRows_(tb);\n      var byId = {};\n      rows.forEach(function (r) {\n        byId[r.id] = r;\n      });\n      var updates = [];\n      var appends = [];\n      recs.forEach(function (rec) {\n        if (!rec || !rec.id) return;\n        var cur = byId[rec.id];\n        if (cur && (cur.updatedAt || 0) > (rec.updatedAt || 0)) {\n          (conflicts[t] = conflicts[t] || []).push(publicObj_(tb, cur));\n          return;\n        }\n        var merged = {};\n        tb.cols.forEach(function (c) {\n          merged[c.key] = c.serverOnly ? (cur ? cur[c.key] : null) : rec[c.key];\n        });\n        merged._rev = now;\n        if (cur) {\n          var raw = objToRow_(tb, merged, cur._raw);\n          Object.keys(merged).forEach(function (k) {\n            cur[k] = merged[k];\n          });\n          cur._raw = raw;\n          if (updates.indexOf(cur) < 0) updates.push(cur);\n          if (t === 'cal') calChanged.push(cur);\n        } else {\n          merged._raw = objToRow_(tb, merged);\n          byId[rec.id] = merged;\n          appends.push(merged);\n          if (t === 'cal') calChanged.push(merged);\n        }\n      });\n      writeRows_(tb, updates, appends);\n      if (t === 'cal') calTb = tb;\n    });\n    var calError = null;\n    if (calChanged.length && readSetting_('calSync')) {\n      try {\n        syncCalendarRows_(calTb, calChanged);\n      } catch (e) {\n        calError = String(e.message || e);\n      }\n    }\n    return { rev: now, conflicts: conflicts, calError: calError };\n  });\n}\n\nfunction serverInfo_() {\n  var ss = getSS_();\n  return {\n    version: APP_VERSION,\n    mode: appMode_(),\n    email: Session.getActiveUser().getEmail(),\n    ssUrl: ss.getUrl(),\n    lastBackup: Number(props_().getProperty('LAST_BACKUP') || 0) || null\n  };\n}\n\n/**\n * 試算表的編輯觸發器：老師直接在資料試算表修改某列時，清空該列的同步版本並更新修改時間，\n * 下次裝置同步時就會收到（以這次修改為最新）。\n */\nfunction onDataEdit(e) {\n  if (!e || !e.range) return;\n  var sh = e.range.getSheet();\n  var name = sh.getName();\n  var t = null;\n  Object.keys(TABLES).forEach(function (k) {\n    if (TABLES[k].sheet === name) t = k;\n  });\n  if (!t) return;\n  var first = Math.max(e.range.getRow(), 2);\n  var last = e.range.getLastRow();\n  if (last < first) return;\n  var header = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];\n  var revCol = header.indexOf('同步版本') + 1;\n  var updCol = header.indexOf('修改時間') + 1;\n  if (revCol < 1 || updCol < 1) return;\n  // 只動到同步欄位本身的編輯不處理\n  var c1 = e.range.getColumn();\n  var c2 = e.range.getLastColumn();\n  if (c1 === c2 && (c1 === revCol || c1 === updCol)) return;\n  var n = last - first + 1;\n  var rev = [];\n  var upd = [];\n  var now = String(Date.now());\n  for (var i = 0; i < n; i++) {\n    rev.push(['']);\n    upd.push([now]);\n  }\n  sh.getRange(first, revCol, n, 1).setValues(rev);\n  sh.getRange(first, updCol, n, 1).setNumberFormat('@').setValues(upd);\n}\n";</script>
-    <script>window.BOOT = {"version":"1.4.5","build":{"date":"2026/10/25","sha":"8b0ba70"},"email":"me","web":true};</script>
+<script>window.GAS_SOURCE = "// ---- Archive.gs\n/**\r\n * 歸檔與封存：\r\n * - 裝置上把事項設為歸檔後，該事項與紀錄不再同步到裝置。\r\n * - 歸檔滿 ARCHIVE_MOVE_AFTER_DAYS 天，其紀錄搬入「封存」sheet，維持主表精簡。\r\n * - 已歸檔事項可查詢、檢視、還原，或在確認後刪除。\r\n */\r\n\r\nfunction readArchiveSheet_() {\r\n  var sh = getSS_().getSheetByName(ARCHIVE_SHEET);\r\n  var n = sh.getLastRow() - 1;\r\n  var rows = n > 0 ? sh.getRange(2, 1, n, ARCHIVE_COLS.length).getValues() : [];\r\n  return {\r\n    sh: sh,\r\n    rows: rows.filter(function (r) {\r\n      return r[0] !== '';\r\n    })\r\n  };\r\n}\r\n\r\nfunction writeArchiveSheet_(ar, rows) {\r\n  // 單次寫入（不先清空），中途失敗也不會清掉整張封存表\r\n  var old = Math.max(ar.sh.getLastRow() - 1, 0);\r\n  var n = Math.max(old, rows.length);\r\n  if (!n) return;\r\n  var values = rows.slice();\r\n  while (values.length < n) values.push(['', '', '', '', '']);\r\n  ar.sh.getRange(2, 1, n, ARCHIVE_COLS.length).setNumberFormat('@').setValues(values);\r\n}\r\n\r\n/** 把歸檔夠久的事項紀錄搬入封存 sheet。 */\r\nfunction moveArchivedChildren_(now) {\r\n  var cutoff = now - ARCHIVE_MOVE_AFTER_DAYS * 86400000;\r\n  var itemsTb = openTable_('items');\r\n  var targets = {};\r\n  var movedItems = [];\r\n  readRows_(itemsTb).forEach(function (i) {\r\n    if (i.archived && !i.moved && !i.deleted && (i.archivedAt || 0) < cutoff) {\r\n      targets[i.id] = true;\r\n      i.moved = true;\r\n      i._raw = objToRow_(itemsTb, i, i._raw);\r\n      movedItems.push(i);\r\n    }\r\n  });\r\n  if (!movedItems.length) return 0;\r\n  // 順序：先寫入封存 → 再從主表移除 → 最後標記已搬移。任何一步中斷都只會重複、不會遺失；\r\n  // 已在封存中的紀錄不會重複寫入。\r\n  var ar = readArchiveSheet_();\r\n  var inArchive = {};\r\n  ar.rows.forEach(function (row) {\r\n    inArchive[row[0] + '|' + row[1]] = true;\r\n  });\r\n  var add = [];\r\n  var stamp = String(now);\r\n  var plans = [];\r\n  CHILD_TABLES.forEach(function (t) {\r\n    var tb = openTable_(t);\r\n    var rows = readRows_(tb);\r\n    var keep = [];\r\n    rows.forEach(function (r) {\r\n      if (targets[r.itemId]) {\r\n        if (!r.deleted && !inArchive[t + '|' + r.id]) add.push([t, r.id, r.itemId, JSON.stringify(publicObj_(tb, r)), stamp]);\r\n      } else {\r\n        keep.push(r);\r\n      }\r\n    });\r\n    if (keep.length !== rows.length) plans.push([tb, keep]);\r\n  });\r\n  if (add.length) {\r\n    var start = ar.sh.getLastRow() + 1;\r\n    var need = start + add.length - 1 - ar.sh.getMaxRows();\r\n    if (need > 0) ar.sh.insertRowsAfter(ar.sh.getMaxRows(), need);\r\n    ar.sh.getRange(start, 1, add.length, ARCHIVE_COLS.length).setNumberFormat('@').setValues(add);\r\n  }\r\n  plans.forEach(function (pl) {\r\n    rewriteTable_(pl[0], pl[1]);\r\n  });\r\n  writeRows_(itemsTb, movedItems, []);\r\n  return movedItems.length;\r\n}\r\n\r\nfunction findItem_(itemsTb, id) {\r\n  var rows = readRows_(itemsTb);\r\n  for (var i = 0; i < rows.length; i++) if (rows[i].id === id) return rows[i];\r\n  return null;\r\n}\r\n\r\n/** 讀取某些事項的全部紀錄（主表＋封存）。 */\r\nfunction childrenOf_(itemIds, filter) {\r\n  var ids = {};\r\n  itemIds.forEach(function (id) {\r\n    ids[id] = true;\r\n  });\r\n  var out = { checks: [], events: [], scores: [] };\r\n  CHILD_TABLES.forEach(function (t) {\r\n    var tb = openTable_(t);\r\n    readRows_(tb).forEach(function (r) {\r\n      if (ids[r.itemId] && !r.deleted && (!filter || filter(t, r))) out[t].push(publicObj_(tb, r));\r\n    });\r\n  });\r\n  var seen = {};\r\n  CHILD_TABLES.forEach(function (t) {\r\n    out[t].forEach(function (r) {\r\n      seen[t + '|' + r.id] = true;\r\n    });\r\n  });\r\n  readArchiveSheet_().rows.forEach(function (row) {\r\n    if (!ids[row[2]] || !out[row[0]] || seen[row[0] + '|' + row[1]]) return;\r\n    seen[row[0] + '|' + row[1]] = true;\r\n    try {\r\n      var r = JSON.parse(row[3]);\r\n      if (!filter || filter(row[0], r)) out[row[0]].push(r);\r\n    } catch (e) {}\r\n  });\r\n  return out;\r\n}\r\n\r\nfunction apiArchivedList_(p) {\r\n  getSS_();\r\n  var tb = openTable_('items');\r\n  var q = String(p.q || '').trim().toLowerCase();\r\n  var list = readRows_(tb)\r\n    .filter(function (i) {\r\n      if (!i.archived || i.deleted) return false;\r\n      if (p.type && i.type !== p.type) return false;\r\n      if (p.classId && i.classId !== p.classId) return false;\r\n      if (q && String(i.title).toLowerCase().indexOf(q) < 0) return false;\r\n      return true;\r\n    })\r\n    .map(function (i) {\r\n      return publicObj_(tb, i);\r\n    });\r\n  list.sort(function (a, b) {\r\n    return (b.archivedAt || 0) - (a.archivedAt || 0);\r\n  });\r\n  return list;\r\n}\r\n\r\nfunction apiArchivedDetail_(p) {\r\n  getSS_();\r\n  var tb = openTable_('items');\r\n  var item = findItem_(tb, p.id);\r\n  if (!item || item.deleted) throw new Error('找不到這個事項');\r\n  var ch = childrenOf_([item.id]);\r\n  return { item: publicObj_(tb, item), checks: ch.checks, events: ch.events, scores: ch.scores };\r\n}\r\n\r\nfunction apiRestoreItem_(p) {\r\n  return withLock_(function () {\r\n    getSS_();\r\n    var now = Date.now();\r\n    var itemsTb = openTable_('items');\r\n    var item = findItem_(itemsTb, p.id);\r\n    if (!item || item.deleted) throw new Error('找不到這個事項');\r\n    if (item.moved) {\r\n      var ar = readArchiveSheet_();\r\n      var keep = [];\r\n      var back = { checks: [], events: [], scores: [] };\r\n      ar.rows.forEach(function (row) {\r\n        if (row[2] === item.id && back[row[0]]) {\r\n          try {\r\n            back[row[0]].push(JSON.parse(row[3]));\r\n          } catch (e) {}\r\n        } else {\r\n          keep.push(row);\r\n        }\r\n      });\r\n      CHILD_TABLES.forEach(function (t) {\r\n        if (!back[t].length) return;\r\n        var tb = openTable_(t);\r\n        var exists = {};\r\n        readRows_(tb).forEach(function (r) {\r\n          exists[r.id] = true;\r\n        });\r\n        back[t] = back[t].filter(function (r) {\r\n          if (exists[r.id]) return false;\r\n          exists[r.id] = true;\r\n          return true;\r\n        });\r\n        var appends = back[t].map(function (r) {\r\n          r._rev = now;\r\n          r._raw = objToRow_(tb, r);\r\n          return r;\r\n        });\r\n        writeRows_(tb, [], appends);\r\n      });\r\n      writeArchiveSheet_(ar, keep);\r\n    } else {\r\n      CHILD_TABLES.forEach(function (t) {\r\n        var tb = openTable_(t);\r\n        var ups = readRows_(tb).filter(function (r) {\r\n          return r.itemId === item.id;\r\n        });\r\n        ups.forEach(function (r) {\r\n          r._rev = now;\r\n          r._raw = objToRow_(tb, r, r._raw);\r\n        });\r\n        writeRows_(tb, ups, []);\r\n      });\r\n    }\r\n    item.archived = false;\r\n    item.archivedAt = null;\r\n    item.moved = false;\r\n    item.updatedAt = now;\r\n    item._rev = now;\r\n    item._raw = objToRow_(itemsTb, item, item._raw);\r\n    writeRows_(itemsTb, [item], []);\r\n    return { ok: true };\r\n  });\r\n}\r\n\r\nfunction apiDeleteArchived_(p) {\r\n  return withLock_(function () {\r\n    getSS_();\r\n    var now = Date.now();\r\n    var itemsTb = openTable_('items');\r\n    var item = findItem_(itemsTb, p.id);\r\n    if (!item || item.deleted) return { ok: true };\r\n    if (!item.archived) throw new Error('只能刪除已歸檔的事項');\r\n    CHILD_TABLES.forEach(function (t) {\r\n      var tb = openTable_(t);\r\n      var rows = readRows_(tb);\r\n      var keep = rows.filter(function (r) {\r\n        return r.itemId !== item.id;\r\n      });\r\n      if (keep.length !== rows.length) rewriteTable_(tb, keep);\r\n    });\r\n    var ar = readArchiveSheet_();\r\n    var keepAr = ar.rows.filter(function (row) {\r\n      return row[2] !== item.id;\r\n    });\r\n    if (keepAr.length !== ar.rows.length) writeArchiveSheet_(ar, keepAr);\r\n    item.deleted = true;\r\n    item.updatedAt = now;\r\n    item._rev = now;\r\n    item._raw = objToRow_(itemsTb, item, item._raw);\r\n    writeRows_(itemsTb, [item], []);\r\n    return { ok: true };\r\n  });\r\n}\r\n\r\n/**\r\n * 匯出用：取得某班（或某位學生）在日期範圍內的所有事項與紀錄，含已歸檔與封存。\r\n * 勾選與成績以事項日期篩選。\r\n */\r\nfunction apiFetchRange_(p) {\r\n  getSS_();\r\n  var from = p.from || '0000-00-00';\r\n  var to = p.to || '9999-99-99';\r\n  var tb = openTable_('items');\r\n  var items = readRows_(tb).filter(function (i) {\r\n    if (i.deleted || i.classId !== p.classId) return false;\r\n    return i.date >= from && i.date <= to;\r\n  });\r\n  var ch = childrenOf_(\r\n    items.map(function (i) {\r\n      return i.id;\r\n    }),\r\n    function (t, r) {\r\n      if (p.studentId && r.studentId !== p.studentId) return false;\r\n      return true;\r\n    }\r\n  );\r\n  return {\r\n    items: items.map(function (i) {\r\n      return publicObj_(tb, i);\r\n    }),\r\n    checks: ch.checks,\r\n    events: ch.events,\r\n    scores: ch.scores\r\n  };\r\n}\r\n\n// ---- Calendar.gs\n/**\r\n * 行事曆單向同步：本 App 寫入專用的「老師隨手記」Google 日曆，日曆端的修改不回寫。\r\n */\r\n\r\nfunction teacherCalendar_(create) {\r\n  var id = props_().getProperty('CAL_ID');\r\n  var cal = null;\r\n  if (id) {\r\n    try {\r\n      cal = CalendarApp.getCalendarById(id);\r\n      if (cal && !cal.isOwnedByMe()) cal = null;\r\n    } catch (e) {\r\n      cal = null;\r\n    }\r\n  }\r\n  if (!cal) {\r\n    // 只用自己建立的日曆，略過別人分享過來的同名日曆\r\n    var list = (CalendarApp.getCalendarsByName(CALENDAR_NAME) || []).filter(function (c) {\r\n      return c.isOwnedByMe();\r\n    });\r\n    cal = list.length ? list[0] : null;\r\n    if (!cal && create) cal = CalendarApp.createCalendar(CALENDAR_NAME, { color: CalendarApp.Color.RED });\r\n    if (cal) props_().setProperty('CAL_ID', cal.getId());\r\n  }\r\n  return cal;\r\n}\r\n\r\nfunction classNameMap_() {\r\n  var map = {};\r\n  readRows_(openTable_('classes')).forEach(function (c) {\r\n    map[c.id] = c.name;\r\n  });\r\n  return map;\r\n}\r\n\r\nfunction parseLocalDate_(date, time) {\r\n  var d = String(date).split('-');\r\n  var y = Number(d[0]);\r\n  var m = Number(d[1]) - 1;\r\n  var day = Number(d[2]);\r\n  if (!time) return new Date(y, m, day);\r\n  var t = String(time).split(':');\r\n  return new Date(y, m, day, Number(t[0]), Number(t[1] || 0));\r\n}\r\n\r\n/** 把行事曆列同步到 Google 日曆，並把日曆事件 ID 寫回 sheet。 */\r\nfunction syncCalendarRows_(tb, rows) {\r\n  var cal = teacherCalendar_(true);\r\n  if (!cal) throw new Error('無法建立 Google 日曆');\r\n  var names = classNameMap_();\r\n  var col = tb.idx.gcalId + 1;\r\n  rows.forEach(function (r) {\r\n    var ev = null;\r\n    if (r.gcalId) {\r\n      try {\r\n        ev = cal.getEventById(r.gcalId);\r\n      } catch (e) {\r\n        ev = null;\r\n      }\r\n    }\r\n    var gid = r.gcalId || '';\r\n    if (r.deleted || !r.date) {\r\n      if (ev) ev.deleteEvent();\r\n      gid = '';\r\n    } else {\r\n      var title = (r.classId && names[r.classId] ? '［' + names[r.classId] + '］' : '') + r.text;\r\n      var start = parseLocalDate_(r.date, r.time);\r\n      if (!ev) {\r\n        ev = r.time\r\n          ? cal.createEvent(title, start, new Date(start.getTime() + CALENDAR_EVENT_MINUTES * 60000))\r\n          : cal.createAllDayEvent(title, start);\r\n      } else {\r\n        ev.setTitle(title);\r\n        if (r.time) ev.setTime(start, new Date(start.getTime() + CALENDAR_EVENT_MINUTES * 60000));\r\n        else ev.setAllDayDate(start);\r\n      }\r\n      gid = ev.getId();\r\n    }\r\n    if (gid !== (r.gcalId || '') && r._row) {\r\n      tb.sh.getRange(r._row, col).setNumberFormat('@').setValue(gid);\r\n      r.gcalId = gid;\r\n    }\r\n  });\r\n}\r\n\r\n/** 開啟同步時，把今天（含）以後的行程全部寫入日曆。 */\r\nfunction apiCalendarSyncAll_() {\r\n  return withLock_(function () {\r\n    getSS_();\r\n    var tb = openTable_('cal');\r\n    var today = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd');\r\n    var rows = readRows_(tb).filter(function (r) {\r\n      return !r.deleted && r.date >= today;\r\n    });\r\n    syncCalendarRows_(tb, rows);\r\n    props_().deleteProperty('CAL_QUEUE');\r\n    var cal = teacherCalendar_(false);\r\n    return { count: rows.length, calendarId: cal ? cal.getId() : null };\r\n  });\r\n}\r\n\r\n/**\r\n * 日曆寫入失敗的持久佇列（存在使用者屬性 CAL_QUEUE）：記下失敗的行程 ID、累計失敗次數與最後原因，\r\n * 下次同步（推送或拉取）時重試，成功後清空。\r\n */\r\nfunction calQueueLoad_() {\r\n  try {\r\n    var q = JSON.parse(props_().getProperty('CAL_QUEUE') || '{}');\r\n    q.ids = q.ids || [];\r\n    q.fails = Number(q.fails) || 0;\r\n    return q;\r\n  } catch (e) {\r\n    return { ids: [], fails: 0 };\r\n  }\r\n}\r\n\r\nfunction calQueueStatus_() {\r\n  var q = calQueueLoad_();\r\n  return { pending: q.ids.length, fails: q.fails, lastError: q.lastError || '', lastAt: q.lastAt || 0 };\r\n}\r\n\r\n/** 同步指定的日曆列加上佇列中待重試的列；回傳錯誤訊息（成功為 null）。 */\r\nfunction syncCalendarQueued_(rows, calTb) {\r\n  var q = calQueueLoad_();\r\n  if (!rows.length && !q.ids.length) return null;\r\n  var tb = calTb || openTable_('cal');\r\n  var seen = {};\r\n  var all = [];\r\n  rows.forEach(function (r) {\r\n    seen[r.id] = true;\r\n    all.push(r);\r\n  });\r\n  if (q.ids.length) {\r\n    readRows_(tb).forEach(function (r) {\r\n      if (q.ids.indexOf(r.id) >= 0 && !seen[r.id]) {\r\n        seen[r.id] = true;\r\n        all.push(r);\r\n      }\r\n    });\r\n  }\r\n  try {\r\n    syncCalendarRows_(tb, all);\r\n    props_().deleteProperty('CAL_QUEUE');\r\n    return null;\r\n  } catch (e) {\r\n    var msg = String(e.message || e);\r\n    q.ids = Object.keys(seen);\r\n    q.fails += 1;\r\n    q.lastError = msg;\r\n    q.lastAt = Date.now();\r\n    props_().setProperty('CAL_QUEUE', JSON.stringify(q));\r\n    return msg;\r\n  }\r\n}\r\n\n// ---- Code.gs\n/*\r\n * Copyright (c) 2026 黃德亮 (derliang). All rights reserved.\r\n * Non-commercial use only. Sheng Kung Girls' High School\r\n * students and staff may use this software free of charge\r\n * for non-commercial educational purposes.\r\n * Other schools must obtain authorization by email.\r\n * Contact: derliang@gmail.com\r\n * See LICENSE.md for full terms.\r\n */\r\n/**\r\n * 網頁 App 入口與 API 分派。\r\n * 前端只透過 api(action, payload) 呼叫後端，回傳 JSON 字串；\r\n * 日後要改成獨立前台時，只需替換前端的 Backend 轉接層。\r\n */\r\n\r\nfunction doGet() {\r\n  var t = HtmlService.createTemplateFromFile('index');\r\n  t.boot = JSON.stringify({ version: APP_VERSION, email: Session.getActiveUser().getEmail() });\r\n  var out = t\r\n    .evaluate()\r\n    .setTitle(APP_NAME)\r\n    .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');\r\n  if (FAVICON_URL) out.setFaviconUrl(FAVICON_URL);\r\n  return out;\r\n}\r\n\r\nfunction include(name) {\r\n  return HtmlService.createHtmlOutputFromFile(name).getContent();\r\n}\r\n\r\nfunction apiTable_() {\r\n  return {\r\n    pull: apiPull_,\r\n    push: apiPush_,\r\n    archivedList: apiArchivedList_,\r\n    archivedDetail: apiArchivedDetail_,\r\n    restoreItem: apiRestoreItem_,\r\n    deleteArchived: apiDeleteArchived_,\r\n    fetchRange: apiFetchRange_,\r\n    createSheet: apiCreateSheet_,\r\n    htmlToPdf: apiHtmlToPdf_,\r\n    uploadPhoto: apiUploadPhoto_,\r\n    photo: apiPhoto_,\r\n    importRoster: apiImportRoster_,\r\n    resetPin: apiResetPin_,\r\n    checkVersion: apiCheckVersion_,\r\n    calendarSyncAll: apiCalendarSyncAll_,\r\n    backupNow: apiBackupNow_,\r\n    resetDataFile: apiResetDataFile_\r\n  };\r\n}\r\n\r\nfunction api(action, payload) {\r\n  // 每次呼叫都重新判斷試算表狀態（GAS 每次執行本來就會重置全域變數）\r\n  _ss = null;\r\n  _fresh = false;\r\n  try {\r\n    var fn = apiTable_()[action];\r\n    if (!fn) throw new Error('未知的操作：' + action);\r\n    return JSON.stringify({ ok: true, data: fn(payload || {}) });\r\n  } catch (err) {\r\n    console.error(action + ' 失敗：' + (err && err.stack ? err.stack : err));\r\n    return JSON.stringify({ ok: false, error: String((err && err.message) || err) });\r\n  }\r\n}\r\n\n// ---- Config.gs\n/**\r\n * 老師隨手記：全域設定。\r\n * 改版時請同步更新 APP_VERSION 與根目錄的 version.json。\r\n */\r\nvar APP_NAME = '老師隨手記';\r\nvar APP_VERSION = '1.5.0';\r\n\r\n// 方式 A（自行部署）用的版本檢查網址：指向一個公開的 version.json（格式見 repo 根目錄）。\r\n// 留空則不檢查。\r\nvar VERSION_CHECK_URL = '';\r\n\r\n// 網頁分頁圖示（需為公開的 https PNG 網址），留空則使用預設。\r\nvar FAVICON_URL = '';\r\n\r\nvar DATA_FILE_NAME = '老師隨手記資料';\r\nvar BACKUP_FOLDER_NAME = '老師隨手記備份';\r\nvar PHOTO_FOLDER_NAME = '老師隨手記相片';\r\n// 單張相片上限（前端會先縮圖，通常只有幾百 KB）。\r\nvar PHOTO_MAX_BYTES = 5 * 1024 * 1024;\r\n// 沒有任何登記紀錄使用的相片，上傳幾天後丟進垃圾桶（垃圾桶內 30 天內仍可救回）。\r\nvar PHOTO_ORPHAN_DAYS = 7;\r\nvar BACKUP_KEEP = 4;\r\nvar BACKUP_EVERY_DAYS = 7;\r\nvar CALENDAR_NAME = '老師隨手記';\r\nvar CALENDAR_EVENT_MINUTES = 60;\r\n\r\n// 已歸檔事項的紀錄在歸檔幾天後搬入「封存」sheet。\r\nvar ARCHIVE_MOVE_AFTER_DAYS = 7;\r\n// 已完成待辦保留天數。\r\nvar DONE_TODO_KEEP_DAYS = 30;\r\n// 已刪除資料（同步用的刪除標記）保留天數；超過後裝置需整份重新同步。\r\nvar TOMBSTONE_KEEP_DAYS = 60;\r\n\r\n// 快速登記清單的預設項目（老師沒改過清單時使用；與前端 js_log.html 的 DEFAULT_QUICK 相同）。\r\nvar DEFAULT_QUICK_LIST = ['掃地沒掃', '缺交作業', '上課吵鬧', '講髒話', '上課睡覺', '遲到', '忘記帶學用品', '服儀不整'];\r\n\n// ---- Db.gs\n/**\r\n * 試算表存取層：找到（或建立）老師的資料試算表、維護欄位結構、讀寫資料列。\r\n *\r\n * 方式 C：網頁 App 以存取者身分執行，資料試算表建立在老師自己的雲端硬碟，\r\n *         試算表 ID 存在 UserProperties。\r\n * 方式 A：腳本綁定在老師複製的試算表上，直接使用該試算表。\r\n */\r\nvar _ss = null;\r\nvar _fresh = false;\r\n\r\nfunction props_() {\r\n  return PropertiesService.getUserProperties();\r\n}\r\n\r\nfunction boundSpreadsheet_() {\r\n  try {\r\n    return SpreadsheetApp.getActiveSpreadsheet();\r\n  } catch (e) {\r\n    return null;\r\n  }\r\n}\r\n\r\nfunction appMode_() {\r\n  return boundSpreadsheet_() ? 'A' : 'C';\r\n}\r\n\r\nfunction getSS_() {\r\n  if (_ss) return _ss;\r\n  var bound = boundSpreadsheet_();\r\n  if (bound) {\r\n    _ss = bound;\r\n    if (!_ss.getSheetByName(TABLES.classes.sheet)) _fresh = true;\r\n  } else {\r\n    var id = props_().getProperty('SS_ID');\r\n    if (id) {\r\n      try {\r\n        _ss = SpreadsheetApp.openById(id);\r\n      } catch (e) {\r\n        // 只有確認檔案已丟進垃圾桶才換新檔；其他錯誤（服務暫時失敗、配額等）直接回報，避免悄悄換成空白試算表\r\n        if (!isTrashed_(id)) throw new Error(SS_OPEN_ERROR + '（' + String((e && e.message) || e) + '）');\r\n      }\r\n      if (_ss && isTrashed_(id)) _ss = null;\r\n    }\r\n    if (!_ss) {\r\n      _ss = SpreadsheetApp.create(DATA_FILE_NAME);\r\n      props_().setProperty('SS_ID', _ss.getId());\r\n      props_().deleteProperty('SCHEMA_VER');\r\n      props_().deleteProperty('PURGE_HORIZON');\r\n      _fresh = true;\r\n    }\r\n  }\r\n  if (_fresh || props_().getProperty('SCHEMA_VER') !== APP_VERSION + ':' + _ss.getId()) {\r\n    ensureSchema_(_ss);\r\n    props_().setProperty('SCHEMA_VER', APP_VERSION + ':' + _ss.getId());\r\n  }\r\n  return _ss;\r\n}\r\n\r\nvar SS_OPEN_ERROR = '暫時無法開啟你的資料試算表，請稍後再試。若檔案已被永久刪除，可在「同步狀態」選擇改用新的資料試算表';\r\n\r\n/** 老師確認原檔已永久刪除後，改用新的資料試算表（下次同步時建立，裝置上的資料會重新上傳）。 */\r\nfunction apiResetDataFile_() {\r\n  if (boundSpreadsheet_()) throw new Error('自行部署的版本請直接使用綁定的試算表');\r\n  props_().deleteProperty('SS_ID');\r\n  return { ok: true };\r\n}\r\n\r\nfunction isTrashed_(id) {\r\n  try {\r\n    return DriveApp.getFileById(id).isTrashed();\r\n  } catch (e) {\r\n    return false;\r\n  }\r\n}\r\n\r\n/** 建立缺少的 sheet 與欄位；既有欄位不動，新欄位加在最後。 */\r\nfunction ensureSchema_(ss) {\r\n  Object.keys(TABLES).forEach(function (t) {\r\n    var labels = tableCols_(t).map(function (c) {\r\n      return c.label;\r\n    });\r\n    ensureSheet_(ss, TABLES[t].sheet, labels);\r\n  });\r\n  ensureSheet_(ss, ARCHIVE_SHEET, ARCHIVE_COLS);\r\n  ['Sheet1', '工作表1', '工作表 1'].forEach(function (n) {\r\n    var sh = ss.getSheetByName(n);\r\n    if (sh && ss.getSheets().length > 1 && sh.getLastRow() === 0) ss.deleteSheet(sh);\r\n  });\r\n}\r\n\r\nfunction ensureSheet_(ss, name, labels) {\r\n  var sh = ss.getSheetByName(name);\r\n  if (!sh) sh = ss.insertSheet(name);\r\n  var lastCol = sh.getLastColumn();\r\n  var header = lastCol ? sh.getRange(1, 1, 1, lastCol).getValues()[0] : [];\r\n  var missing = labels.filter(function (l) {\r\n    return header.indexOf(l) < 0;\r\n  });\r\n  if (missing.length) {\r\n    sh.getRange(1, header.length + 1, 1, missing.length)\r\n      .setNumberFormat('@')\r\n      .setValues([missing])\r\n      .setFontWeight('bold')\r\n      .setBackground('#efe4c8');\r\n    sh.setFrozenRows(1);\r\n  }\r\n  return sh;\r\n}\r\n\r\n/** 開啟資料表：回傳 sheet 與「欄位鍵 → 欄位索引」對照。 */\r\nfunction openTable_(t) {\r\n  var sh = getSS_().getSheetByName(TABLES[t].sheet);\r\n  var width = sh.getLastColumn();\r\n  var header = sh.getRange(1, 1, 1, width).getValues()[0];\r\n  var cols = tableCols_(t);\r\n  var idx = {};\r\n  cols.forEach(function (c) {\r\n    idx[c.key] = header.indexOf(c.label);\r\n  });\r\n  return { t: t, sh: sh, cols: cols, idx: idx, width: width };\r\n}\r\n\r\nfunction readRows_(tb) {\r\n  var n = tb.sh.getLastRow() - 1;\r\n  if (n <= 0) return [];\r\n  var vals = tb.sh.getRange(2, 1, n, tb.width).getValues();\r\n  var out = [];\r\n  for (var i = 0; i < vals.length; i++) {\r\n    if (vals[i][tb.idx.id] === '' || vals[i][tb.idx.id] == null) continue;\r\n    var o = rowToObj_(tb, vals[i]);\r\n    o._row = i + 2;\r\n    o._raw = vals[i];\r\n    out.push(o);\r\n  }\r\n  return out;\r\n}\r\n\r\nfunction rowToObj_(tb, row) {\r\n  var o = {};\r\n  tb.cols.forEach(function (c) {\r\n    var i = tb.idx[c.key];\r\n    o[c.key] = parseCell_(c.type, i >= 0 ? row[i] : '');\r\n  });\r\n  return o;\r\n}\r\n\r\nfunction objToRow_(tb, o, base) {\r\n  var row = base ? base.slice() : [];\r\n  for (var i = row.length; i < tb.width; i++) row.push('');\r\n  tb.cols.forEach(function (c) {\r\n    var i = tb.idx[c.key];\r\n    if (i >= 0) row[i] = fmtCell_(c.type, o[c.key]);\r\n  });\r\n  return row;\r\n}\r\n\r\nfunction parseCell_(type, v) {\r\n  if (v instanceof Date) v = Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd');\r\n  if (type === 'num') return v === '' || v == null ? null : Number(v);\r\n  if (type === 'bool') return v === true || v === 1 || v === '1' || v === 'TRUE' || v === 'true';\r\n  if (type === 'json') {\r\n    if (v === '' || v == null) return null;\r\n    try {\r\n      return JSON.parse(v);\r\n    } catch (e) {\r\n      return null;\r\n    }\r\n  }\r\n  return v == null ? '' : String(v);\r\n}\r\n\r\nfunction fmtCell_(type, v) {\r\n  if (v === undefined || v === null || v === '') return '';\r\n  if (type === 'bool') return v ? '1' : '';\r\n  if (type === 'json') return JSON.stringify(v);\r\n  return String(v);\r\n}\r\n\r\n/** 只回傳給裝置看的欄位（去除內部欄位與 serverOnly 欄位）。 */\r\nfunction publicObj_(tb, o) {\r\n  var out = {};\r\n  tb.cols.forEach(function (c) {\r\n    if (!c.serverOnly) out[c.key] = o[c.key];\r\n  });\r\n  return out;\r\n}\r\n\r\n/**\r\n * 寫回資料：updates 為已讀出的列物件（帶 _row、_raw），appends 為新列物件（帶 _raw）。\r\n * 相鄰的更新會合併成一次寫入。\r\n */\r\nfunction writeRows_(tb, updates, appends) {\r\n  if (updates.length) {\r\n    updates.sort(function (a, b) {\r\n      return a._row - b._row;\r\n    });\r\n    var cluster = [];\r\n    var flush = function () {\r\n      if (!cluster.length) return;\r\n      var first = cluster[0]._row;\r\n      var last = cluster[cluster.length - 1]._row;\r\n      var block;\r\n      if (cluster.length === last - first + 1) {\r\n        block = cluster.map(function (o) {\r\n          return o._raw;\r\n        });\r\n      } else {\r\n        block = tb.sh.getRange(first, 1, last - first + 1, tb.width).getValues();\r\n        cluster.forEach(function (o) {\r\n          block[o._row - first] = o._raw;\r\n        });\r\n      }\r\n      tb.sh.getRange(first, 1, block.length, tb.width).setNumberFormat('@').setValues(block);\r\n      cluster = [];\r\n    };\r\n    updates.forEach(function (o) {\r\n      if (cluster.length && o._row - cluster[cluster.length - 1]._row > 20) flush();\r\n      cluster.push(o);\r\n    });\r\n    flush();\r\n  }\r\n  if (appends.length) {\r\n    var start = tb.sh.getLastRow() + 1;\r\n    var need = start + appends.length - 1 - tb.sh.getMaxRows();\r\n    if (need > 0) tb.sh.insertRowsAfter(tb.sh.getMaxRows(), need);\r\n    tb.sh\r\n      .getRange(start, 1, appends.length, tb.width)\r\n      .setNumberFormat('@')\r\n      .setValues(\r\n        appends.map(function (o) {\r\n          return o._raw;\r\n        })\r\n      );\r\n    appends.forEach(function (o, i) {\r\n      o._row = start + i;\r\n    });\r\n  }\r\n}\r\n\r\n/** 以新的資料列整個取代資料表內容（用於搬移與清除）。 */\r\nfunction rewriteTable_(tb, rows) {\r\n  // 一次寫入「新資料＋空白列補到原本長度」，避免先清空再寫入時中途失敗而清掉整張表\r\n  var old = Math.max(tb.sh.getLastRow() - 1, 0);\r\n  var n = Math.max(old, rows.length);\r\n  if (n) {\r\n    var blank = [];\r\n    for (var i = 0; i < tb.width; i++) blank.push('');\r\n    var values = rows.map(function (o) {\r\n      return o._raw;\r\n    });\r\n    while (values.length < n) values.push(blank.slice());\r\n    tb.sh.getRange(2, 1, n, tb.width).setNumberFormat('@').setValues(values);\r\n  }\r\n  var extra = tb.sh.getMaxRows() - Math.max(rows.length + 1, 2) - 50;\r\n  if (extra > 200) tb.sh.deleteRows(rows.length + 52, extra);\r\n}\r\n\r\nfunction withLock_(fn) {\r\n  var lock = LockService.getUserLock();\r\n  lock.waitLock(25000);\r\n  try {\r\n    return fn();\r\n  } finally {\r\n    lock.releaseLock();\r\n  }\r\n}\r\n\r\nfunction readSetting_(key) {\r\n  var tb = openTable_('settings');\r\n  var rows = readRows_(tb);\r\n  for (var i = 0; i < rows.length; i++) {\r\n    if (rows[i].id === key && !rows[i].deleted) return rows[i].value;\r\n  }\r\n  return null;\r\n}\r\n\r\nfunction writeSetting_(key, value) {\r\n  var tb = openTable_('settings');\r\n  var rows = readRows_(tb);\r\n  var now = Date.now();\r\n  var cur = null;\r\n  rows.forEach(function (r) {\r\n    if (r.id === key) cur = r;\r\n  });\r\n  var obj = { id: key, value: value, updatedAt: now, deleted: false, _rev: now };\r\n  if (cur) {\r\n    cur._raw = objToRow_(tb, obj, cur._raw);\r\n    writeRows_(tb, [cur], []);\r\n  } else {\r\n    obj._raw = objToRow_(tb, obj);\r\n    writeRows_(tb, [], [obj]);\r\n  }\r\n}\r\n\n// ---- Export.gs\n/**\r\n * 匯出與匯入：\r\n * - 整班明細：產生新的 Google 試算表（可下載 Excel）。\r\n * - 個人明細：前端組好古典風格 HTML，這裡轉成 PDF 存到雲端硬碟。\r\n * - 從其他試算表匯入學生名單。\r\n */\r\n\r\nfunction exportFolder_() {\r\n  return ownFolder_('EXPORT_FOLDER_ID', APP_NAME + '匯出');\r\n}\r\n\r\n/**\r\n * p.title：檔名；p.header：表頭；p.rows：資料列；\r\n * p.sheetName：工作表名稱（預設「整班明細」）；\r\n * p.chart：{ title, labels: [], values: [], seriesName }（選填，會另建「統計」工作表與長條圖）\r\n */\r\nfunction apiCreateSheet_(p) {\r\n  var ss = SpreadsheetApp.create(p.title || APP_NAME + '匯出');\r\n  var sh = ss.getSheets()[0];\r\n  sh.setName(p.sheetName || '整班明細');\r\n  var data = [p.header].concat(p.rows || []);\r\n  var width = p.header.length;\r\n  sh.getRange(1, 1, data.length, width).setNumberFormat('@').setValues(\r\n    data.map(function (r) {\r\n      var row = r.slice(0, width);\r\n      while (row.length < width) row.push('');\r\n      return row.map(function (v) {\r\n        return v == null ? '' : String(v);\r\n      });\r\n    })\r\n  );\r\n  sh.getRange(1, 1, 1, width).setFontWeight('bold').setBackground('#efe4c8');\r\n  sh.setFrozenRows(1);\r\n  sh.setFrozenColumns(Math.min(2, width));\r\n  sh.autoResizeColumns(1, width);\r\n  if (p.chart && p.chart.labels && p.chart.labels.length) {\r\n    var st = ss.insertSheet('統計');\r\n    var vals = [['項目', p.chart.seriesName || '數值']].concat(\r\n      p.chart.labels.map(function (l, i) {\r\n        return [String(l), Number(p.chart.values[i]) || 0];\r\n      })\r\n    );\r\n    st.getRange(1, 1, vals.length, 2).setValues(vals);\r\n    st.getRange(1, 1, 1, 2).setFontWeight('bold');\r\n    var chart = st\r\n      .newChart()\r\n      .setChartType(Charts.ChartType.COLUMN)\r\n      .addRange(st.getRange(1, 1, vals.length, 2))\r\n      .setPosition(1, 4, 0, 0)\r\n      .setOption('title', p.chart.title || '')\r\n      .setOption('legend', { position: 'none' })\r\n      .setOption('colors', ['#b8312f'])\r\n      .build();\r\n    st.insertChart(chart);\r\n  }\r\n  try {\r\n    DriveApp.getFileById(ss.getId()).moveTo(exportFolder_());\r\n  } catch (e) {}\r\n  return {\r\n    url: ss.getUrl(),\r\n    xlsxUrl: 'https://docs.google.com/spreadsheets/d/' + ss.getId() + '/export?format=xlsx',\r\n    name: ss.getName()\r\n  };\r\n}\r\n\r\nfunction apiHtmlToPdf_(p) {\r\n  var name = (p.name || '個人明細') + '.pdf';\r\n  var blob = HtmlService.createHtmlOutput(embedPhotos_(String(p.html || ''))).getBlob().getAs('application/pdf').setName(name);\r\n  var folder = exportFolder_();\r\n  // 同名的舊檔丟進垃圾桶，避免每按一次就多一份\r\n  var old = folder.getFilesByName(name);\r\n  while (old.hasNext()) old.next().setTrashed(true);\r\n  var file = folder.createFile(blob);\r\n  return {\r\n    name: name,\r\n    url: file.getUrl(),\r\n    downloadUrl: 'https://drive.google.com/uc?export=download&id=' + file.getId(),\r\n    base64: Utilities.base64Encode(blob.getBytes())\r\n  };\r\n}\r\n\r\n/** 從試算表網址匯入名單：找含「座號」「姓名」的表頭，否則取前兩欄。 */\r\nfunction apiImportRoster_(p) {\r\n  var ss = SpreadsheetApp.openByUrl(String(p.url).trim());\r\n  var values = ss.getSheets()[0].getDataRange().getValues();\r\n  var noCol = 0;\r\n  var nameCol = 1;\r\n  var start = 0;\r\n  for (var r = 0; r < Math.min(values.length, 10); r++) {\r\n    var row = values[r].map(String);\r\n    var a = row.indexOf('座號');\r\n    var b = row.indexOf('姓名');\r\n    if (a >= 0 && b >= 0) {\r\n      noCol = a;\r\n      nameCol = b;\r\n      start = r + 1;\r\n      break;\r\n    }\r\n  }\r\n  return validateRoster_(values, noCol, nameCol, start);\r\n}\r\n\r\n/** 名單 schema 驗證：座號須為正整數、姓名不可空白、座號不可重複、列數有上限；有問題整批拒絕，不回傳半份資料。 */\r\nfunction validateRoster_(values, noCol, nameCol, start) {\r\n  if (values.length - start > 2000) throw new Error('名單超過 2000 列，已拒絕匯入。');\r\n  var out = [];\r\n  var seen = {};\r\n  for (var i = start; i < values.length; i++) {\r\n    var rawNo = values[i][noCol];\r\n    var name = String(values[i][nameCol] == null ? '' : values[i][nameCol]).trim();\r\n    if ((rawNo === '' || rawNo == null) && !name) continue;\r\n    var no = Number(rawNo);\r\n    var where = '第 ' + (i + 1) + ' 列';\r\n    if (rawNo === '' || rawNo == null || !(no > 0) || no % 1 !== 0) throw new Error(where + '的座號不是正整數，已拒絕匯入。');\r\n    if (!name) throw new Error(where + '缺少姓名，已拒絕匯入。');\r\n    if (name.length > 50) throw new Error(where + '的姓名過長，已拒絕匯入。');\r\n    if (seen[no]) throw new Error(where + '的座號 ' + no + ' 重複，已拒絕匯入。');\r\n    seen[no] = true;\r\n    out.push({ no: no, name: name });\r\n  }\r\n  if (!out.length) throw new Error('找不到可匯入的名單（需要「座號」與「姓名」欄）。');\r\n  return out;\r\n}\r\n\r\n/** 忘記 PIN：能呼叫到這裡就代表已用 Google 帳號登入，直接清除 PIN。 */\r\nfunction apiResetPin_() {\r\n  return withLock_(function () {\r\n    getSS_();\r\n    writeSetting_('pin', { enabled: false, asked: true });\r\n    return { ok: true, email: Session.getActiveUser().getEmail() };\r\n  });\r\n}\r\n\r\nfunction apiCheckVersion_() {\r\n  if (!VERSION_CHECK_URL) return { current: APP_VERSION, latest: null };\r\n  var cached = props_().getProperty('VERSION_CHECK');\r\n  if (cached) {\r\n    var c = JSON.parse(cached);\r\n    if (Date.now() - c.at < 6 * 3600000) return c.data;\r\n  }\r\n  var data = { current: APP_VERSION, latest: null };\r\n  try {\r\n    var res = UrlFetchApp.fetch(VERSION_CHECK_URL, { muteHttpExceptions: true });\r\n    if (res.getResponseCode() === 200) {\r\n      var j = JSON.parse(res.getContentText());\r\n      data = { current: APP_VERSION, latest: j.version, notes: j.notes || '', url: j.url || '' };\r\n    }\r\n  } catch (e) {}\r\n  props_().setProperty('VERSION_CHECK', JSON.stringify({ at: Date.now(), data: data }));\r\n  return data;\r\n}\r\n\n// ---- Maintenance.gs\n/**\r\n * 定期維護（每日觸發器，觸發器不存在時也會在拉取資料時補做）：\r\n * - 清除完成超過 30 天的待辦\r\n * - 歸檔事項的紀錄搬入封存\r\n * - 沒被任何登記紀錄使用的相片丟進垃圾桶\r\n * - 清除過期的刪除標記\r\n * - 每週備份整份試算表，保留 4 份\r\n */\r\n\r\nfunction ensureTriggers_() {\r\n  var ssId = getSS_().getId();\r\n  if (props_().getProperty('TRIGGER_VER') === APP_VERSION + ':' + ssId) return;\r\n  try {\r\n    var triggers = ScriptApp.getProjectTriggers();\r\n    var has = function (h, src) {\r\n      return triggers.some(function (t) {\r\n        return t.getHandlerFunction() === h && (!src || t.getTriggerSourceId() === src);\r\n      });\r\n    };\r\n    if (!has('dailyMaintenance')) ScriptApp.newTrigger('dailyMaintenance').timeBased().everyDays(1).atHour(3).create();\r\n    // 老師直接修改試算表時，讓該列重新同步到裝置\r\n    if (!has('onDataEdit', ssId)) ScriptApp.newTrigger('onDataEdit').forSpreadsheet(ssId).onEdit().create();\r\n    props_().setProperty('TRIGGER_VER', APP_VERSION + ':' + ssId);\r\n  } catch (e) {\r\n    console.warn('無法建立觸發器：' + e);\r\n  }\r\n}\r\n\r\n/** 由每日觸發器呼叫。 */\r\nfunction dailyMaintenance() {\r\n  withLock_(function () {\r\n    maintenance_(Date.now());\r\n  });\r\n  backupIfDue_(false);\r\n}\r\n\r\nfunction maintenanceIfDue_() {\r\n  var last = Number(props_().getProperty('LAST_MAINT') || 0);\r\n  if (Date.now() - last > 86400000) maintenance_(Date.now());\r\n}\r\n\r\nfunction maintenance_(now) {\r\n  getSS_();\r\n  // 1. 已完成超過 30 天的待辦 → 標記刪除\r\n  var todoTb = openTable_('todos');\r\n  var cutoff = now - DONE_TODO_KEEP_DAYS * 86400000;\r\n  var expired = readRows_(todoTb).filter(function (r) {\r\n    return r.done && !r.deleted && r.doneAt && r.doneAt < cutoff;\r\n  });\r\n  expired.forEach(function (r) {\r\n    r.deleted = true;\r\n    r.updatedAt = now;\r\n    r._rev = now;\r\n    r._raw = objToRow_(todoTb, r, r._raw);\r\n  });\r\n  writeRows_(todoTb, expired, []);\r\n\r\n  // 2. 歸檔事項紀錄搬入封存\r\n  moveArchivedChildren_(now);\r\n\r\n  // 3. 沒有登記紀錄使用的相片丟進垃圾桶\r\n  try {\r\n    cleanupPhotos_(now);\r\n  } catch (e) {\r\n    console.warn('清理相片失敗：' + e);\r\n  }\r\n\r\n  // 4. 清除過期刪除標記\r\n  var tombCut = now - TOMBSTONE_KEEP_DAYS * 86400000;\r\n  var purged = false;\r\n  Object.keys(TABLES).forEach(function (t) {\r\n    var tb = openTable_(t);\r\n    var rows = readRows_(tb);\r\n    var keep = rows.filter(function (r) {\r\n      // 已轉成學生登記的累計事項保留（讓原本的累計事件繼續隱藏，不會被當成無主紀錄同步）\r\n      if (t === 'items' && r.opts && r.opts.toLogs) return true;\r\n      return !(r.deleted && (r.updatedAt || 0) < tombCut);\r\n    });\r\n    if (keep.length !== rows.length) {\r\n      rewriteTable_(tb, keep);\r\n      purged = true;\r\n    }\r\n  });\r\n  if (purged) props_().setProperty('PURGE_HORIZON', String(now));\r\n  props_().setProperty('LAST_MAINT', String(now));\r\n}\r\n\r\nfunction backupFolder_() {\r\n  return ownFolder_('BACKUP_FOLDER_ID', BACKUP_FOLDER_NAME);\r\n}\r\n\r\n/**\r\n * 取得老師自己擁有的資料夾。依名稱搜尋時會略過別人分享過來的同名資料夾，\r\n * 避免把學生資料複製進他人的共用空間。\r\n */\r\nfunction ownFolder_(propKey, name) {\r\n  var me = Session.getEffectiveUser().getEmail();\r\n  var mine = function (f) {\r\n    try {\r\n      var o = f.getOwner();\r\n      return !f.isTrashed() && !!o && o.getEmail() === me;\r\n    } catch (e) {\r\n      return false;\r\n    }\r\n  };\r\n  var id = props_().getProperty(propKey);\r\n  if (id) {\r\n    try {\r\n      var f = DriveApp.getFolderById(id);\r\n      if (mine(f)) return f;\r\n    } catch (e) {}\r\n  }\r\n  var it = DriveApp.getFoldersByName(name);\r\n  while (it.hasNext()) {\r\n    var g = it.next();\r\n    if (mine(g)) {\r\n      props_().setProperty(propKey, g.getId());\r\n      return g;\r\n    }\r\n  }\r\n  var folder = DriveApp.createFolder(name);\r\n  props_().setProperty(propKey, folder.getId());\r\n  return folder;\r\n}\r\n\r\nfunction backupIfDue_(force) {\r\n  var now = Date.now();\r\n  var last = Number(props_().getProperty('LAST_BACKUP') || 0);\r\n  if (!force && now - last < BACKUP_EVERY_DAYS * 86400000) return null;\r\n  var ss = getSS_();\r\n  var folder = backupFolder_();\r\n  var stamp = Utilities.formatDate(new Date(now), Session.getScriptTimeZone(), 'yyyy-MM-dd');\r\n  var prefix = ss.getName() + ' 備份 ';\r\n  DriveApp.getFileById(ss.getId()).makeCopy(prefix + stamp, folder);\r\n  var files = [];\r\n  var it = folder.getFiles();\r\n  while (it.hasNext()) {\r\n    var f = it.next();\r\n    if (f.getName().indexOf(prefix) === 0 && !f.isTrashed()) files.push(f);\r\n  }\r\n  files.sort(function (a, b) {\r\n    return b.getDateCreated().getTime() - a.getDateCreated().getTime();\r\n  });\r\n  files.slice(BACKUP_KEEP).forEach(function (f) {\r\n    f.setTrashed(true);\r\n  });\r\n  props_().setProperty('LAST_BACKUP', String(now));\r\n  return { at: now, kept: Math.min(files.length, BACKUP_KEEP), folderUrl: folder.getUrl() };\r\n}\r\n\r\nfunction apiBackupNow_() {\r\n  return backupIfDue_(true);\r\n}\r\n\n// ---- Migrate.gs\n/**\r\n * 資料轉換：累計表併入學生快速登記（v1.2）。\r\n *\r\n * 每次拉取資料時檢查，有累計事項就轉換：\r\n * - 每一筆累計事件 → 一筆學生登記（事項名稱＝累計表標題，日期時間不變）。\r\n *   登記的 ID 由事件 ID 決定（ev-事件ID），多台裝置同時轉換或重複轉換都不會多出紀錄。\r\n * - 未歸檔的累計表標題、累計範本名稱加進快速登記清單，之後一樣點一下就能記。\r\n * - 累計事項標記為已轉換並刪除（不再同步到裝置），累計範本刪除。\r\n *   原本的「累計事件」sheet 與封存資料原封不動保留，作為備查。\r\n * 已轉換的累計事項之後若還收到舊版裝置上傳的事件，下次拉取時會一併補轉。\r\n */\r\n\r\nfunction migrateCounters_(now) {\r\n  var itemsTb = openTable_('items');\r\n  var items = readRows_(itemsTb).filter(function (i) {\r\n    return i.type === 'counter' && (!i.deleted || (i.opts && i.opts.toLogs));\r\n  });\r\n  var tplTb = openTable_('templates');\r\n  var tpls = readRows_(tplTb).filter(function (t) {\r\n    return t.type === 'counter' && !t.deleted;\r\n  });\r\n  if (!items.length && !tpls.length) return 0;\r\n\r\n  var pending = items.filter(function (i) {\r\n    return !i.deleted;\r\n  });\r\n  var byId = {};\r\n  items.forEach(function (i) {\r\n    byId[i.id] = i;\r\n  });\r\n\r\n  // 新轉換的事項讀主表＋封存；已轉換過的只看主表有沒有新上傳的事件\r\n  var events = [];\r\n  if (pending.length) {\r\n    events = childrenOf_(\r\n      pending.map(function (i) {\r\n        return i.id;\r\n      })\r\n    ).events;\r\n  }\r\n  var evTb = openTable_('events');\r\n  var seenEv = {};\r\n  events.forEach(function (e) {\r\n    seenEv[e.id] = true;\r\n  });\r\n  readRows_(evTb).forEach(function (e) {\r\n    var it = byId[e.itemId];\r\n    if (!it || !it.deleted || e.deleted || seenEv[e.id]) return;\r\n    seenEv[e.id] = true;\r\n    events.push(publicObj_(evTb, e));\r\n  });\r\n\r\n  var logTb = openTable_('logs');\r\n  var have = {};\r\n  readRows_(logTb).forEach(function (l) {\r\n    have[l.id] = true;\r\n  });\r\n  var appends = [];\r\n  events.forEach(function (e) {\r\n    var it = byId[e.itemId];\r\n    var id = 'ev-' + e.id;\r\n    if (!it || have[id] || !e.studentId) return;\r\n    have[id] = true;\r\n    var log = {\r\n      id: id,\r\n      classId: it.classId,\r\n      studentId: e.studentId,\r\n      label: String(it.title || '').trim() || '累計',\r\n      date: e.date,\r\n      at: e.at,\r\n      note: '',\r\n      photos: [],\r\n      updatedAt: now,\r\n      deleted: false,\r\n      _rev: now\r\n    };\r\n    log._raw = objToRow_(logTb, log);\r\n    appends.push(log);\r\n  });\r\n  writeRows_(logTb, [], appends);\r\n\r\n  // 快速登記清單：補上還在用的累計表與累計範本名稱\r\n  var add = [];\r\n  pending\r\n    .filter(function (i) {\r\n      return !i.archived;\r\n    })\r\n    .sort(function (a, b) {\r\n      return (a.createdAt || 0) - (b.createdAt || 0);\r\n    })\r\n    .forEach(function (i) {\r\n      add.push(String(i.title || '').trim());\r\n    });\r\n  tpls.forEach(function (t) {\r\n    add.push(String(t.name || '').trim());\r\n  });\r\n  if (add.length) {\r\n    var cur = readSetting_('quickList');\r\n    var list = Array.isArray(cur) ? cur.slice() : DEFAULT_QUICK_LIST.slice();\r\n    var changed = false;\r\n    add.forEach(function (x) {\r\n      if (x && list.indexOf(x) < 0) {\r\n        list.push(x);\r\n        changed = true;\r\n      }\r\n    });\r\n    if (changed || !Array.isArray(cur)) writeSetting_('quickList', list);\r\n  }\r\n\r\n  pending.forEach(function (i) {\r\n    i.opts = Object.assign({}, i.opts, { toLogs: true });\r\n    i.deleted = true;\r\n    i.updatedAt = now;\r\n    i._rev = now;\r\n    i._raw = objToRow_(itemsTb, i, i._raw);\r\n  });\r\n  writeRows_(itemsTb, pending, []);\r\n  tpls.forEach(function (t) {\r\n    t.deleted = true;\r\n    t.updatedAt = now;\r\n    t._rev = now;\r\n    t._raw = objToRow_(tplTb, t, t._raw);\r\n  });\r\n  writeRows_(tplTb, tpls, []);\r\n  return appends.length;\r\n}\r\n\n// ---- Photo.gs\n/**\r\n * 學生登記的相片：存在老師自己雲端硬碟的「老師隨手記相片」資料夾（App 自己建立、擁有的資料夾）。\r\n * 前端先縮圖再上傳；讀取時只回傳這個資料夾裡的檔案。\r\n */\r\n\r\nfunction photoFolder_() {\r\n  return ownFolder_('PHOTO_FOLDER_ID', PHOTO_FOLDER_NAME);\r\n}\r\n\r\n/** p.data：data URL（image/jpeg、png、webp）；p.name：檔名（不含副檔名）。 */\r\nfunction apiUploadPhoto_(p) {\r\n  var m = String(p.data || '').match(/^data:(image\\/(jpeg|png|webp));base64,([A-Za-z0-9+\\/=]+)$/);\r\n  if (!m) throw new Error('不支援這種相片格式');\r\n  var bytes = Utilities.base64Decode(m[3]);\r\n  if (bytes.length > PHOTO_MAX_BYTES) throw new Error('相片太大，請換一張');\r\n  var base = String(p.name || '相片').replace(/[\\\\\\/:*?\"<>|\\r\\n]+/g, ' ').trim().slice(0, 80) || '相片';\r\n  var file = photoFolder_().createFile(Utilities.newBlob(bytes, m[1], base + '.' + (m[2] === 'jpeg' ? 'jpg' : m[2])));\r\n  return { id: file.getId(), name: file.getName() };\r\n}\r\n\r\n/** 只允許讀取相片資料夾裡的檔案。 */\r\nfunction photoFile_(id) {\r\n  var folderId = photoFolder_().getId();\r\n  var file;\r\n  try {\r\n    file = DriveApp.getFileById(String(id));\r\n  } catch (e) {\r\n    throw new Error('找不到這張相片');\r\n  }\r\n  var parents = file.getParents();\r\n  while (parents.hasNext()) {\r\n    if (parents.next().getId() === folderId) return file;\r\n  }\r\n  throw new Error('找不到這張相片');\r\n}\r\n\r\nfunction apiPhoto_(p) {\r\n  var blob = photoFile_(p.id).getBlob();\r\n  return { type: blob.getContentType(), base64: Utilities.base64Encode(blob.getBytes()) };\r\n}\r\n\r\n/** PDF 用：把 <img data-photo=\"檔案ID\"> 換成內嵌圖片。 */\r\nfunction embedPhotos_(html) {\r\n  if (html.indexOf('data-photo=') < 0) return html;\r\n  return html.replace(/<img data-photo=\"([\\w-]+)\"/g, function (all, id) {\r\n    try {\r\n      var b = photoFile_(id).getBlob();\r\n      return '<img src=\"data:' + b.getContentType() + ';base64,' + Utilities.base64Encode(b.getBytes()) + '\"';\r\n    } catch (e) {\r\n      return '<img alt=\"（相片無法讀取）\"';\r\n    }\r\n  });\r\n}\r\n\r\n/** 沒被任何登記紀錄使用、且上傳超過 PHOTO_ORPHAN_DAYS 天的相片丟進垃圾桶。 */\r\nfunction cleanupPhotos_(now) {\r\n  var folderId = props_().getProperty('PHOTO_FOLDER_ID');\r\n  if (!folderId) return;\r\n  var rows = readRows_(openTable_('logs'));\r\n  // 登記表是空的（例如剛換新的資料試算表）時不清，避免誤丟所有相片\r\n  if (!rows.length) return;\r\n  var used = {};\r\n  rows.forEach(function (r) {\r\n    if (r.deleted) return;\r\n    (r.photos || []).forEach(function (ph) {\r\n      if (ph && ph.id) used[ph.id] = true;\r\n    });\r\n  });\r\n  var folder;\r\n  try {\r\n    folder = DriveApp.getFolderById(folderId);\r\n  } catch (e) {\r\n    return;\r\n  }\r\n  var cut = now - PHOTO_ORPHAN_DAYS * 86400000;\r\n  var it = folder.getFiles();\r\n  while (it.hasNext()) {\r\n    var f = it.next();\r\n    if (!used[f.getId()] && !f.isTrashed() && f.getDateCreated().getTime() < cut) f.setTrashed(true);\r\n  }\r\n}\r\n\n// ---- Schema.gs\n/**\r\n * 試算表資料結構。每個資料表對應一個 sheet，第一列為中文欄名。\r\n * 欄位型別：str（預設）、num、bool、json。\r\n * serverOnly 欄位只由伺服器寫入，裝置上傳時不會覆蓋。\r\n */\r\nvar TABLES = {\r\n  classes: {\r\n    sheet: '班級',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['name', '班級名稱'],\r\n      ['year', '學年'],\r\n      ['order', '排序', 'num'],\r\n      ['archived', '歸檔', 'bool'],\r\n      ['seatRows', '座位列數', 'num'],\r\n      ['seatCols', '座位行數', 'num']\r\n    ]\r\n  },\r\n  students: {\r\n    sheet: '學生',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['classId', '班級ID'],\r\n      ['no', '座號', 'num'],\r\n      ['name', '姓名'],\r\n      ['out', '轉出', 'bool']\r\n    ]\r\n  },\r\n  items: {\r\n    sheet: '事項清單',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['classId', '班級ID'],\r\n      ['type', '類型'], // check 勾選｜score 成績（舊版的 counter 累計已轉成學生登記，見 Migrate.gs）\r\n      ['title', '標題'],\r\n      ['date', '日期'],\r\n      ['archived', '歸檔', 'bool'],\r\n      ['archivedAt', '歸檔時間', 'num'],\r\n      ['roster', '名單快照', 'json'],\r\n      ['opts', '設定', 'json'],\r\n      ['createdAt', '建立時間', 'num'],\r\n      ['moved', '已搬入封存', 'bool', 'serverOnly']\r\n    ]\r\n  },\r\n  checks: {\r\n    sheet: '勾選紀錄',\r\n    child: true,\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['itemId', '事項ID'],\r\n      ['studentId', '學生ID'],\r\n      ['checked', '勾選', 'bool'],\r\n      ['checkedAt', '勾選時間', 'num'],\r\n      ['amount', '金額']\r\n    ]\r\n  },\r\n  // 舊版累計表的紀錄，已轉成學生登記（logs）；保留作為備查與轉換來源\r\n  events: {\r\n    sheet: '累計事件',\r\n    child: true,\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['itemId', '事項ID'],\r\n      ['studentId', '學生ID'],\r\n      ['date', '日期'],\r\n      ['at', '時間', 'num']\r\n    ]\r\n  },\r\n  scores: {\r\n    sheet: '成績紀錄',\r\n    child: true,\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['itemId', '事項ID'],\r\n      ['studentId', '學生ID'],\r\n      ['score', '分數'],\r\n      ['absent', '缺考', 'bool']\r\n    ]\r\n  },\r\n  todos: {\r\n    sheet: '待辦',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['text', '內容'],\r\n      ['due', '期限'],\r\n      ['classId', '班級標籤'],\r\n      ['repeat', '重複設定', 'json'],\r\n      ['occurrence', '第幾次', 'num'],\r\n      ['done', '完成', 'bool'],\r\n      ['doneAt', '完成時間', 'num'],\r\n      ['nextId', '下一次ID']\r\n    ]\r\n  },\r\n  cal: {\r\n    sheet: '行事曆',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['date', '日期'],\r\n      ['time', '時間'],\r\n      ['text', '內容'],\r\n      ['classId', '班級標籤'],\r\n      ['gcalId', 'Google日曆ID', 'str', 'serverOnly'],\r\n      ['dayType', '上課日設定'], // 空白：一般行程｜off 放假（不上課）｜makeup 補上課\r\n      ['endDate', '結束日期'] // 放假可連續多天（例如寒暑假）\r\n    ]\r\n  },\r\n  templates: {\r\n    sheet: '範本',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['name', '名稱'],\r\n      ['type', '類型'],\r\n      ['opts', '設定', 'json'],\r\n      ['order', '排序', 'num']\r\n    ]\r\n  },\r\n  notes: {\r\n    sheet: '學生備註',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['studentId', '學生ID'],\r\n      ['date', '日期'],\r\n      ['text', '備註']\r\n    ]\r\n  },\r\n  contacts: {\r\n    sheet: '家長聯絡紀錄',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['studentId', '學生ID'],\r\n      ['classId', '班級ID'],\r\n      ['date', '日期'],\r\n      ['at', '時間', 'num'],\r\n      ['topics', '談及事項', 'json'],\r\n      ['text', '訊息內容'],\r\n      ['via', '方式']\r\n    ]\r\n  },\r\n  logs: {\r\n    sheet: '學生登記',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['classId', '班級ID'],\r\n      ['studentId', '學生ID'],\r\n      ['label', '事項'],\r\n      ['date', '日期'],\r\n      ['at', '時間', 'num'],\r\n      ['note', '備註'],\r\n      ['photos', '相片', 'json']\r\n    ]\r\n  },\r\n  leaves: {\r\n    sheet: '請假紀錄',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['classId', '班級ID'],\r\n      ['studentId', '學生ID'],\r\n      ['start', '開始日期'],\r\n      ['end', '結束日期'],\r\n      ['kind', '假別'],\r\n      ['reason', '原因'],\r\n      ['unreported', '未報備', 'bool'],\r\n      ['parentOk', '家長已確認', 'bool'],\r\n      ['parentAt', '家長確認時間', 'num'],\r\n      ['done', '已完成請假手續', 'bool'],\r\n      ['doneAt', '完成手續時間', 'num'],\r\n      ['createdAt', '登記時間', 'num']\r\n    ]\r\n  },\r\n  seats: {\r\n    sheet: '座位',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['classId', '班級ID'],\r\n      ['studentId', '學生ID'],\r\n      ['row', '列', 'num'],\r\n      ['col', '行', 'num']\r\n    ]\r\n  },\r\n  groups: {\r\n    sheet: '分組',\r\n    cols: [\r\n      ['id', 'ID'],\r\n      ['classId', '班級ID'],\r\n      ['name', '方案名稱'],\r\n      ['groups', '各組成員', 'json']\r\n    ]\r\n  },\r\n  settings: {\r\n    sheet: '設定',\r\n    cols: [\r\n      ['id', '鍵'],\r\n      ['value', '值', 'json']\r\n    ]\r\n  }\r\n};\r\n\r\nvar META_COLS = [\r\n  ['updatedAt', '修改時間', 'num'],\r\n  ['deleted', '已刪除', 'bool'],\r\n  ['_rev', '同步版本', 'num', 'serverOnly']\r\n];\r\n\r\nvar ARCHIVE_SHEET = '封存';\r\nvar ARCHIVE_COLS = ['資料表', 'ID', '事項ID', '資料', '搬入時間'];\r\n\r\n/** 子資料表（隸屬於事項）的名稱。 */\r\nvar CHILD_TABLES = ['checks', 'events', 'scores'];\r\n\r\nfunction tableCols_(t) {\r\n  var def = TABLES[t];\r\n  if (!def) throw new Error('未知的資料表：' + t);\r\n  if (!def._all) {\r\n    def._all = def.cols.concat(META_COLS).map(function (c) {\r\n      return { key: c[0], label: c[1], type: c[2] || 'str', serverOnly: c[3] === 'serverOnly' };\r\n    });\r\n  }\r\n  return def._all;\r\n}\r\n\n// ---- Sync.gs\n/**\r\n * 同步：裝置以「最後修改為準」上傳變更（push），再以同步版本號拉取差異（pull）。\r\n * 每筆資料都有 updatedAt（裝置修改時間）與 _rev（伺服器寫入時間）。\r\n * 刪除以 deleted 標記保留一段時間，讓其他裝置也能收到。\r\n */\r\n\r\nfunction apiPull_(p) {\r\n  return withLock_(function () {\r\n    getSS_();\r\n    ensureTriggers_();\r\n    maintenanceIfDue_();\r\n    migrateCounters_(Date.now());\r\n    if (readSetting_('calSync')) syncCalendarQueued_([], null);\r\n    var now = Date.now();\r\n    var since = Number(p.since) || 0;\r\n    var horizon = Number(props_().getProperty('PURGE_HORIZON') || 0);\r\n    var full = !since || since < horizon || !!p.full;\r\n\r\n    var itemsTb = openTable_('items');\r\n    var items = readRows_(itemsTb);\r\n    var hidden = {};\r\n    items.forEach(function (i) {\r\n      if (i.archived || i.deleted) hidden[i.id] = true;\r\n    });\r\n\r\n    var tables = {};\r\n    Object.keys(TABLES).forEach(function (t) {\r\n      var tb = t === 'items' ? itemsTb : openTable_(t);\r\n      var rows = t === 'items' ? items : readRows_(tb);\r\n      var child = !!TABLES[t].child;\r\n      // 老師直接在試算表新增或修改的列沒有同步版本（修改時由 onDataEdit 清空），補上版本後一併送出\r\n      var stamped = rows.filter(function (r) {\r\n        return !r._rev;\r\n      });\r\n      stamped.forEach(function (r) {\r\n        r._rev = now;\r\n        if (!r.updatedAt) r.updatedAt = now;\r\n        r._raw = objToRow_(tb, r, r._raw);\r\n      });\r\n      if (stamped.length) writeRows_(tb, stamped, []);\r\n      tables[t] = rows\r\n        .filter(function (r) {\r\n          if (child && hidden[r.itemId]) return false;\r\n          if (full) return !r.deleted && !(t === 'items' && r.archived);\r\n          return r._rev >= since;\r\n        })\r\n        .map(function (r) {\r\n          return publicObj_(tb, r);\r\n        });\r\n    });\r\n    return {\r\n      rev: now,\r\n      full: full,\r\n      fresh: _fresh,\r\n      tables: tables,\r\n      info: serverInfo_()\r\n    };\r\n  });\r\n}\r\n\r\nfunction apiPush_(p) {\r\n  var changes = p.changes || {};\r\n  return withLock_(function () {\r\n    getSS_();\r\n    var now = Date.now();\r\n    var conflicts = {};\r\n    var stale = {};\r\n    // client 附上的 baseRev（它修改時所依據的伺服器版本）；沒帶就是舊版 client，維持以修改時間判勝負\r\n    var baseRev = Number(p.baseRev) || 0;\r\n    var calChanged = [];\r\n    var calTb = null;\r\n    Object.keys(changes).forEach(function (t) {\r\n      if (!TABLES[t]) return;\r\n      var recs = changes[t] || [];\r\n      if (!recs.length) return;\r\n      var tb = openTable_(t);\r\n      var rows = readRows_(tb);\r\n      var byId = {};\r\n      rows.forEach(function (r) {\r\n        byId[r.id] = r;\r\n      });\r\n      var updates = [];\r\n      var appends = [];\r\n      recs.forEach(function (rec) {\r\n        if (!rec || !rec.id) return;\r\n        var cur = byId[rec.id];\r\n        if (cur && baseRev) {\r\n          // 伺服器版本不比 client 所依據的舊（或試算表手動改過尚未編版），不覆寫，讓 client 重新拉取後重做\r\n          if (!cur._rev || cur._rev >= baseRev) {\r\n            (conflicts[t] = conflicts[t] || []).push(publicObj_(tb, cur));\r\n            (stale[t] = stale[t] || []).push(rec.id);\r\n            return;\r\n          }\r\n        } else if (cur && (cur.updatedAt || 0) > (rec.updatedAt || 0)) {\r\n          (conflicts[t] = conflicts[t] || []).push(publicObj_(tb, cur));\r\n          return;\r\n        }\r\n        var merged = {};\r\n        tb.cols.forEach(function (c) {\r\n          merged[c.key] = c.serverOnly ? (cur ? cur[c.key] : null) : rec[c.key];\r\n        });\r\n        merged._rev = now;\r\n        if (cur) {\r\n          var raw = objToRow_(tb, merged, cur._raw);\r\n          Object.keys(merged).forEach(function (k) {\r\n            cur[k] = merged[k];\r\n          });\r\n          cur._raw = raw;\r\n          if (updates.indexOf(cur) < 0) updates.push(cur);\r\n          if (t === 'cal') calChanged.push(cur);\r\n        } else {\r\n          merged._raw = objToRow_(tb, merged);\r\n          byId[rec.id] = merged;\r\n          appends.push(merged);\r\n          if (t === 'cal') calChanged.push(merged);\r\n        }\r\n      });\r\n      writeRows_(tb, updates, appends);\r\n      if (t === 'cal') calTb = tb;\r\n    });\r\n    var calError = null;\r\n    if (readSetting_('calSync')) {\r\n      // 先前失敗留在佇列的行程一併重試\r\n      calError = syncCalendarQueued_(calChanged, calTb);\r\n    }\r\n    return { rev: now, conflicts: conflicts, stale: stale, calError: calError, calQueue: calQueueStatus_() };\r\n  });\r\n}\r\n\r\nfunction serverInfo_() {\r\n  var ss = getSS_();\r\n  return {\r\n    version: APP_VERSION,\r\n    mode: appMode_(),\r\n    email: Session.getActiveUser().getEmail(),\r\n    ssUrl: ss.getUrl(),\r\n    lastBackup: Number(props_().getProperty('LAST_BACKUP') || 0) || null,\r\n    calQueue: calQueueStatus_()\r\n  };\r\n}\r\n\r\n/**\r\n * 試算表的編輯觸發器：老師直接在資料試算表修改某列時，清空該列的同步版本並更新修改時間，\r\n * 下次裝置同步時就會收到（以這次修改為最新）。\r\n */\r\nfunction onDataEdit(e) {\r\n  if (!e || !e.range) return;\r\n  var sh = e.range.getSheet();\r\n  var name = sh.getName();\r\n  var t = null;\r\n  Object.keys(TABLES).forEach(function (k) {\r\n    if (TABLES[k].sheet === name) t = k;\r\n  });\r\n  if (!t) return;\r\n  var first = Math.max(e.range.getRow(), 2);\r\n  var last = e.range.getLastRow();\r\n  if (last < first) return;\r\n  var header = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];\r\n  var revCol = header.indexOf('同步版本') + 1;\r\n  var updCol = header.indexOf('修改時間') + 1;\r\n  if (revCol < 1 || updCol < 1) return;\r\n  // 只動到同步欄位本身的編輯不處理\r\n  var c1 = e.range.getColumn();\r\n  var c2 = e.range.getLastColumn();\r\n  if (c1 === c2 && (c1 === revCol || c1 === updCol)) return;\r\n  var n = last - first + 1;\r\n  var rev = [];\r\n  var upd = [];\r\n  var now = String(Date.now());\r\n  for (var i = 0; i < n; i++) {\r\n    rev.push(['']);\r\n    upd.push([now]);\r\n  }\r\n  sh.getRange(first, revCol, n, 1).setValues(rev);\r\n  sh.getRange(first, updCol, n, 1).setNumberFormat('@').setValues(upd);\r\n}\r\n";</script>
+    <script>window.BOOT = {"version":"1.5.0","build":{"date":"2026/10/25","sha":"af3f586"},"email":"me","web":true};</script>
     <script>
 /* 純邏輯：日期、重複規則、統計與報表。不碰 DOM，可在 Node 測試。 */
 var L = (function () {
@@ -2067,13 +2269,15 @@ var L = (function () {
   var diffDays = function (a, b) { return Math.round((parse(b) - parse(a)) / 86400000); };
   var weekdayLabel = function (s) { return '週' + WEEK[dow(s)]; };
   // 開學後第幾週：開學日（學期開始日）那週為第 1 週，一週從週一算起；開學前回傳 0 以下
-  var weekNo = function (s, start) { return Math.floor(diffDays(weekStart(start), weekStart(s)) / 7) + 1; };
+  var weekSun = function (s) { return addDays(s, -dow(s)); };
+  // 週次：週日到週六為一週，學期開始日所在那週為第 1 週
+  var weekNo = function (s, start) { return Math.floor(diffDays(weekSun(start), weekSun(s)) / 7) + 1; };
   // 學期開始日：sem1、sem2 為「MM-DD」，回傳 s 那天所在學期的開始日（最近一個不晚於 s 的開始日）
   var semesterStartOf = function (s, sem1, sem2) {
     var y = Number(s.slice(0, 4));
     var m = s.slice(5);
-    var a = sem1 || '08-01';
-    var b = sem2 || '02-01';
+    var a = sem1 || '08-30';
+    var b = sem2 || '02-11';
     if (a < b) { var x = a; a = b; b = x; }
     if (m >= a) return y + '-' + a;
     if (m >= b) return y + '-' + b;
@@ -2615,7 +2819,94 @@ var L = (function () {
     return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) + '&dates=' + dates + '&ctz=Asia%2FTaipei&details=' + encodeURIComponent('由老師隨手記加入');
   }
 
+  /* ---------- Google 日曆：.ics 匯入與嵌入網址 ---------- */
+  function icsUnescape(s) {
+    return String(s || '').replace(/\\([nN,;\\])/g, function (m, c) { return c === 'n' || c === 'N' ? '\n' : c; });
+  }
+  // 「20261025」「20261025T090000」「20261025T010000Z」→ { date, time, allDay }；Z 結尾視為 UTC，換成本機時間
+  function icsTime(val, params) {
+    var m = String(val || '').match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})?(Z?))?$/);
+    if (!m) return null;
+    if (m[4] == null || /VALUE=DATE(?!-)/i.test(params || '')) return { date: m[1] + '-' + m[2] + '-' + m[3], time: '', allDay: true };
+    if (m[7]) {
+      var d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0)));
+      return { date: ymd(d), time: pad(d.getHours()) + ':' + pad(d.getMinutes()), allDay: false };
+    }
+    return { date: m[1] + '-' + m[2] + '-' + m[3], time: m[4] + ':' + m[5], allDay: false };
+  }
+  function icsHash(s) {
+    var a = 5381, b = 52711;
+    for (var i = 0; i < s.length; i++) { var c = s.charCodeAt(i); a = ((a * 33) ^ c) >>> 0; b = ((b * 31) + c) >>> 0; }
+    return a.toString(36) + b.toString(36);
+  }
+  // 匯入行程的 id 由 UID 算出（前綴 ics_），所以重複匯入同一個檔不會產生重複行程，也能在清單上標示來源
+  function icsId(key) { return 'ics_' + icsHash(String(key)); }
+  function isIcsId(id) { return String(id || '').indexOf('ics_') === 0; }
+  /* 解析 .ics 文字。回傳 { events: [{ id, text, date, time, endDate }], recurring: 重複行程的筆數（只匯第一次）, cancelled } */
+  function parseIcs(text) {
+    var lines = String(text || '').replace(/^﻿/, '').replace(/\r\n|\r/g, '\n').replace(/\n[ \t]/g, '').split('\n');
+    var out = { events: [], recurring: 0, cancelled: 0 };
+    var cur = null;
+    lines.forEach(function (ln) {
+      if (/^BEGIN:VEVENT$/i.test(ln)) { cur = {}; return; }
+      if (/^END:VEVENT$/i.test(ln)) {
+        var ev = cur;
+        cur = null;
+        if (!ev || !ev.DTSTART) return;
+        if (/^CANCELLED$/i.test((ev.STATUS && ev.STATUS.v) || '')) { out.cancelled++; return; }
+        var s = icsTime(ev.DTSTART.v, ev.DTSTART.p);
+        if (!s) return;
+        var e = ev.DTEND ? icsTime(ev.DTEND.v, ev.DTEND.p) : null;
+        if (ev.RRULE) out.recurring++;
+        var title = icsUnescape(ev.SUMMARY && ev.SUMMARY.v).trim() || '（無標題）';
+        var loc = icsUnescape(ev.LOCATION && ev.LOCATION.v).trim();
+        var desc = icsUnescape(ev.DESCRIPTION && ev.DESCRIPTION.v).split('\n')[0].trim();
+        var body = title + (loc ? '（' + loc + '）' : '') + (desc && desc.length <= 60 ? ' — ' + desc : '');
+        var uid = (ev.UID && ev.UID.v) || (title + '|' + ev.DTSTART.v);
+        if (ev['RECURRENCE-ID']) uid += '|' + ev['RECURRENCE-ID'].v;
+        // 全天事件的結束日不含當天；跨日的全天行程每天一筆（最多 31 天）
+        var last = s.date;
+        if (s.allDay && e && e.allDay && e.date > s.date) last = addDays(e.date, -1);
+        var days = Math.min(diffDays(s.date, last) + 1, 31);
+        for (var i = 0; i < days; i++) {
+          out.events.push({
+            id: icsId(i ? uid + '#' + i : uid), text: body + (days > 1 ? '（第 ' + (i + 1) + '／' + days + ' 天）' : ''),
+            date: addDays(s.date, i), time: s.time, endDate: ''
+          });
+        }
+        return;
+      }
+      if (!cur) return;
+      var m = ln.match(/^([A-Za-z-]+)((?:;[^:]*)?):(.*)$/);
+      if (m) cur[m[1].toUpperCase()] = { v: m[3], p: m[2] };
+    });
+    return out;
+  }
+  /* 把貼上的內容（嵌入網址、含 iframe 的程式碼、公開網址或日曆 ID）整理成日曆 ID 清單；不是 Google 日曆就回傳 null */
+  function gcalIds(input) {
+    var s = String(input || '').trim();
+    var im = s.match(/<iframe[^>]*\ssrc=["']([^"']+)["']/i);
+    if (im) s = im[1].replace(/&amp;/g, '&');
+    var idRe = /^[^\s@\/?&=]+@[^\s@\/?&=]+\.[^\s@\/?&=]+$/;
+    if (idRe.test(s)) return [s];
+    var u;
+    try { u = new URL(s); } catch (e) { return null; }
+    if (u.protocol !== 'https:' || u.hostname !== 'calendar.google.com') return null;
+    var ids = u.searchParams.getAll('src').filter(function (x) { return idRe.test(x); });
+    var cid = u.searchParams.get('cid');
+    if (cid) {
+      if (idRe.test(cid)) ids.push(cid);
+      else { try { var dec = atob(cid.replace(/-/g, '+').replace(/_/g, '/')); if (idRe.test(dec)) ids.push(dec); } catch (e) {} }
+    }
+    return ids.length ? ids.slice(0, 5) : null;
+  }
+  function gcalEmbedUrl(ids, mode) {
+    return 'https://calendar.google.com/calendar/embed?ctz=Asia%2FTaipei&mode=' + (mode === 'MONTH' ? 'MONTH' : 'WEEK') + '&showTitle=0&showPrint=0' +
+      ids.map(function (i) { return '&src=' + encodeURIComponent(i); }).join('');
+  }
+
   return {
+    parseIcs: parseIcs, isIcsId: isIcsId, gcalIds: gcalIds, gcalEmbedUrl: gcalEmbedUrl,
     gcalUrl: gcalUrl,
     pad: pad, ymd: ymd, parse: parse, today: today, addDays: addDays, dow: dow, WEEK: WEEK, weekStart: weekStart, weekNo: weekNo, semesterStartOf: semesterStartOf,
     md: md, mmdd: mmdd, hm: hm, dateOf: dateOf, fmtStamp: fmtStamp, diffDays: diffDays, weekdayLabel: weekdayLabel, relDay: relDay, itemTitle: itemTitle,
@@ -2626,6 +2917,122 @@ var L = (function () {
     logSummary: logSummary, logReport: logReport, logReportHtml: logReportHtml,
     leaveEnd: leaveEnd, onLeave: onLeave, leaveDays: leaveDays, leaveRange: leaveRange, leaveAlert: leaveAlert, leaveBoard: leaveBoard, schoolDays: schoolDays, schoolDaysAfter: schoolDaysAfter, leaveText: leaveText, leaveReportHtml: leaveReportHtml
   };
+})();
+</script>
+
+    <script>
+/* 座位表拍照填入的純邏輯：把辨識到的文字框對應到座位格，再比對本班名單。不碰 DOM，可在 Node 測試。 */
+var SeatMatch = (function () {
+  var clean = function (s) { return String(s || '').replace(/[\s　|｜:：,，.。_\-]+/g, ''); };
+  // 最長共同子序列長度（姓名最多 4～5 個字，直接用 O(nm)）
+  var lcs = function (a, b) {
+    var p = [], i, j;
+    for (j = 0; j <= b.length; j++) p.push(0);
+    for (i = 1; i <= a.length; i++) {
+      var prev = 0;
+      for (j = 1; j <= b.length; j++) {
+        var tmp = p[j];
+        p[j] = a[i - 1] === b[j - 1] ? prev + 1 : Math.max(p[j], p[j - 1]);
+        prev = tmp;
+      }
+    }
+    return p[b.length];
+  };
+  var sim = function (a, b) { return a && b ? lcs(a, b) / Math.max(a.length, b.length) : 0; };
+
+  /* 一個格子裡辨識到的文字 → 學生。
+     students：[{id, no, name}]。回傳 { sid, level, text }
+     level：ok（姓名完全相符，或座號相符）／low（模糊比對，請老師確認）／dup（重名或同分，無法決定）／none（比對不到或空白） */
+  function matchText(text, students) {
+    var t = clean(text);
+    if (!t) return { sid: null, level: 'none', text: '' };
+    var m = /^(\d{1,3})(.*)$/.exec(t);
+    var no = m ? Number(m[1]) : null;
+    var name = m ? m[2] : t;
+    var byNo = no == null ? [] : students.filter(function (s) { return Number(s.no) === no; });
+    if (name) {
+      var exact = students.filter(function (s) { return s.name === name; });
+      if (exact.length === 1) return { sid: exact[0].id, level: 'ok', text: t };
+      if (exact.length > 1) {
+        var both = exact.filter(function (s) { return byNo.indexOf(s) >= 0; });
+        if (both.length === 1) return { sid: both[0].id, level: 'ok', text: t };
+        return { sid: null, level: 'dup', text: t };
+      }
+      var best = 0;
+      var hits = [];
+      students.forEach(function (s) {
+        var v = sim(name, s.name);
+        if (v > best + 1e-9) { best = v; hits = [s]; } else if (Math.abs(v - best) < 1e-9 && v > 0) hits.push(s);
+      });
+      if (best >= 0.5) {
+        if (hits.length === 1) return { sid: hits[0].id, level: 'low', text: t };
+        var viaNo = hits.filter(function (s) { return byNo.indexOf(s) >= 0; });
+        if (viaNo.length === 1) return { sid: viaNo[0].id, level: 'low', text: t };
+        return { sid: null, level: 'dup', text: t };
+      }
+    }
+    if (byNo.length === 1) return { sid: byNo[0].id, level: name ? 'low' : 'ok', text: t };
+    return { sid: null, level: 'none', text: t };
+  }
+
+  /* 文字框 → 格子。items：[{text, x0, y0, x1, y1}]（像素）。
+     照片上方是最後一排、左邊是第 1 行（和座位表畫面同方向）；opts.flipRows／flipCols 可翻轉。
+     回傳 cells：長度 rows*cols 的陣列，cells[r*cols + c] = { r, c, text, sid, level }，r、c 從 0 起算（r=0 是最靠講台的一排）。 */
+  function layout(items, rows, cols, students, opts) {
+    opts = opts || {};
+    var cells = [];
+    var r, c;
+    for (r = 0; r < rows; r++) for (c = 0; c < cols; c++) cells.push({ r: r, c: c, parts: [], text: '', sid: null, level: 'none' });
+    var boxes = (items || []).filter(function (it) { return clean(it.text); });
+    if (boxes.length) {
+      var x0 = Math.min.apply(null, boxes.map(function (b) { return b.x0; }));
+      var x1 = Math.max.apply(null, boxes.map(function (b) { return b.x1; }));
+      var y0 = Math.min.apply(null, boxes.map(function (b) { return b.y0; }));
+      var y1 = Math.max.apply(null, boxes.map(function (b) { return b.y1; }));
+      var cw = Math.max(1, (x1 - x0) / cols);
+      var ch = Math.max(1, (y1 - y0) / rows);
+      boxes.forEach(function (b) {
+        var col = Math.min(cols - 1, Math.max(0, Math.floor(((b.x0 + b.x1) / 2 - x0) / cw)));
+        var rowTop = Math.min(rows - 1, Math.max(0, Math.floor(((b.y0 + b.y1) / 2 - y0) / ch)));
+        if (opts.flipCols) col = cols - 1 - col;
+        var row = opts.flipRows ? rowTop : rows - 1 - rowTop;
+        cells[row * cols + col].parts.push(b);
+      });
+    }
+    cells.forEach(function (cell) {
+      cell.parts.sort(function (a, b) { return a.x0 - b.x0; });
+      cell.text = cell.parts.map(function (p) { return clean(p.text); }).join('');
+      delete cell.parts;
+      var res = matchText(cell.text, students);
+      cell.sid = res.sid;
+      cell.level = res.level;
+    });
+    // 同一個學生出現在兩格：只留第一格，其他格標成重複，交給老師決定
+    var seen = {};
+    cells.forEach(function (cell) {
+      if (!cell.sid) return;
+      if (seen[cell.sid]) { cell.sid = null; cell.level = 'dup'; } else seen[cell.sid] = true;
+    });
+    return cells;
+  }
+
+  /* 確認後要寫入的內容。cells：確認畫面上的最終結果；existing：這個班目前的座位 [{studentId,row,col}]。
+     回傳 { put:[{sid,r,c}], del:[sid] }：被新安排佔掉位置、又沒有新位置的學生會被移出座位（變成未安排）。 */
+  function plan(cells, existing) {
+    var put = [];
+    var assigned = {};
+    var taken = {};
+    cells.forEach(function (cell) {
+      if (cell.sid && !assigned[cell.sid]) { assigned[cell.sid] = true; taken[cell.r + ',' + cell.c] = true; put.push({ sid: cell.sid, r: cell.r, c: cell.c }); }
+    });
+    var del = [];
+    (existing || []).forEach(function (x) {
+      if (!assigned[x.studentId] && taken[x.row + ',' + x.col]) del.push(x.studentId);
+    });
+    return { put: put, del: del };
+  }
+
+  return { clean: clean, sim: sim, matchText: matchText, layout: layout, plan: plan };
 })();
 </script>
 
@@ -2962,15 +3369,35 @@ var Sync = {
       (changes[t] = changes[t] || []).push(r);
       sent[key] = r.updatedAt;
     });
-    return Backend.call('push', { changes: changes }).then(function (res) {
+    // 附上依據的伺服器版本（baseRev）；從未拉取過（rev 為 0）就不帶，伺服器照舊以修改時間判斷
+    var payload = { changes: changes };
+    if (DB.rev && !window.WEB) payload.baseRev = DB.rev; // 網頁版有自己的合併流程（AUD-02），不帶
+    return Backend.call('push', payload).then(function (res) {
+      var stale = res.stale || {};
+      var isStale = function (t, id) { return (stale[t] || []).indexOf(id) >= 0; };
       Object.keys(sent).forEach(function (key) {
         var i = key.indexOf('|');
-        var r = DB.t[key.slice(0, i)].get(key.slice(i + 1));
+        var t = key.slice(0, i);
+        var id = key.slice(i + 1);
+        var r = DB.t[t].get(id);
+        if (isStale(t, id)) return; // 伺服器版本較新，保留修改待重新拉取後重做
         if (r && r.updatedAt === sent[key]) delete DB.dirty[key];
       });
+      var redo = false;
       Object.keys(res.conflicts || {}).forEach(function (t) {
-        res.conflicts[t].forEach(function (r) { DB.merge(t, r); });
+        res.conflicts[t].forEach(function (r) {
+          var local = DB.t[t].get(r.id);
+          if (isStale(t, r.id) && local) {
+            // 重做：本機修改排在伺服器版本之後，拉取合併時不會被蓋掉
+            local.updatedAt = Math.max(local.updatedAt || 0, (r.updatedAt || 0) + 1);
+            redo = true;
+          } else {
+            DB.merge(t, r);
+          }
+        });
       });
+      if (redo) Sync.again = true;
+      if (res.calQueue) DB.info = Object.assign({}, DB.info, { calQueue: res.calQueue });
       if (res.calError && !Sync._calWarned) {
         Sync._calWarned = true;
         UI.toast('Google 日曆同步失敗：' + res.calError);
@@ -3071,6 +3498,7 @@ var ICONS = {
   share: '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.6M8.2 13.2l7.6 4.6"/>',
   star: '<path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6L12 16.8 6.6 19.6l1.1-6L3.2 9.4l6.1-.8z"/>',
   lock: '<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+  ext: '<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/>',
   link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
   money: '<circle cx="12" cy="12" r="9"/><path d="M15 9a3 3 0 0 0-3-1.5c-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.6 0 1.3-1.3 2.2-3 2.2A3 3 0 0 1 9 15M12 6v1.5M12 16.5V18"/>',
   invert: '<path d="M4 7h13l-3-3M20 17H7l3 3"/>',
@@ -3341,7 +3769,7 @@ var DatePick = {
     if (root.matches && root.matches('input[type=date]')) DatePick.enhance(root);
     root.querySelectorAll('input[type=date]').forEach(DatePick.enhance);
   },
-  /* 某天是開學後第幾週：以學期開始日那週為第 1 週（週一到週日為一週） */
+  /* 某天是開學後第幾週：以學期開始日那週為第 1 週（週日到週六為一週） */
   week: function (d) {
     var start = typeof semesterStartOf === 'function' ? semesterStartOf(d) : null;
     return start ? L.weekNo(d, start) : null;
@@ -3374,7 +3802,7 @@ var DatePick = {
       for (var r = 0; r < 6; r++) {
         var row = L.addDays(start, r * 7);
         if (r > 3 && row.slice(0, 7) !== month) break;
-        var wk = DatePick.week(L.addDays(row, 1));
+        var wk = DatePick.week(row);
         h += '<span class="dp-wk">' + (wk ? '第' + wk + '週' : '') + '</span>';
         for (var c = 0; c < 7; c++) {
           var d = L.addDays(row, c);
@@ -3615,9 +4043,10 @@ var TABS = [
   ['check', '勾選', 'check'],
   ['score', '成績', 'score'],
   ['todo', '待辦', 'todo'],
-  ['cal', '行事曆', 'cal']
+  ['cal', '行事曆', 'cal'],
+  ['settings', '設定', 'gear']
 ];
-var TAB_ROOT = { today: 'today', leave: 'leave', check: 'checkList', score: 'scoreList', todo: 'todos', cal: 'cal' };
+var TAB_ROOT = { today: 'today', leave: 'leave', check: 'checkList', score: 'scoreList', todo: 'todos', cal: 'cal', settings: 'settings' };
 /* 分頁的首頁（例如請假紀錄）：從別處前往時直接切到那個分頁 */
 function tabOfRoot(v) {
   var t = null;
@@ -3742,7 +4171,7 @@ var App = {
     tabs.classList.toggle('hidden', !!V.noTabs);
     // 寬螢幕時分頁列改為左側欄，品牌列只在左側欄顯示
     tabs.innerHTML = '<div class="tabs-brand"><span class="seal-logo">記</span><span class="serif">老師隨手記</span></div>' + TABS.map(function (t) {
-      return '<button data-act="tab" data-tab="' + t[0] + '" class="' + (App.tab === t[0] ? 'on' : '') + '">' + icon(t[2]) + '<span>' + t[1] + '</span></button>';
+      return '<button data-act="tab" data-tab="' + t[0] + '" class="' + (App.tab === t[0] ? 'on' : '') + '">' + icon(t[2]) + '<span class="t-full">' + t[1] + '</span><span class="t-short">' + (t[1] === '行事曆' ? '行曆' : t[1]) + '</span></button>';
     }).join('');
     var fab = V.fab && V.fab(view);
     document.getElementById('fab-slot').innerHTML = fab ? '<button class="fab" data-act="fab" data-lp="fab" aria-label="新增">' + icon('plus') + '</button>' : '';
@@ -3774,7 +4203,14 @@ var App = {
     var left;
     if (depth > 1 || V.noTabs) {
       var t = esc(V.title ? V.title(view) : '');
-      left = '<button class="icon-btn" data-act="back" aria-label="返回">' + icon('back') + '</button>' +
+      // 子頁左上：「‹ 回OO」，OO 為來源頁名稱（上一層畫面的標題，最上層為所在分頁名）
+      var st0 = this.stacks[this.tab];
+      var prev = st0.length > 1 ? st0[st0.length - 2] : null;
+      var PV = prev && Views[prev.v];
+      var from = PV && PV.title ? PV.title(prev) : '';
+      var tabName = (TABS.filter(function (x) { return x[0] === App.tab; })[0] || [])[1] || '';
+      if (!from || prev && prev.v === TAB_ROOT[this.tab]) from = tabName || '上頁';
+      left = '<button class="back-btn" data-act="back" aria-label="返回' + esc(from) + '"><span class="chev">‹</span>回' + esc(from) + '</button>' +
         (V.switcher ? '<button class="title grow ellipsis title-switch" data-act="switchItem" aria-label="切換事項"><span class="ellipsis">' + t + '</span><span class="caret">▾</span></button>' : '<div class="title grow ellipsis">' + t + '</div>');
     } else {
       var classes = Q.classes();
@@ -3788,9 +4224,9 @@ var App = {
     var n = sv.pending;
     // 同步狀態：燈號加文字（綠燈「已同步」），不用圖示，避免看起來像勾選框；手機寬度只留燈號（css 控制）
     var st = StoreHealth.failed ? ['err', '未能儲存'] : sv.failed ? ['err', sv.failed + ' 筆修改未套用'] : s === 'syncing' ? ['busy', '同步中'] : s === 'error' ? ['err', '同步失敗'] : s === 'offline' ? ['off', '離線'] : n ? ['wait', '待同步 ' + n] : s === 'synced' ? ['ok', '已同步'] : ['wait', '尚未同步'];
-    var right = '<button class="sync-pill ' + st[0] + '" data-act="syncPanel" aria-label="同步狀態：' + st[1] + '" title="' + st[1] + '"><i class="lamp"></i><span>' + st[1] + '</span></button>';
+    var right = '';
     if (V.menu) right += '<button class="icon-btn" data-act="viewMenu" aria-label="更多">' + icon('more') + '</button>';
-    if (!V.noGear) right += '<button class="icon-btn" data-act="openSettings" aria-label="設定">' + icon('gear') + '</button>';
+    right += '<button class="sync-pill ' + st[0] + '" data-act="syncPanel" aria-label="同步狀態：' + st[1] + '" title="' + st[1] + '"><i class="lamp"></i><span>' + st[1] + '</span></button>';
     return left + right;
   }
 };
@@ -3837,7 +4273,7 @@ Act.back = function () { App.back(); };
 
 Act.seg = function (d) { App.setUi(d.name, d.value); };
 Act.go = function (d) { App.go(d.view, { id: d.id || null }); };
-Act.openSettings = function () { App.go('settings'); };
+Act.openSettings = function () { App.openIn('settings'); };
 Act.viewMenu = function (d, el) {
   var view = App.top();
   var V = Views[view.v];
@@ -4931,7 +5367,7 @@ function calRow(e) {
   return '<li class="li" data-act="calEdit" data-id="' + e.id + '"><span class="when">' + (e.time || '整天') + '</span><span class="grow">' + esc(e.text) +
     (e.dayType === 'off' && e.endDate && e.endDate > e.date ? ' <span class="dim">' + L.md(e.date) + '～' + L.md(e.endDate) + '</span>' : '') + '</span>' +
     (kind ? '<span class="tag ' + (e.dayType === 'off' ? 'red' : 'ok') + '">' + kind + '</span>' : '') +
-    (e.classId ? '<span class="tag">' + esc(Q.className(e.classId)) + '</span>' : '') +
+    (e.classId ? '<span class="tag">' + esc(Q.className(e.classId)) + '</span>' : '') + (L.isIcsId(e.id) ? '<span class="tag">匯入</span>' : '') +
     (Pref.calLinks() ? '<a class="gcal-add" data-act="gcalAdd" href="' + esc(L.gcalUrl(e, Q.className(e.classId))) + '" target="_blank" rel="noopener" aria-label="加入 Google 日曆" title="加入 Google 日曆">' + icon('cal') + '<span>＋</span></a>' : '') + '</li>';
 }
 Act.gcalAdd = function () {};
@@ -4945,6 +5381,96 @@ Act.calMonth = function (d) {
 Act.calDay = function (d) { App.setUi('calDay', d.date, false); };
 Change.calClass = function (d, el) { App.setUi('calClass', el.value); };
 
+/* ---------- Google 日曆：嵌入（唯讀）與匯入 .ics（#8） ---------- */
+function calEmbedIds() {
+  return String(Settings.get('gcalEmbed', '')).split(',').filter(function (x) { return x && L.gcalIds(x); });
+}
+function calEmbedHtml() {
+  var ids = calEmbedIds();
+  if (!ids.length) {
+    return '<div class="card"><div class="card-title">' + icon('cal') + '<h2>嵌入 Google 日曆</h2></div>' +
+      '<p class="dim">把你的 Google 日曆放進這一頁，只能看、不能改（要改請到 Google 日曆）。貼上日曆的「嵌入網址」或日曆 ID 即可。</p>' +
+      '<p class="dim">日曆需先設為公開，或你在這個瀏覽器已登入該 Google 帳號，才看得到內容。</p>' +
+      '<div class="acts"><button class="btn primary" data-act="calEmbedSet">設定 Google 日曆</button></div></div>';
+  }
+  var mode = App.ui.calEmbedMode === 'MONTH' ? 'MONTH' : 'WEEK';
+  var h = '<div class="toolbar">' + UI.seg('calEmbedMode', [['WEEK', '週'], ['MONTH', '月']], mode) +
+    '<button class="btn small right" data-act="calEmbedSet">更換</button><button class="btn small" data-act="calEmbedClear">移除</button></div>';
+  if (window.navigator && navigator.onLine === false) {
+    return h + '<div class="card"><p class="dim">目前離線，Google 日曆要連線才能顯示。</p></div>';
+  }
+  h += '<iframe class="gcal-embed" title="Google 日曆" loading="lazy" referrerpolicy="no-referrer" src="' + esc(L.gcalEmbedUrl(ids, mode)) + '"></iframe>';
+  h += '<p class="dim center" style="margin:8px 0 0">如果上方空白或顯示「無法顯示」：日曆需設為公開，或你在這個瀏覽器已登入該 Google 帳號。' +
+    '<a href="' + esc(L.gcalEmbedUrl(ids, mode)) + '" target="_blank" rel="noopener">在新分頁開啟</a></p>';
+  return h;
+}
+Act.calEmbedSet = function () {
+  UI.sheet({
+    title: '設定 Google 日曆',
+    body: '<p class="dim">在 Google 日曆網頁：設定 › 選擇日曆 › 整合日曆，複製「嵌入網址」（或「公開網址」）貼在下面；也可以直接貼日曆 ID（像 xxx@gmail.com）。只接受 calendar.google.com 的網址。</p>' +
+      '<label class="field"><span>嵌入網址或日曆 ID</span><input class="input" id="ce-src" placeholder="https://calendar.google.com/calendar/embed?src=…" value=""></label>' +
+      '<p class="dim">日曆需設為公開，或你在這個瀏覽器已登入該帳號才看得到。</p>',
+    actions: [{ label: icon('back') + '不存，回上頁', cls: 'back' }, {
+      label: '儲存', cls: 'primary', onClick: function (el) {
+        var ids = L.gcalIds(el.querySelector('#ce-src').value);
+        if (!ids) { UI.toast('只接受 Google 日曆的嵌入網址、公開網址或日曆 ID'); return false; }
+        Settings.set('gcalEmbed', ids.join(','));
+        App.setUi('calMode', 'gcal');
+        UI.toast('已設定 Google 日曆');
+      }
+    }]
+  });
+};
+Act.calEmbedClear = function () {
+  UI.confirm('只會移除這一頁的嵌入，不影響你的 Google 日曆。', { title: '移除嵌入的日曆？', ok: '移除' }).then(function (yes) {
+    if (!yes) return;
+    Settings.set('gcalEmbed', '');
+    App.render();
+  });
+};
+function calImportBar() {
+  return '<div class="cal-tools"><button class="btn small" data-act="calImportIcs">' + icon('plus') + '匯入行程（.ics）</button>' +
+    '<span class="dim">Google 日曆「設定 › 匯入與匯出 › 匯出」得到的檔</span></div>';
+}
+Act.calImportIcs = function () {
+  var inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.ics,text/calendar';
+  inp.style.display = 'none';
+  inp.addEventListener('change', function () {
+    var f = inp.files && inp.files[0];
+    inp.remove();
+    if (!f) return;
+    if (f.size > 5 * 1024 * 1024) { UI.toast('檔案太大（超過 5 MB），請改匯出較短的區間'); return; }
+    var rd = new FileReader();
+    rd.onload = function () { calIcsPreview(f.name, L.parseIcs(String(rd.result || ''))); };
+    rd.onerror = function () { UI.toast('讀不到這個檔案'); };
+    rd.readAsText(f);
+  });
+  document.body.appendChild(inp);
+  inp.click();
+};
+function calIcsPreview(name, r) {
+  var evs = r.events.slice(0, 3000);
+  if (!evs.length) { UI.toast('檔案裡找不到行程，請確認是 Google 日曆匯出的 .ics'); return; }
+  var fresh = evs.filter(function (e) { return !DB.get('cal', e.id); });
+  var dates = evs.map(function (e) { return e.date; }).sort();
+  UI.sheet({
+    title: '匯入行程',
+    body: '<p>檔案「' + esc(name) + '」共 <b>' + evs.length + '</b> 筆行程，日期從 ' + L.md(dates[0]) + '（' + dates[0].slice(0, 4) + '）到 ' + L.md(dates[dates.length - 1]) + '（' + dates[dates.length - 1].slice(0, 4) + '）。</p>' +
+      '<p>其中 <b>' + (evs.length - fresh.length) + '</b> 筆已經匯入過（會略過），將新增 <b>' + fresh.length + '</b> 筆。</p>' +
+      (r.recurring ? '<p class="dim">有 ' + r.recurring + ' 筆是重複行程，只會匯入第一次，之後的請在 Google 日曆查看（或用「嵌入」）。</p>' : '') +
+      (r.cancelled ? '<p class="dim">已取消的 ' + r.cancelled + ' 筆不匯入。</p>' : '') +
+      '<p class="dim">匯入的行程會標示「匯入」，之後再匯入同一個檔不會重複。</p>',
+    actions: [{ label: icon('back') + '不匯入，回上頁', cls: 'back' }].concat(fresh.length ? [{
+      label: '匯入 ' + fresh.length + ' 筆', cls: 'primary', onClick: function () {
+        fresh.forEach(function (e) { DB.put('cal', { id: e.id, text: e.text, date: e.date, time: e.time, classId: '', dayType: '', endDate: '' }); });
+        UI.toast('已匯入 ' + fresh.length + ' 筆行程');
+      }
+    }] : [])
+  });
+}
+
 Views.cal = {
   title: function () { return '行事曆'; },
   fab: function () { return function () { calSheet(null, App.ui.calMode === 'month' ? App.ui.calDay : null); }; },
@@ -4953,21 +5479,28 @@ Views.cal = {
     var mode = App.ui.calMode || 'list';
     var all = DB.where('cal', function (e) { return !f || e.classId === f || !e.classId; });
     var t = L.today();
-    var h = '<div class="toolbar"><select class="input" style="width:auto;min-width:120px" data-change="calClass">' + UI.classOptions(f, { none: '全部班級' }) + '</select>' +
-      UI.seg('calMode', [['list', '近期'], ['month', '月曆']], mode) +
-      '<a class="btn small right" href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener" aria-label="開啟 Google 日曆">' + icon('link') + 'Google<span class="hide-narrow">&nbsp;日曆</span></a></div>';
+    var h = '<div class="toolbar cal-bar"><select class="input" style="width:auto;min-width:120px" data-change="calClass">' + UI.classOptions(f, { none: '全部班級' }) + '</select>' +
+      UI.seg('calMode', [['list', '近期'], ['month', '月曆'], ['gcal', '嵌入']], mode) +
+      '<a class="btn small right gcal-link" href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener" aria-label="開啟 Google 日曆（另開新分頁）">開啟 Google 日曆' + icon('ext') + '</a></div>';
     if (Settings.get('calSync', false)) h += '<div class="dim" style="margin:-4px 2px 8px">已單向同步到「老師隨手記」Google 日曆</div>';
+    if (mode === 'gcal') return h + calEmbedHtml();
     if (mode === 'list') {
       var end = L.addDays(t, 13);
       var byDay = L.groupBy(L.sortCal(all.filter(function (e) { return e.date >= t && e.date <= end; })), 'date');
       var days = Object.keys(byDay).sort();
+      if (!days.length) {
+        // 近期沒有行程：用印章空狀態，並給「新增行程」「看月曆」兩個入口（既有功能）
+        h += '<div class="card cal-empty"><span class="seal-logo">記</span><b class="serif">未來 14 天沒有行程</b><p class="dim">可以新增行程，或切到月曆查看更久以後。</p>' +
+          '<div class="acts"><button class="btn primary" data-act="fab">' + icon('plus') + '新增行程</button><button class="btn" data-act="seg" data-name="calMode" data-value="month">' + icon('cal') + '看月曆</button></div></div>';
+        return h + '<p class="dim center">顯示今天起 14 天</p>';
+      }
       if (days.indexOf(t) < 0) days.unshift(t);
       h += days.map(function (d) {
         var evs = byDay[d] || [];
         return '<div class="day-block"><div class="day-head ' + (d === t ? 'today' : '') + '"><span>' + L.md(d) + '</span><span class="dim">' + L.weekdayLabel(d) + (d === t ? '・今天' : '') + '</span></div>' +
           '<div class="card" style="padding:4px 12px;margin-bottom:6px">' + (evs.length ? '<ul class="list">' + evs.map(calRow).join('') + '</ul>' : '<div class="dim" style="padding:8px 0">沒有行程</div>') + '</div></div>';
       }).join('');
-      h += '<p class="dim center">顯示今天起 14 天</p>';
+      h += '<p class="dim center">顯示今天起 14 天</p>' + calImportBar();
       return h;
     }
     var m = App.ui.calMonth || t.slice(0, 7);
@@ -4984,7 +5517,7 @@ Views.cal = {
     for (var i = 0; i < 42; i++) {
       var d = L.addDays(start, i);
       if (i % 7 === 0) {
-        var wn = weekOf(L.addDays(d, 1));
+        var wn = weekOf(d);
         h += '<div class="wk" title="開學日那週為第 1 週">' + (wn > 0 ? '<small>第</small><b>' + wn + '</b><small>週</small>' : '') + '</div>';
       }
       var n = (byDate[d] || []).length;
@@ -4999,7 +5532,7 @@ Views.cal = {
     var evs = L.sortCal((byDate[sel] || []).concat(all.filter(function (e) { return e.dayType === 'off' && e.date < sel && e.endDate && e.endDate >= sel; })));
     h += '<p class="dim center" style="margin:6px 0 0">紅底「休」是行事曆設定的放假日，綠底「補」是補上課日；請假手續以上課日計算</p>';
     h += '<div class="day-head" style="margin-top:14px">' + L.md(sel) + ' <span class="dim">' + L.weekdayLabel(sel) + (isSchool(sel) ? '' : '・不上課') + '</span></div><div class="card" style="padding:4px 12px">' +
-      (evs.length ? '<ul class="list">' + evs.map(calRow).join('') + '</ul>' : '<div class="dim" style="padding:8px 0">沒有行程</div>') + '</div>';
+      (evs.length ? '<ul class="list">' + evs.map(calRow).join('') + '</ul>' : '<div class="dim" style="padding:8px 0">沒有行程</div>') + '</div>' + calImportBar();
     return h;
   }
 };
@@ -5067,8 +5600,8 @@ function schoolYear() {
 /* 老師可在設定「預設與細項」調整的值 */
 var Pref = {
   seal: function () { return Settings.get('sealChar', '閱') || '閱'; },
-  sem1: function () { return Settings.get('sem1', '08-01'); },
-  sem2: function () { return Settings.get('sem2', '02-01'); },
+  sem1: function () { return Settings.get('sem1', '08-30'); },
+  sem2: function () { return Settings.get('sem2', '02-11'); },
   maxScore: function () { return Number(Settings.get('defaultMax', 100)) || 100; },
   titleFmt: function () { return Settings.get('titleFmt', 'date-type'); },
   sign: function () { return Settings.get('msgSign', ''); },
@@ -5113,7 +5646,7 @@ Views.settings = {
       setRow('archive', '已歸檔事項與搜尋', 'go', ' data-view="search"') +
       '</div>';
     h += '<div class="section-label">使用偏好</div><div class="card">' +
-      '<label class="field"><span>預設開啟頁面</span><select class="input" data-change="defaultTab">' + TABS.map(function (t) {
+      '<label class="field"><span>預設開啟頁面</span><select class="input" data-change="defaultTab">' + TABS.filter(function (t) { return t[0] !== 'settings'; }).map(function (t) {
         return '<option value="' + t[0] + '"' + (Settings.get('defaultTab', 'today') === t[0] ? ' selected' : '') + '>' + t[1] + '</option>';
       }).join('') + '</select></label>' +
       '<label class="field"><span>外觀</span><select class="input" data-change="theme">' + [['light', '淺色（宣紙）'], ['dark', '深色（墨色）'], ['auto', '跟隨系統']].map(function (o) {
@@ -5152,6 +5685,7 @@ Views.settings = {
     else h += '<div class="section-label">同步與備份</div><div class="card">' +
       '<div class="kv"><span>待同步筆數</span><b>' + Sync.pending() + '</b></div>' +
       '<div class="kv"><span>上次同步</span><span>' + (DB.rev ? L.fmtStamp(DB.rev) : '—') + '</span></div>' +
+      (info.calQueue && info.calQueue.pending ? '<div class="kv"><span>日曆待重試</span><span>' + info.calQueue.pending + ' 筆（失敗 ' + info.calQueue.fails + ' 次：' + esc(info.calQueue.lastError || '') + '）</span></div>' : '') +
       '<div class="kv"><span>上次備份</span><span>' + (info.lastBackup ? L.fmtStamp(info.lastBackup) : '尚未備份') + '</span></div>' +
       '<div class="row wrap" style="margin-top:10px"><button class="btn small" data-act="syncNow">' + icon('sync') + '立即同步</button>' +
       '<button class="btn small" data-act="backupNow">' + icon('copy') + '立即備份</button>' +
@@ -5459,6 +5993,11 @@ Views.seats = {
       '<label>直行（左右）<input class="input" style="width:56px" inputmode="numeric" data-change="seatSize" data-k="seatCols" data-id="' + c.id + '" value="' + (c.seatCols || SEAT_COLS) + '"></label>' +
       '<button class="btn small" data-act="seatAuto" data-id="' + c.id + '">依座號排入</button><button class="btn small" data-act="seatClear" data-id="' + c.id + '">清空</button></div>' +
       '<p class="dim" style="margin:-4px 2px 8px">以老師站在講台看學生的方向排列：講台在下面，最靠近講台的是第 1 排，最左邊是第 1 行。</p>';
+    h += '<div class="sp-bar"><button class="btn small" data-act="seatPhoto" data-id="' + c.id + '">' + icon('camera') + '拍照填入</button></div>';
+    if (App.ui.seatRef) {
+      var op = App.ui.seatRefOp == null ? 0.5 : App.ui.seatRefOp;
+      h += '<div class="sp-ref"><img alt="座位表參考照片" src="' + App.ui.seatRef + '" style="opacity:' + op + '"><div class="sp-ref-bar"><label>照片濃淡<input type="range" min="10" max="100" value="' + Math.round(op * 100) + '" data-change="seatRefOp"></label><button class="btn small" data-act="seatRefClear">關閉參考圖</button></div></div>';
+    }
     var g = seatGridHtml(c.id, students, function (s, r, col) {
       return '<div class="seat ' + (s ? '' : 'empty ') + (s && pick === s.id ? 'picked' : '') + '" data-drop="1" data-r="' + r + '" data-c="' + col + '" data-act="seatTap" data-class="' + c.id + '"' + (s ? ' data-drag="1" data-sid="' + s.id + '"' : '') + '>' +
         (s ? '<span class="sno">' + s.no + '</span><span class="sn">' + esc(s.name) + '</span>' : '') + '</div>';
@@ -7461,6 +8000,204 @@ Change.leaveDays = function (d, el) {
 };
 </script>
 
+    <script>
+/* 座位表拍照填入（todo 第 30 條）：選或拍照 → 辨識 → 一律先給老師確認 → 才寫入座位。
+   照片只在這台裝置的記憶體裡處理，不上傳、不寫進資料檔；預設處理完就丟掉。
+   辨識元件（tesseract.js + 繁中模型，約 6.5 MB）放在 vendor/ocr/，按下「拍照填入」才會載入；
+   沒有這組檔案（例如 GAS 版、或尚未安裝）就退回「參考圖」模式：照片半透明貼在座位表上方，老師自己對照填。 */
+var SeatPhoto = {
+  OCR_DIR: 'vendor/ocr/',
+  OCR_MB: 6.5,
+  recognizer: null, // 測試可換成假辨識：function (canvas) { return Promise<[{text,x0,y0,x1,y1}]> }
+  _engine: null,
+  engineAvailable: function () {
+    if (SeatPhoto.recognizer) return Promise.resolve(true);
+    if (SeatPhoto._engine === null) {
+      SeatPhoto._engine = fetch(SeatPhoto.OCR_DIR + 'tesseract.min.js', { method: 'HEAD' }).then(function (r) { return r.ok && !/html/i.test(r.headers.get('content-type') || ''); }).catch(function () { return false; });
+    }
+    return SeatPhoto._engine;
+  },
+  /* 讀照片並縮到長邊 1600px 以內（手機照片動輒 4000px，縮小後辨識才快）；不改變原檔 */
+  loadCanvas: function (file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        var k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+        var cv = document.createElement('canvas');
+        cv.width = Math.max(1, Math.round(img.naturalWidth * k));
+        cv.height = Math.max(1, Math.round(img.naturalHeight * k));
+        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+        resolve({ canvas: cv, url: url });
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('讀不到這張照片')); };
+      img.src = url;
+    });
+  },
+  _loadScript: function (src) {
+    return new Promise(function (resolve, reject) {
+      if (window.Tesseract) return resolve();
+      var s = document.createElement('script');
+      s.src = src;
+      s.onload = function () { resolve(); };
+      s.onerror = function () { reject(new Error('辨識元件載入失敗')); };
+      document.head.appendChild(s);
+    });
+  },
+  /* 真正的辨識：tesseract.js 繁中（chi_tra）。每次用完就結束 worker，不佔記憶體 */
+  ocr: function (canvas, onProgress) {
+    var base = new URL(SeatPhoto.OCR_DIR, location.href).href.replace(/\/$/, '');
+    var worker;
+    return SeatPhoto._loadScript(base + '/tesseract.min.js').then(function () {
+      return Tesseract.createWorker('chi_tra', 1, {
+        workerPath: base + '/worker.min.js', corePath: base + '/tesseract-core-simd-lstm.wasm.js',
+        langPath: base, gzip: false, cacheMethod: 'none',
+        logger: function (m) { if (onProgress && m.status === 'recognizing text') onProgress(m.progress); }
+      });
+    }).then(function (w) {
+      worker = w;
+      return worker.setParameters({ tessedit_pageseg_mode: '11', preserve_interword_spaces: '1' });
+    }).then(function () {
+      return worker.recognize(canvas, {}, { blocks: true }); // tesseract.js 6 起要指定 blocks 才有逐行座標
+    }).then(function (res) {
+      worker.terminate();
+      var lines = res.data.lines || [];
+      (res.data.blocks || []).forEach(function (b) { (b.paragraphs || []).forEach(function (p) { lines = lines.concat(p.lines || []); }); });
+      return lines.map(function (ln) { return { text: ln.text, x0: ln.bbox.x0, y0: ln.bbox.y0, x1: ln.bbox.x1, y1: ln.bbox.y1 }; });
+    }, function (e) { if (worker) worker.terminate(); throw e; });
+  },
+  clearRef: function () {
+    if (App.ui.seatRef) URL.revokeObjectURL(App.ui.seatRef);
+    App.setUi('seatRef', null, false);
+  },
+  opts: function (students) {
+    return students.map(function (s) { return '<option value="' + s.id + '">' + s.no + ' ' + esc(s.name) + '</option>'; }).join('');
+  },
+  confirmHtml: function (st) {
+    var rows = st.rows, cols = st.cols, h = '<div class="sp-flip"><button class="btn small" data-sp="flipRows">上下翻轉</button><button class="btn small" data-sp="flipCols">左右翻轉</button></div>';
+    h += '<div class="sp-grid" style="grid-template-columns:repeat(' + cols + ',minmax(0,1fr))">';
+    for (var r = rows - 1; r >= 0; r--) for (var c = 0; c < cols; c++) {
+      var cell = st.cells[r * cols + c];
+      var flag = !cell.text ? '' : (cell.level === 'ok' ? '' : (cell.level === 'low' ? ' low' : ' bad'));
+      h += '<div class="sp-cell' + flag + '"><select class="input" data-sp-cell="' + (r * cols + c) + '" aria-label="第 ' + (r + 1) + ' 排第 ' + (c + 1) + ' 行"><option value="">（空）</option>' + st.opts + '</select>' +
+        '<span class="sp-raw">' + (cell.text ? esc(cell.text) : '') + '</span></div>';
+    }
+    h += '</div><div class="sp-legend dim"><span class="sp-dot low"></span>比對不太確定　<span class="sp-dot bad"></span>比對不到或重複，請選學生（下方小字是辨識到的字）</div>';
+    h += '<div class="sp-sum dim" data-sp="sum"></div>';
+    h += '<label class="sp-keep"><input type="checkbox" data-sp="keep"> 確認後保留照片當參考圖（只在這次開啟期間，不存檔）</label>';
+    return h;
+  },
+  summary: function (st) {
+    var n = st.cells.filter(function (c) { return c.sid; }).length;
+    var unsure = st.cells.filter(function (c) { return c.text && c.level !== 'ok' && !c.edited; }).length;
+    return '已對到 ' + n + ' 位學生' + (unsure ? '，還有 ' + unsure + ' 格要確認' : '');
+  },
+  mountConfirm: function (body, st) {
+    var refresh = function () {
+      Array.prototype.forEach.call(body.querySelectorAll('[data-sp-cell]'), function (sel) {
+        var cell = st.cells[Number(sel.dataset.spCell)];
+        sel.value = cell.sid || '';
+        var box = sel.closest('.sp-cell');
+        var flag = !cell.text || cell.edited ? '' : (cell.level === 'ok' ? '' : (cell.level === 'low' ? 'low' : 'bad'));
+        box.className = 'sp-cell' + (flag ? ' ' + flag : '');
+      });
+      body.querySelector('[data-sp=sum]').textContent = SeatPhoto.summary(st);
+    };
+    body.addEventListener('change', function (e) {
+      var sel = e.target.closest('[data-sp-cell]');
+      if (sel) {
+        var cell = st.cells[Number(sel.dataset.spCell)];
+        // 同一位學生只能在一格：其他格有同一位就清掉
+        if (sel.value) st.cells.forEach(function (o) { if (o !== cell && o.sid === sel.value) { o.sid = null; o.edited = true; } });
+        cell.sid = sel.value || null;
+        cell.edited = true;
+        refresh();
+      }
+      var keep = e.target.closest('[data-sp=keep]');
+      if (keep) st.keep = keep.checked;
+    });
+    body.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-sp]');
+      if (!b || !/^flip/.test(b.dataset.sp)) return;
+      st[b.dataset.sp] = !st[b.dataset.sp];
+      st.cells = SeatMatch.layout(st.items, st.rows, st.cols, st.students, { flipRows: st.flipRows, flipCols: st.flipCols });
+      refresh();
+    });
+    refresh();
+  },
+  /* 寫入座位：只動確認畫面裡有學生的格子；被擠掉位置的學生變成「未安排」 */
+  commit: function (st) {
+    var existing = DB.where('seats', function (x) { return x.classId === st.classId; });
+    var p = SeatMatch.plan(st.cells, existing);
+    p.del.forEach(function (sid) { DB.del('seats', st.classId + ':' + sid); });
+    p.put.forEach(function (x) { DB.put('seats', { id: st.classId + ':' + x.sid, classId: st.classId, studentId: x.sid, row: x.r, col: x.c }); });
+    return p.put.length;
+  },
+  run: function (classId, file, close) {
+    var c = DB.get('classes', classId);
+    var st = { classId: classId, rows: c.seatRows || SEAT_ROWS, cols: c.seatCols || SEAT_COLS, students: Q.students(classId), flipRows: false, flipCols: false, keep: false };
+    st.opts = SeatPhoto.opts(st.students);
+    var body = document.querySelector('.overlay .sheet-body');
+    if (body) body.innerHTML = '<p class="sp-busy" data-sp="busy">正在辨識…第一次使用要先載入辨識元件，請稍候。</p>';
+    var fail = function (e) { close(); UI.toast((e && e.message) || '辨識失敗，可改用參考圖自己對照'); };
+    return SeatPhoto.loadCanvas(file).then(function (img) {
+      st.url = img.url;
+      return SeatPhoto.engineAvailable().then(function (ok) {
+        if (!ok) {
+          SeatPhoto.clearRef();
+          App.setUi('seatRef', img.url, false);
+          close();
+          UI.toast('這個版本沒有辨識元件，照片已貼在座位表上方當參考圖');
+          return;
+        }
+        var run = SeatPhoto.recognizer || function (cv) {
+          return SeatPhoto.ocr(cv, function (p) { var b = document.querySelector('[data-sp=busy]'); if (b) b.textContent = '辨識中 ' + Math.round(p * 100) + '%…'; });
+        };
+        return Promise.resolve(run(img.canvas)).then(function (items) {
+          st.items = items;
+          st.cells = SeatMatch.layout(items, st.rows, st.cols, st.students, {});
+          close();
+          UI.sheet({
+            title: '確認座位',
+            body: '<p class="dim sp-hint">請核對每一格；辨識結果還沒有寫進座位表，按「確認寫入」才會生效。</p><img class="sp-thumb" alt="座位表照片" src="' + img.url + '">' + SeatPhoto.confirmHtml(st),
+            actions: [
+              { label: '確認寫入', cls: 'primary', onClick: function () {
+                var n = SeatPhoto.commit(st);
+                if (st.keep) { SeatPhoto.clearRef(); App.setUi('seatRef', img.url, false); } else URL.revokeObjectURL(img.url);
+                UI.toast('已寫入 ' + n + ' 位學生的座位');
+              } },
+              { label: '取消', onClick: function () { URL.revokeObjectURL(img.url); } }
+            ],
+            onMount: function (b) { SeatPhoto.mountConfirm(b, st); }
+          });
+        });
+      });
+    }).catch(fail);
+  }
+};
+Act.seatPhoto = function (d) {
+  SeatPhoto.engineAvailable().then(function (ok) {
+    var note = ok
+      ? '照片只在這台裝置上處理，不會上傳，處理完就丟掉。第一次使用會下載約 ' + SeatPhoto.OCR_MB + ' MB 的辨識元件（之後離線也能用），建議連上 Wi-Fi。<br>辨識只是幫你預填，下一步一定會讓你逐格確認。'
+      : '這個版本沒有辨識元件，照片會半透明貼在座位表上方，讓你對照著填。照片只在這台裝置上顯示，不上傳、不存檔。';
+    UI.sheet({
+      title: '拍照填入座位',
+      body: '<p class="sp-hint">請讓紙本座位表的方向和畫面一致（上方＝最後一排、左邊＝第 1 行），並拍得清楚、不要太斜。</p><p class="dim sp-hint">' + note + '</p>' +
+        '<label class="btn primary sp-pick">' + icon('camera') + '拍照或選照片<input type="file" accept="image/*" id="sp-file" hidden></label>',
+      actions: [{ label: '取消' }],
+      onMount: function (body, close) {
+        body.querySelector('#sp-file').addEventListener('change', function (e) {
+          var f = e.target.files && e.target.files[0];
+          if (f) SeatPhoto.run(d.id, f, close);
+        });
+      }
+    });
+  });
+};
+Change.seatRefOp = function (d, el) { App.setUi('seatRefOp', Number(el.value) / 100, false); };
+Act.seatRefClear = function () { SeatPhoto.clearRef(); };
+</script>
+
     <script>/*
  * Copyright (c) 2026 黃德亮 (derliang). All rights reserved.
  * Non-commercial use only. Sheng Kung Girls' High School
@@ -7652,7 +8389,8 @@ Sync.view = function () {
   var c = Cloud.status;
   var map = { local: Sync.status, idle: 'idle', syncing: 'syncing', synced: 'synced', error: 'error', offline: 'offline', tap: 'error' };
   // failed：有修改沒能套用時頁首改顯示紅燈，不顯示「已同步」（AUD-02）
-  return { status: map[c] || Sync.status, pending: Sync.pending() + (Cloud.provider() ? WEB.rt.ops.length : 0), failed: WEB.rt ? WEB.rt.failed.length : 0 };
+  var photos = WEB.meta.mode === 'google' ? Photos.pending : 0; // 還沒補傳的相片也算待同步（AUD-05）
+  return { status: map[c] || Sync.status, pending: Sync.pending() + (Cloud.provider() ? WEB.rt.ops.length : 0) + photos, failed: WEB.rt ? WEB.rt.failed.length : 0 };
 };
 
 WEB.actions = {
@@ -7879,7 +8617,8 @@ var Cloud = {
         self.set('synced');
         WEB.saveNow();
         if (pulled && window.App && App.booted) Sync.run();
-        return self.backup(false).catch(function () {}); // 失敗已記在 WEB.meta.backupError，顯示在同步狀態
+        return self.backup(false).catch(function () {}) // 失敗已記在 WEB.meta.backupError，顯示在同步狀態
+          .then(function () { return Photos.flush(); });
       })
       .catch(function (e) {
         console.warn(e);
@@ -8045,6 +8784,65 @@ var Cloud = {
       });
     });
   },
+  /**
+   * 更換雲端資料檔（第 31 條）。target：'new' 用目前的資料在雲端硬碟新建一份；否則是雲端硬碟上另一份資料檔的 id。
+   * 舊檔不刪、不改。選有資料的雲端檔時沿用「合併或取代」詢問，並先保留一份目前資料；不會用空資料覆蓋任何雲端檔。
+   */
+  switchFile: function (target) {
+    var done = UI.busy('更換資料檔…');
+    var picked = null;
+    // 先把還沒上傳的修改存回原本的檔案；失敗也不擋，下面還會保留一份目前資料的快照
+    return Cloud.sync().catch(function () {})
+      .then(function () { return Drive.token(true); })
+      .then(function () { return Drive.about(); })
+      .then(function (who) {
+        return Cloud.checkAccount(who, { busy: done, connecting: true }).then(function () { WEB.meta.email = who.email; });
+      })
+      .then(function () {
+        if (target === 'new') {
+          if (!WEB.rt.hasData()) WEB.rt.call('pull', { since: 0 });
+          return Drive.create(DATA_FILE, WEB.rt.toXlsx()).then(function (r) {
+            picked = { id: r.id, version: String(r.version), name: DATA_FILE };
+            WEB.rt.uploadedSeq = WEB.rt.seq;
+            WEB.rt.ops = [];
+            return 'created';
+          });
+        }
+        var hadData = WEB.rt.hasData();
+        return Drive.meta(target).then(function (f) {
+          if (f.trashed) throw new Error('這個資料檔已在垃圾桶，請重新選擇');
+          return Drive.download(target).then(function (bytes) {
+            var remote = WebRuntime.sheetsToState(Xlsx.read(bytes));
+            if (hadData) done();
+            return (hadData ? WEB.askMerge() : Promise.resolve('cloud')).then(function (how) {
+              if (!how) throw Object.assign(new Error('已取消'), { cancelled: true });
+              picked = { id: f.id, version: String(f.version), name: f.name || DATA_FILE };
+              return webSavePreImport('更換資料檔').then(function () {
+                WEB.meta.fileId = f.id;
+                WEB.setState(remote, false);
+                return how;
+              });
+            });
+          });
+        });
+      })
+      .then(function (how) {
+        done();
+        WEB.meta.fileId = picked.id;
+        WEB.meta.version = picked.version;
+        WEB.meta.fileName = picked.name;
+        WEB.meta.baseRev = '';
+        WEB.meta.mode = 'google';
+        Cloud.set('synced');
+        WEB.saveNow();
+        return how;
+      })
+      .catch(function (e) {
+        done();
+        if (!e.cancelled) throw e;
+        return null;
+      });
+  },
   disconnect: function () {
     Drive.signOut();
     WEB.meta = { mode: 'local' };
@@ -8132,7 +8930,10 @@ var Photos = {
     var name = String(p.name || '相片').replace(/[\\\/:*?"<>|\r\n]+/g, ' ').trim().slice(0, 80) + '.' + ext;
     var keepLocal = function () {
       var id = 'local-' + uid();
-      return WebStore.set('photo:' + id, { type: m[1], base64: m[3] }).then(function () { return { id: id, name: name }; });
+      return WebStore.set('photo:' + id, { type: m[1], base64: m[3] }).then(function () {
+        Photos.pending++; // 紀錄存好後的下一次同步會重新計算並補傳
+        return { id: id, name: name };
+      });
     };
     if (WEB.meta.mode !== 'google' || !Drive.hasToken() || navigator.onLine === false) return keepLocal();
     return Drive.folder('老師隨手記相片', 'photo').then(function (folder) {
@@ -8148,7 +8949,13 @@ var Photos = {
   get: function (id) {
     return WebStore.get('photo:' + id).then(function (c) {
       if (c) return c;
-      if (String(id).indexOf('local-') === 0) throw new Error('這張相片只存在當初拍照的裝置上');
+      if (String(id).indexOf('local-') === 0) {
+        // 已補傳過（紀錄可能還沒換成雲端 id）：改讀雲端那一份
+        return WebStore.get('photomap').then(function (map) {
+          if (map && map[id]) return Photos.get(map[id]);
+          throw new Error('這張相片只存在當初拍照的裝置上，等那台裝置連上網路後會自動補傳');
+        });
+      }
       return Drive.fetch('https://www.googleapis.com/drive/v3/files/' + encodeURIComponent(id) + '?alt=media').then(function (res) {
         var type = res.headers.get('Content-Type') || 'image/jpeg';
         return res.arrayBuffer().then(function (b) {
@@ -8156,6 +8963,110 @@ var Photos = {
           WebStore.set('photo:' + id, r);
           return r;
         });
+      });
+    });
+  },
+  /**
+   * 補傳離線時拍的相片（AUD-05）。每次同步成功後執行：
+   * 1. 找出學生登記裡引用 local- 相片、而且這台裝置有原檔的；確認登入的帳號就是資料檔的帳號才傳。
+   * 2. 上傳到「老師隨手記相片」，讀回大小一致才算成功；對照（local id → 雲端 id）存在裝置上的 photomap。
+   * 3. 把紀錄裡的引用換成雲端 id。紀錄若被別台裝置的舊版本蓋回 local id，下次照對照表再換，不會重傳。
+   * 4. 紀錄都不再引用、而且修改都已上傳後，才刪掉本機原檔（對照表保留，供讀取舊引用）。
+   * 失敗的保留，下次同步再試。Photos.pending 是還沒補傳的張數，頁首會算在「待同步」裡。
+   */
+  pending: 0,
+  localIds: function () {
+    var ids = {};
+    DB.all('logs').forEach(function (l) {
+      (l.photos || []).forEach(function (p) { if (p && String(p.id).indexOf('local-') === 0) ids[p.id] = p.name || '相片'; });
+    });
+    return ids;
+  },
+  flush: function () {
+    var self = this;
+    if (self._busy) return Promise.resolve();
+    if (WEB.meta.mode !== 'google' || !Drive.hasToken() || navigator.onLine === false) return self.count();
+    self._busy = true;
+    var map, refs, replaced = 0, failed = 0;
+    var saveMap = function () { return WebStore.set('photomap', map); };
+    return WebStore.get('photomap').then(function (m) {
+      map = m || {};
+      refs = self.localIds();
+      var todo = Object.keys(refs).filter(function (id) { return !map[id]; });
+      if (!todo.length) return;
+      // 只傳到資料檔原本的帳號（AUD-09）
+      var acct = self._acct === WEB.meta.email ? Promise.resolve(true) : Drive.about().then(function (who) {
+        if (who.email !== WEB.meta.email) return false;
+        self._acct = who.email;
+        return true;
+      });
+      return acct.then(function (ok) {
+        if (!ok) { failed = todo.length; return; }
+        return todo.reduce(function (chain, id) {
+          return chain.then(function () {
+            return WebStore.get('photo:' + id).then(function (c) {
+              if (!c) return; // 別台裝置拍的，由那台補傳
+              return self.uploadLocal(refs[id], c).then(function (newId) {
+                map[id] = newId;
+                return saveMap();
+              }, function (e) {
+                console.warn('相片補傳失敗，下次同步再試：', e);
+                failed++;
+              });
+            });
+          });
+        }, Promise.resolve());
+      });
+    }).then(function () {
+      // 換掉紀錄裡的引用
+      DB.all('logs').forEach(function (l) {
+        var hit = false;
+        var photos = (l.photos || []).map(function (p) {
+          if (p && map[p.id]) { hit = true; return { id: map[p.id], name: p.name }; }
+          return p;
+        });
+        if (hit) { DB.put('logs', Object.assign({}, l, { photos: photos })); replaced++; }
+      });
+      // 清掉不再被引用、修改也都已上傳的本機原檔
+      if (!replaced && !Sync.pending() && !WEB.rt.ops.length) {
+        var still = self.localIds();
+        return Promise.all(Object.keys(map).filter(function (id) { return !still[id]; }).map(function (id) { return WebStore.del('photo:' + id); }));
+      }
+    }).then(function () {
+      return self.count();
+    }).then(function () {
+      self._busy = false;
+      if (replaced) return Sync.run();
+    }, function (e) {
+      self._busy = false;
+      console.warn(e);
+    });
+  },
+  /** 重新計算這台裝置還沒補傳的相片張數。 */
+  count: function () {
+    var self = this;
+    var left = self.localIds();
+    return WebStore.get('photomap').then(function (map) {
+      map = map || {};
+      return Promise.all(Object.keys(left).map(function (id) {
+        return map[id] ? 0 : WebStore.get('photo:' + id).then(function (c) { return c ? 1 : 0; });
+      }));
+    }).then(function (n) {
+      var v = n.reduce(function (a, b) { return a + b; }, 0);
+      if (v !== self.pending) { self.pending = v; if (window.App && App.booted) App.renderSoon(); }
+    });
+  },
+  /** 上傳一張本機相片，讀回確認大小一致後回傳雲端 id；不一致就丟進垃圾桶並報錯。 */
+  uploadLocal: function (name, c) {
+    var bytes = webB64ToBytes(c.base64);
+    return Drive.folder('老師隨手記相片', 'photo').then(function (folder) {
+      return Drive.create(name, bytes, c.type, folder);
+    }).then(function (r) {
+      return Drive.download(r.id).then(function (back) {
+        if (back.length !== bytes.length) {
+          return Drive.trash(r.id).catch(function () {}).then(function () { throw new Error('相片讀回檢查沒通過'); });
+        }
+        return WebStore.set('photo:' + r.id, c).then(function () { return r.id; });
       });
     });
   },
@@ -8376,6 +9287,7 @@ WEB.settingsHtml = function () {
   var where = m.mode === 'google' ? 'Google 雲端硬碟（' + esc(m.email || '') + '）' : m.mode === 'file' ? '電腦上的 Excel 檔「' + esc(m.fileName || '') + '」' : '只存在這台裝置';
   var h = '<div class="section-label">資料與同步</div><div class="card">' +
     '<div class="kv"><span>資料存放</span><b>' + where + '</b></div>' +
+    '<div class="kv"><span>資料檔</span><span>' + (m.mode === 'google' ? esc(m.fileName || DATA_FILE) + '（雲端硬碟）' : m.mode === 'file' ? esc(m.fileName || '') : '瀏覽器內建儲存空間（換裝置或清除瀏覽器資料就不見）') + '</span></div>' +
     (m.mode === 'google' || m.mode === 'file' ? '<div class="kv"><span>狀態</span><span' + (Cloud.status === 'error' || Cloud.status === 'tap' ? ' class="red"' : '') + '>' + st + '</span></div>' : '') +
     (Cloud.error ? '<div class="kv"><span>訊息</span><span class="red">' + esc(Cloud.error) + '</span></div>' : '') +
     WEB.failedRow() +
@@ -8391,7 +9303,7 @@ WEB.settingsHtml = function () {
     '<button class="btn small" data-act="webImport">' + icon('restore') + '從 Excel 匯入</button></div>';
   if (m.mode === 'google') {
     h += '<p class="dim">每次修改約 3 秒後自動存到你雲端硬碟裡的「' + DATA_FILE + '」，其他裝置打開時會自動取得最新資料。每週自動備份到「老師隨手記備份」資料夾，保留 4 份。資料檔可用 Excel 或 Google 試算表打開。</p>' +
-      '<div class="row wrap"><button class="btn small danger" data-act="webDisconnect">中斷 Google 連接</button></div>';
+      '<div class="row wrap"><button class="btn small" data-act="webSwitchFile">更換資料檔</button><button class="btn small danger" data-act="webDisconnect">中斷 Google 連接</button></div>';
   } else {
     h += '<p class="dim">' + (m.mode === 'file' ? '每次修改後自動存回這個 Excel 檔。' : '資料只存在這台裝置的瀏覽器裡；換裝置或清除瀏覽器資料前，請先下載資料檔。') + '</p>' +
       '<div class="menu-list">' +
@@ -8427,12 +9339,15 @@ Act.webSync = function () {
 };
 Act.webConnect = function () {
   if (!Drive.configured()) { UI.toast('網站尚未設定 Google 用戶端 ID'); return; }
+  UI.confirm('會登入你的 Google 帳號，把這台裝置的資料存到你雲端硬碟的「' + DATA_FILE + '」，其他裝置登入後就能共用。<br>這台裝置的資料不會被刪除；雲端已有資料檔時，會先問你要合併或取代，並保留一份目前的資料。', { title: '改存到 Google 雲端硬碟？', ok: '繼續' }).then(function (yes) { if (yes) webConnectGo(); });
+};
+function webConnectGo() {
   Cloud.connectGoogle().then(function (how) {
     if (!how) return;
     UI.toast(how === 'created' ? '已在雲端硬碟建立「' + DATA_FILE + '」' : '已連接 Google 雲端硬碟');
     return WEB.refreshClient(how).then(function () { return Cloud.sync(); });
   }).catch(function (e) { UI.error(e); });
-};
+}
 Act.webLinkFile = function () {
   UI.menu([
     { icon: 'plus', label: '建立新的 Excel 檔', sub: '把這台裝置的資料存成新檔', onClick: function () { webLink(false); } },
@@ -8446,6 +9361,38 @@ Act.webLinkFile = function () {
     }).catch(function (e) { UI.error(e); });
   }
 };
+/* ---------- 更換資料檔（第 31 條） ---------- */
+Act.webSwitchFile = function () {
+  var done = UI.busy('讀取雲端硬碟上的資料檔…');
+  Drive.token(true).then(function () { return Drive.find(DATA_FILE); }).then(function (files) {
+    done();
+    var items = files.filter(function (f) { return f.id !== WEB.meta.fileId; }).map(function (f) {
+      return {
+        icon: 'export', label: '改用雲端硬碟上的另一份', sub: '最後修改 ' + L.fmtStamp(Date.parse(f.modifiedTime)),
+        onClick: function () {
+          webSwitchGo(f.id, '這台裝置會改存到你選的那一份資料檔。<br>你現在的資料檔不會被刪除，也不會被改動。<br>兩邊都有資料時，會先問你要合併或取代，並先保留一份目前的資料。', '已改用另一份資料檔');
+        }
+      };
+    });
+    items.push({
+      icon: 'plus', label: '用目前的資料新建一份', sub: '在雲端硬碟多一份「' + DATA_FILE + '」，之後存到新的這份',
+      onClick: function () {
+        webSwitchGo('new', '會在你的雲端硬碟新建一份「' + DATA_FILE + '」，內容是這台裝置現在的資料，之後都存到新的這份。<br>你現在的資料檔不會被刪除，也不會被改動。', '已新建並改用新的資料檔');
+      }
+    });
+    UI.menu(items, '更換資料檔（目前：' + esc(WEB.meta.fileName || DATA_FILE) + '）');
+  }).catch(function (e) { done(); UI.error(e); });
+};
+function webSwitchGo(target, msg, okMsg) {
+  UI.confirm(msg, { title: '更換資料檔？', ok: '更換' }).then(function (yes) {
+    if (!yes) return;
+    return Cloud.switchFile(target).then(function (how) {
+      if (!how) return;
+      UI.toast(okMsg);
+      return WEB.refreshClient(how).then(function () { return Cloud.sync(); });
+    });
+  }).catch(function (e) { UI.error(e); });
+}
 Act.webDisconnect = function () {
   var g = WEB.meta.mode === 'google';
   UI.confirm(g ? '這台裝置會保留目前的資料，但不再與雲端硬碟同步。雲端硬碟裡的資料檔不會被刪除。' : '資料會保留在這台裝置，但不再自動存到 Excel 檔。', { title: g ? '中斷 Google 連接？' : '停止自動存檔？', ok: '中斷' }).then(function (yes) {
@@ -8578,6 +9525,7 @@ Act.syncPanel = function () {
     body: StoreHealth.html() + '<div class="kv"><span>資料存放</span><b>' + (m.mode === 'google' ? 'Google 雲端硬碟' : m.mode === 'file' ? 'Excel 檔「' + esc(m.fileName || '') + '」' : '這台裝置') + '</b></div>' +
       '<div class="kv"><span>狀態</span><b>' + st + '</b></div>' +
       (m.mode === 'google' || m.mode === 'file' ? '<div class="kv"><span>待上傳的修改</span><b>' + WEB.rt.ops.length + '</b></div>' : '') +
+      (m.mode === 'google' && Photos.pending ? '<div class="kv"><span>待補傳的相片</span><b>' + Photos.pending + '</b></div>' : '') +
       (Cloud.error ? '<div class="kv"><span>訊息</span><span class="red">' + esc(Cloud.error) + '</span></div>' : '') +
       WEB.failedRow() +
       WEB.backupErrorRow() +
@@ -8663,7 +9611,11 @@ var A2HS = {
   },
   // iOS 上只有 Safari 有「加入主畫面」的完整流程；Chrome、Firefox 等 iOS 版本不提示
   iosSafari: function () { return this.ios() && !/CriOS|FxiOS|EdgiOS|OPiOS|GSA\//.test(navigator.userAgent || ''); },
+  // LINE、Facebook 等 App 內建瀏覽器：沒有「加入主畫面」，要改用 Safari 開
+  inApp: function () { return /Line\/|FBAN|FBAV|Instagram|MicroMessenger/i.test(navigator.userAgent || ''); },
   can: function () { return !!this.evt && !this.standalone(); },
+  // 還沒安裝、也沒拿到安裝事件時，是否仍要顯示「怎麼加到主畫面」
+  needGuide: function () { return !A2HS.standalone() && !A2HS.can() && (A2HS.ios() || A2HS.inApp() || /Chrome|Edg\//.test(navigator.userAgent || '')); },
   pref: function () { try { return JSON.parse(localStorage.getItem(this.key) || '{}'); } catch (e) { return {}; } },
   setPref: function (v) { try { localStorage.setItem(this.key, JSON.stringify(v)); } catch (e) {} },
   install: function () {
@@ -8694,6 +9646,18 @@ var A2HS = {
       '<li><span>按右上角的<b>「新增」</b>，主畫面就會出現「隨手記」圖示</span><span class="ic">' + ic.ok + '</span></li>' +
       '</ol>' +
       (ipad ? '' : '<div class="a2hs-hint">分享按鈕在畫面下方 <span class="arrow">↓</span></div>');
+    if (A2HS.inApp()) {
+      body = '<p>你現在用的是 App 內建的瀏覽器（例如 LINE），無法加到主畫面。</p><p>請用 ' + (A2HS.ios() ? '<b>Safari</b>' : '<b>Chrome</b>') + ' 開啟老師隨手記的網址，再加到主畫面。可以按右上角選單的「用瀏覽器開啟」，或複製網址貼到瀏覽器。</p>' +
+        '<p class="dim">之前在其他瀏覽器用過也不用擔心：加到主畫面後第一次開啟，選「連接 Google 雲端硬碟」就會自動找到原本的資料檔。</p>';
+    } else if (!A2HS.ios()) {
+      body = '<p class="dim" style="margin-top:0">用 Chrome 或 Edge 安裝後，老師隨手記會有自己的圖示與獨立視窗。</p><ol class="a2hs-steps">' +
+        '<li><span>電腦：按網址列右側的<b>「安裝」</b>圖示；或按右上角 ⋮ 選單 →<b>「投放、儲存和分享」→「安裝網頁為應用程式」</b></span></li>' +
+        '<li><span>Android：按右上角 ⋮ 選單 →<b>「安裝應用程式」</b>或<b>「加到主畫面」</b></span></li></ol>' +
+        '<p class="dim">看不到這些選項時，請確認用的是 Chrome／Edge，且網址是 https 開頭，重新整理後再試一次。</p>';
+    } else if (A2HS.iosSafari() === false) {
+      body = '<p>你現在用的不是 Safari。iOS 16.4 以上的 Chrome 也能加：按網址列旁或選單裡的<b>「分享」</b> →<b>「加入主畫面」</b>。</p>' +
+        '<p class="dim">找不到「加入主畫面」，就請改用 <b>Safari</b> 開啟同一個網址，再依序按「分享」→「加入主畫面」→「新增」。</p>';
+    }
     var acts = opts.auto
       ? [{ label: '不要再提醒', onClick: function () { var p = A2HS.pref(); p.never = true; A2HS.setPref(p); UI.toast('之後不會再提醒，需要時可到「設定」查看'); } },
          { label: '知道了', cls: 'primary' }]
@@ -8721,13 +9685,18 @@ var A2HS = {
     if (A2HS.standalone()) return '';
     var row;
     if (A2HS.can()) row = '<button class="btn small primary" data-act="a2hsInstall">' + icon('plus') + '安裝到主畫面</button>';
-    else if (A2HS.ios()) row = '<button class="btn small" data-act="a2hsGuide">' + icon('plus') + '怎麼加到主畫面</button>';
+    else if (A2HS.needGuide()) row = '<button class="btn small" data-act="a2hsGuide">' + icon('plus') + '怎麼加到主畫面</button>';
     else return '';
     return '<div class="section-label">加到主畫面</div><div class="card"><p class="dim" style="margin-top:0">加到主畫面後，像 App 一樣從圖示直接開啟、全螢幕使用。</p><div class="row wrap">' + row + '</div></div>';
   },
+  slotHtml: function () {
+    if (A2HS.can()) return '<button class="btn primary a2hs-btn" data-act="a2hsInstall">' + icon('plus') + '安裝到主畫面</button>';
+    if (A2HS.needGuide()) return '<button class="btn a2hs-btn" data-act="a2hsGuide">' + icon('plus') + '怎麼加到主畫面</button>';
+    return '';
+  },
   refresh: function () {
     var w = document.querySelector('.welcome .a2hs-slot');
-    if (w) w.innerHTML = A2HS.can() ? '<button class="btn primary a2hs-btn" data-act="a2hsInstall">' + icon('plus') + '安裝到主畫面</button>' : '';
+    if (w) w.innerHTML = A2HS.slotHtml();
     if (window.App && App.booted && App.top && App.top() && App.top().view === 'settings') App.renderSoon();
   }
 };
@@ -8746,13 +9715,14 @@ WEB.welcome = function () {
   var g = Drive.configured();
   root.innerHTML = '<div class="welcome"><span class="seal-logo" style="width:64px;height:64px;font-size:40px;border-radius:12px">記</span>' +
     '<h1 class="serif">老師隨手記</h1><p class="dim">選擇資料要存在哪裡。之後可以在「設定」更改。</p>' +
+    (g ? '<p class="dim" style="font-size:13px;line-height:1.6;text-align:left">這是一個新的環境（例如從主畫面圖示、LINE 或另一個瀏覽器開啟），裡面還沒有你的設定與資料。<b>之前用過的話，請選「連接 Google 雲端硬碟」</b>，會自動找到原本的資料檔並載入，不會用空資料蓋掉雲端。</p>' : '') +
     '<div class="welcome-list">' +
-    (g ? '<button class="welcome-opt primary" data-w="google"><b>用 Google 帳號同步</b><span>資料存在你的雲端硬碟，手機、平板、電腦都能用同一份資料。第一次需要按「允許」。</span><em>建議</em></button>' : '') +
+    (g ? '<button class="welcome-opt primary" data-w="google"><b>連接 Google 雲端硬碟</b><span>之前用過：登入同一個帳號，自動找到並載入原本的資料檔。第一次用：資料存在你的雲端硬碟，手機、平板、電腦共用同一份。</span><em>用過就選這個</em></button>' : '') +
     '<button class="welcome-opt" data-w="local"><b>只存在這台裝置</b><span>不用登入；資料只在這個瀏覽器裡，可隨時下載成 Excel。</span></button>' +
     (window.showOpenFilePicker ? '<button class="welcome-opt" data-w="file"><b>存到電腦上的 Excel 檔</b><span>選一個 Excel 檔（新的或之前存的），之後自動存回這個檔。</span></button>' : '') +
     '<button class="welcome-opt" data-w="import"><b>從 Excel 檔開始</b><span>匯入之前下載的資料檔，或 GAS 版資料試算表下載成的 Excel。</span></button>' +
     '</div>' + (g ? '' : '<p class="dim" style="font-size:12px">這個網站尚未設定 Google 用戶端 ID，暫時無法使用雲端硬碟同步。</p>') +
-    '<div class="a2hs-slot">' + (A2HS.can() ? '<button class="btn primary a2hs-btn" data-act="a2hsInstall">' + icon('plus') + '安裝到主畫面</button>' : '') + '</div>' +
+    '<div class="a2hs-slot">' + A2HS.slotHtml() + '</div>' +
     '<p class="dim" style="font-size:12px"><a href="about/">關於老師隨手記</a>・<a href="privacy/">隱私權政策</a></p>' +
     '<p class="copyright-note">© 2026 derliang｜保留所有權利｜限非營利使用｜<a href="license/">授權說明</a></p></div>';
   return new Promise(function (resolve) {
