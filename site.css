@@ -19,3 +19,6 @@ footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid var(--line);
 /* 版權標示（頁尾一行小字） */
 .copyright-note { font-size: 12px; line-height: 1.5; color: var(--ink-2); margin: 4px 0 0; }
 .copyright-note a { color: inherit; }
+/* 頂端「回到 App」列（手機主畫面 App 沒有瀏覽器上一頁，從授權、隱私、關於頁要能回去） */
+.back-bar { position: sticky; top: 0; z-index: 5; background: var(--paper); border-bottom: 1px solid var(--line); padding: 4px 8px; }
+.back-bar a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; font-weight: 700; text-decoration: none; }
